@@ -1,4 +1,6 @@
 ![](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/banner.png?raw=true)
+![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)
+
 ## About:
 This mod aims to add small animations and details to blocks and entities that originally didn't have them.
 

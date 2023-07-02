@@ -22,7 +22,7 @@ description="A mod that adds extra Details to Minecraft for both Forge and Fabri
 [[dependencies.extra_details]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.20,1.20.1)"
+   versionRange="[1.20,1.21)"
    ordering="NONE"
    side="CLIENT"
 [[dependencies.fallingtrees]]
