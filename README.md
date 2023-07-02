@@ -1,5 +1,8 @@
 ![](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/banner.png?raw=true)
-![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)
+[![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)](https://discord.gg/wjPt4vEfXb)
+[![Modrinth](https://img.shields.io/modrinth/dt/RQ7OrTFx?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-extra-details)
+[![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Extra-Details?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Extra-Details/tree/master)
+
 
 ## About:
 This mod aims to add small animations and details to blocks and entities that originally didn't have them.
