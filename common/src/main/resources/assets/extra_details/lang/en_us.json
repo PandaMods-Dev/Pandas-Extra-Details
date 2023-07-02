@@ -1,0 +1,15 @@
+{
+	"text.autoconfig.extra_details.title": "Panda's Extra Details Config",
+
+	"text.autoconfig.extra_details.category.animation": "Animation",
+	"text.autoconfig.extra_details.category.detail_properties": "Details",
+
+	"text.autoconfig.extra_details.option.door_animation_speed": "Door animation speed",
+	"text.autoconfig.extra_details.option.trap_door_animation_speed": "Trap Door animation speed",
+
+	"text.autoconfig.extra_details.option.sign_details": "Sign tilt",
+	"text.autoconfig.extra_details.option.sign_details.pitch_tilt": "Pitch tilt",
+	"text.autoconfig.extra_details.option.sign_details.yaw_tilt": "Yaw tilt",
+	"text.autoconfig.extra_details.option.sign_details.roll_tilt": "Roll tilt",
+	"text.autoconfig.extra_details.option.sign_details.random_tilt": "Should tilt randomly"
+}
