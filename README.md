@@ -3,9 +3,9 @@
 This mod aims to add small animations and details to blocks and entities that originally didn't have them.
 
 ## Showcase:
-![Door Animation](assets_for_readme%2Fshowcase_door_animation.gif)
-![Trap Door Animation](assets_for_readme%2Fshowcase_trap_door_animation.gif)
-![Standing sign tilt](assets_for_readme%2Fshowcase_standing_sign.png)
+![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
+![Trap Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_trap_door_animation.gif?raw=true)
+![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
 ## FAQ:
 - Is this mod Client side.
