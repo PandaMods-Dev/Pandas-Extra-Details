@@ -32,7 +32,7 @@ public class TrapDoorRenderer implements BlockEntityRenderer<TrapDoorEntity> {
 		BlockState state = blockEntity.getBlockState().getBlock().defaultBlockState()
 				.setValue(TrapDoorBlock.HALF, blockState.getValue(TrapDoorBlock.HALF));
 
-		float speed = (f/15)* ExtraDetails.getConfig().trap_door_animation_speed;
+		float speed = RenderUtils.getDeltaSeconds() / ExtraDetails.getConfig().trap_door_animation_length;
 
 		blockEntity.openingTime = Math.clamp(0, 1, blockEntity.openingTime + (blockState.getValue(DoorBlock.OPEN) ? speed : -speed));
 

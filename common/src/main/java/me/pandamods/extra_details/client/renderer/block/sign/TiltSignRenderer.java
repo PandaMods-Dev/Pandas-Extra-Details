@@ -22,7 +22,7 @@ public class TiltSignRenderer extends SignRenderer {
 	@Override
 	public void render(SignBlockEntity signBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
 		poseStack.pushPose();
-		if (!(signBlockEntity.getBlockState().getBlock() instanceof WallSignBlock)) {
+		if (ExtraDetails.getConfig().enable_sign_tilt && !(signBlockEntity.getBlockState().getBlock() instanceof WallSignBlock)) {
 			float tiltX = ExtraDetails.getConfig().sign_details.pitch_tilt;
 			float tiltY = ExtraDetails.getConfig().sign_details.yaw_tilt;
 			float tiltZ = ExtraDetails.getConfig().sign_details.roll_tilt;

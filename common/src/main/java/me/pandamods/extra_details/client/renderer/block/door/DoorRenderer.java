@@ -42,7 +42,7 @@ public class DoorRenderer implements BlockEntityRenderer<DoorEntity> {
 		BlockState state = blockEntity.getBlockState().getBlock().defaultBlockState()
 				.setValue(DoorBlock.HALF, blockState.getValue(DoorBlock.HALF));
 
-		float speed = (f/15)* ExtraDetails.getConfig().door_animation_speed;
+		float speed = RenderUtils.getDeltaSeconds() / ExtraDetails.getConfig().door_animation_length;
 
 		blockEntity.openingTime = Math.clamp(0, 1, blockEntity.openingTime + (blockState.getValue(DoorBlock.OPEN) ? speed : -speed));
 

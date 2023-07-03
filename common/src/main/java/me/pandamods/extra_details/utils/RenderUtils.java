@@ -21,4 +21,8 @@ public class RenderUtils {
 		blockRenderer.getModelRenderer().renderModel(poseStack.last(),
 				multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, bakedModel, r, g, b, overlay, light);
 	}
+
+	public static float getDeltaSeconds() {
+		return 1 / ((float) Minecraft.getInstance().getFps());
+	}
 }

@@ -15,9 +15,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 public class ExtraDetails {
 	public static final String MOD_ID = "extra_details";
 
+	public static boolean enable_door_animation = true;
+	public static boolean enable_trap_door_animation = true;
+
 	public static void init() {
 		AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
 		BlockEntityRegistry.BLOCK_ENTITIES.register();
+
+		enable_door_animation = getConfig().enable_door_animation;
+		enable_trap_door_animation = getConfig().enable_trap_door_animation;
 
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
 			ClientLifecycleEvent.CLIENT_SETUP.register(instance -> client());

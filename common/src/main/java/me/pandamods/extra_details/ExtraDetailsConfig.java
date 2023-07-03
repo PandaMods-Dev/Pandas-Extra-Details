@@ -6,11 +6,23 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = ExtraDetails.MOD_ID)
 public class ExtraDetailsConfig implements ConfigData {
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	@ConfigEntry.Gui.RequiresRestart
+	public boolean enable_door_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	@ConfigEntry.Gui.RequiresRestart
+	public boolean enable_trap_door_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	public boolean enable_sign_tilt = true;
 
 	@ConfigEntry.Category("animation")
-	public float door_animation_speed = 1;
+	@ConfigEntry.Gui.Tooltip
+	public float door_animation_length = 0.3f;
 	@ConfigEntry.Category("animation")
-	public float trap_door_animation_speed = 1;
+	@ConfigEntry.Gui.Tooltip
+	public float trap_door_animation_length = 0.3f;
 
 	@ConfigEntry.Category("detail_properties")
 	@ConfigEntry.Gui.CollapsibleObject

@@ -1,5 +1,6 @@
 package me.pandamods.extra_details.mixin.block;
 
+import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.*;
@@ -17,12 +18,12 @@ public abstract class TrapDoorMixin extends Block implements EntityBlock {
 
 	@Override
 	public @NotNull RenderShape getRenderShape(BlockState blockState) {
-		return RenderShape.INVISIBLE;
+		return ExtraDetails.enable_trap_door_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BlockEntityRegistry.TRAP_DOOR_ENTITY.get().create(blockPos, blockState);
+		return ExtraDetails.enable_trap_door_animation ? BlockEntityRegistry.TRAP_DOOR_ENTITY.get().create(blockPos, blockState) : null;
 	}
 }

@@ -1,11 +1,20 @@
 {
 	"text.autoconfig.extra_details.title": "Panda's Extra Details Config",
 
+	"text.autoconfig.extra_details.category.enabled_features": "Enabled Features",
 	"text.autoconfig.extra_details.category.animation": "Animation",
 	"text.autoconfig.extra_details.category.detail_properties": "Details",
 
-	"text.autoconfig.extra_details.option.door_animation_speed": "Door animation speed",
-	"text.autoconfig.extra_details.option.trap_door_animation_speed": "Trap Door animation speed",
+	"text.autoconfig.extra_details.option.enable_door_animation": "Enable door animation",
+	"text.autoconfig.extra_details.option.enable_door_animation.@Tooltip": "Requires restart",
+	"text.autoconfig.extra_details.option.enable_trap_door_animation": "Enable trap door animation",
+	"text.autoconfig.extra_details.option.enable_trap_door_animation.@Tooltip": "Requires restart",
+	"text.autoconfig.extra_details.option.enable_sign_tilt": "Enable sign tilt",
+
+	"text.autoconfig.extra_details.option.door_animation_length": "Door animation length",
+	"text.autoconfig.extra_details.option.door_animation_length.@Tooltip": "Door animation length in seconds",
+	"text.autoconfig.extra_details.option.trap_door_animation_length": "Trap Door animation length",
+	"text.autoconfig.extra_details.option.trap_door_animation_length.@Tooltip": "Trap Door animation length in seconds",
 
 	"text.autoconfig.extra_details.option.sign_details": "Sign tilt",
 	"text.autoconfig.extra_details.option.sign_details.pitch_tilt": "Pitch tilt",
