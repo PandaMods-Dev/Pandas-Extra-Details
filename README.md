@@ -4,6 +4,9 @@
 [![Modrinth](https://img.shields.io/modrinth/dt/RQ7OrTFx?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-extra-details)
 [![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Extra-Details?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Extra-Details/tree/master)
 
+[![Architecury API](https://img.shields.io/badge/Architectury%20API-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
+[![Cloth Config](https://img.shields.io/badge/Cloth%20Config-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+[![Fabric API](https://img.shields.io/badge/Fabric%20API-REQUIRED%20for%20Fabric-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
 ## About:
 This mod aims to add small animations and details to blocks and entities that originally didn't have them.
