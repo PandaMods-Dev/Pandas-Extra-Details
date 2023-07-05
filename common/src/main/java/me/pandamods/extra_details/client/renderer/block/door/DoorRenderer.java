@@ -38,6 +38,7 @@ public class DoorRenderer implements BlockEntityRenderer<DoorEntity> {
 
 	@Override
 	public void render(DoorEntity blockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
+		ExtraDetails.LOGGER.warn("im rendering");
 		BlockState blockState = blockEntity.getBlockState();
 		BlockState state = blockEntity.getBlockState().getBlock().defaultBlockState()
 				.setValue(DoorBlock.HALF, blockState.getValue(DoorBlock.HALF));

@@ -1,6 +1,8 @@
 package me.pandamods.extra_details;
 
+import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
+import dev.architectury.event.events.common.ChunkEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
@@ -10,10 +12,16 @@ import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.apache.logging.log4j.core.config.Loggers;
+import org.slf4j.Logger;
 
 public class ExtraDetails {
 	public static final String MOD_ID = "extra_details";
+	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public static boolean enable_door_animation = true;
 	public static boolean enable_trap_door_animation = true;

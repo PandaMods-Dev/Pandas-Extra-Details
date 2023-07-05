@@ -21,12 +21,14 @@ public abstract class DoorMixin extends Block implements EntityBlock {
 
 	@Override
 	public @NotNull RenderShape getRenderShape(BlockState blockState) {
+		ExtraDetails.LOGGER.warn("get Render Shape");
 		return ExtraDetails.enable_door_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+		ExtraDetails.LOGGER.warn("spawned new Door Entity");
 		return ExtraDetails.enable_door_animation ? BlockEntityRegistry.DOOR_ENTITY.get().create(blockPos, blockState) : null;
 	}
 }
