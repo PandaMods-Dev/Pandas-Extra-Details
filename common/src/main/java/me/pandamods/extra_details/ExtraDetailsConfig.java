@@ -24,6 +24,12 @@ public class ExtraDetailsConfig implements ConfigData {
 	@ConfigEntry.Gui.Tooltip
 	public float trap_door_animation_length = 0.3f;
 
+	@ConfigEntry.Category("animation")
+	public float fence_gate_animation_speed = 1;
+
+	@ConfigEntry.Category("animation")
+	public float lever_animation_speed = 1;
+
 	@ConfigEntry.Category("detail_properties")
 	@ConfigEntry.Gui.CollapsibleObject
 	public SignDetails sign_details = new SignDetails();

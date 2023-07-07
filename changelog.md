@@ -1,4 +1,8 @@
-## Changelog Version 0.1.1
-- Fixed Animation speed.
-- Added Enabling and Disabling Features in config
-- Changed Animation speed in config to Animation length in seconds.
+## Changelog Version 0.2
+* **Fixes:**
+  * Fixed Modded Doors and TrapDoors not rendering.
+
+
+* **New features:**
+  * Fence gate Animation.
+  * Lever Animation

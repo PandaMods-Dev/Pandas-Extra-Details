@@ -10,7 +10,7 @@
 [![Fabric API](https://img.shields.io/badge/Fabric%20API-REQUIRED%20for%20Fabric-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
 ## About:
-This mod aims to add small animations and details to blocks and entities that originally didn't have them.
+This mod aims to add small animations and details to blocks that originally didn't have them.
 
 ## Showcase:
 ![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
@@ -18,10 +18,12 @@ This mod aims to add small animations and details to blocks and entities that or
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
 ## FAQ:
-- [Q] Is this mod Client side.
-  - [A] Yes this mod is a 100% client side.
-- [Q] Are there any plans to add more features to the mod in the future.
-  - [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them [here](https://github.com/PandaDap2006/Pandas-Extra-Details/discussions)
+* [Q] Is this mod Client side.
+  * [A] Yes this mod is a 100% client side.
+* [Q] Are there any plans to add more features to the mod in the future.
+  * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them my discord server [here](https://discord.gg/wjPt4vEfXb)
+* [Q] Does this mod support resource packs.
+  * [A] Yes but it won't support custom vanilla models for blocks that are changed by the mod.
 
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and use my code to get 15% off you first month at Kinetic Hosting.

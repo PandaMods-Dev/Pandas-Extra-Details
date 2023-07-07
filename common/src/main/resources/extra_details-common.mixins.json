@@ -6,6 +6,9 @@
 	"mixins": [
 	],
 	"client": [
+		"block.FenceGateMixin",
+		"block.LeverMixin",
+		"BlockEntityTypeMixin",
 		"block.DoorMixin",
 		"block.TrapDoorMixin",
 		"renderer.BlockRenderDispatcherAccessor"

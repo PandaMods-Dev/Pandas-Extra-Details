@@ -1,22 +1,26 @@
 package me.pandamods.extra_details;
 
 import com.mojang.logging.LogUtils;
+import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
-import dev.architectury.event.events.common.ChunkEvent;
+import dev.architectury.event.events.client.ClientTickEvent;
+import dev.architectury.event.events.common.BlockEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
+import me.pandamods.extra_details.client.renderer.block.door.FenceGateRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.TrapDoorRenderer;
+import me.pandamods.extra_details.client.renderer.block.redstone.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.TiltSignRenderer;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.apache.logging.log4j.core.config.Loggers;
 import org.slf4j.Logger;
 
 public class ExtraDetails {
@@ -28,11 +32,11 @@ public class ExtraDetails {
 
 	public static void init() {
 		AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
-		BlockEntityRegistry.BLOCK_ENTITIES.register();
 
 		enable_door_animation = getConfig().enable_door_animation;
 		enable_trap_door_animation = getConfig().enable_trap_door_animation;
 
+		BlockEntityRegistry.BLOCK_ENTITIES.register();
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
 			ClientLifecycleEvent.CLIENT_SETUP.register(instance -> client());
 		}
@@ -43,6 +47,9 @@ public class ExtraDetails {
 
 		BlockEntityRendererRegistry.register(BlockEntityRegistry.DOOR_ENTITY.get(), DoorRenderer::new);
 		BlockEntityRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR_ENTITY.get(), TrapDoorRenderer::new);
+		BlockEntityRendererRegistry.register(BlockEntityRegistry.FENCE_GATE_ENTITY.get(), context -> new FenceGateRenderer());
+
+		BlockEntityRendererRegistry.register(BlockEntityRegistry.LEVER_ENTITY.get(), context -> new LeverRenderer());
 	}
 
 	public static ExtraDetailsConfig getConfig() {

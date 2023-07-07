@@ -30,10 +30,10 @@ description="A mod that adds extra Details to Minecraft for both Forge and Fabri
    mandatory=true
    versionRange="[11.0.99,)"
    ordering="NONE"
-   side="BOTH"
+   side="CLIENT"
 [[dependencies.fallingtrees]]
    modId="architectury"
    mandatory=true
    versionRange="[9.0.8,)"
    ordering="NONE"
-   side="BOTH"
+   side="CLIENT"
