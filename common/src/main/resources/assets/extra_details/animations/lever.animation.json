@@ -3,14 +3,22 @@
 	"animations": {
 		"action.on": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 0.4,
+			"animation_length": 0.25,
 			"bones": {
 				"lever": {
 					"rotation": {
 						"0.0": {
 							"vector": [45, 0, 0]
 						},
-						"0.4": {
+						"0.15": {
+							"vector": [-45, 0, 0],
+							"easing": "linear"
+						},
+						"0.2": {
+							"vector": [-40, 0, 0],
+							"easing": "easeOutSine"
+						},
+						"0.25": {
 							"vector": [-45, 0, 0],
 							"easing": "easeInSine"
 						}
@@ -20,14 +28,22 @@
 		},
 		"action.off": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 0.4,
+			"animation_length": 0.25,
 			"bones": {
 				"lever": {
 					"rotation": {
 						"0.0": {
 							"vector": [-45, 0, 0]
 						},
-						"0.4": {
+						"0.15": {
+							"vector": [45, 0, 0],
+							"easing": "linear"
+						},
+						"0.2": {
+							"vector": [40, 0, 0],
+							"easing": "easeOutSine"
+						},
+						"0.25": {
 							"vector": [45, 0, 0],
 							"easing": "easeInSine"
 						}
