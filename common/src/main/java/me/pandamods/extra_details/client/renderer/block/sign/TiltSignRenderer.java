@@ -2,7 +2,7 @@ package me.pandamods.extra_details.client.renderer.block.sign;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.utils.VectorUtils;
+import me.pandamods.pandalib.utils.VectorUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
@@ -48,7 +48,7 @@ public class TiltSignRenderer extends SignRenderer {
 			BlockState state = signBlockEntity.getBlockState();
 			rotation.rotateY(Math.toRadians(((SignBlock) state.getBlock()).getYRotationDegrees(state)));
 
-			VectorUtils.rotateByPivot(poseStack, new Vector3f(8, 0, 8), new Vector3f(
+			VectorUtils.rotateByPivot(poseStack, new Vector3f(0.5f, 0, 0.5f), new Vector3f(
 					Math.toRadians(rotation.x), Math.toRadians(rotation.y), Math.toRadians(rotation.z)));
 		}
 		super.render(signBlockEntity, f, poseStack, multiBufferSource, i, j);

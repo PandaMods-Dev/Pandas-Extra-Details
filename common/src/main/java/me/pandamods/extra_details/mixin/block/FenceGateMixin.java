@@ -1,5 +1,6 @@
 package me.pandamods.extra_details.mixin.block;
 
+import me.pandamods.extra_details.config.PersistentConfig;
 import me.pandamods.extra_details.entity.BetterEntityBlock;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
@@ -17,13 +18,13 @@ public abstract class FenceGateMixin extends HorizontalDirectionalBlock implemen
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.INVISIBLE;
+		return PersistentConfig.enable_fence_gate_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return BlockEntityRegistry.FENCE_GATE_ENTITY.get().create(pos, state);
+		return PersistentConfig.enable_fence_gate_animation ? BlockEntityRegistry.FENCE_GATE_ENTITY.get().create(pos, state) : null;
 	}
 
 	@Override

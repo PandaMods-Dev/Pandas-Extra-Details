@@ -1,36 +1,32 @@
 package me.pandamods.extra_details.client.renderer.block.redstone;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import me.pandamods.extra_details.client.model.block.LeverModel;
 import me.pandamods.extra_details.entity.block.LeverEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.renderer.GeoBlockRenderer;
-import software.bernie.geckolib.util.RenderUtils;
+import me.pandamods.pandalib.client.render.MeshBlockRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.LeverBlock;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 
-public class LeverRenderer extends GeoBlockRenderer<LeverEntity> {
+public class LeverRenderer extends MeshBlockRenderer<LeverEntity, LeverModel> {
 	public LeverRenderer() {
 		super(new LeverModel());
 	}
 
 	@Override
-	public void renderRecursively(PoseStack poseStack, LeverEntity animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		buffer = bufferSource.getBuffer(getRenderType(animatable,
-				((LeverModel)this.model).getTextureResource(animatable, !bone.getName().equalsIgnoreCase("root")),
-				bufferSource, partialTick));
-		super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay,
-				red, green, blue, alpha);
-	}
+	protected void translateBlock(LeverEntity blockEntity, PoseStack stack) {
+		stack.translate(0.5f, 0.5f, 0.5f);
 
-	@Override
-	public ResourceLocation getTextureLocation(LeverEntity animatable) {
-		return super.getTextureLocation(animatable);
+		Direction direction = getFacing(blockEntity);
+		stack.mulPose(Axis.YP.rotationDegrees(-direction.toYRot()));
+
+		AttachFace face = blockEntity.getBlockState().getValue(LeverBlock.FACE);
+		switch (face) {
+			case CEILING -> stack.mulPose(Axis.XP.rotationDegrees(180));
+			case WALL -> stack.mulPose(Axis.XP.rotationDegrees(90));
+		}
+
+		stack.translate(0, -0.5f, 0);
 	}
 }

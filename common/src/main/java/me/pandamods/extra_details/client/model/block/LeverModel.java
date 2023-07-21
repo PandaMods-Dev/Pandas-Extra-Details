@@ -1,33 +1,30 @@
 package me.pandamods.extra_details.client.model.block;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.entity.block.FenceGateEntity;
+import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.entity.block.LeverEntity;
 import me.pandamods.extra_details.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.registries.BuiltInRegistries;
+import me.pandamods.pandalib.client.model.Armature;
+import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.model.GeoModel;
+import net.minecraft.world.level.block.LeverBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Math;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class LeverModel extends GeoModel<LeverEntity> {
+public class LeverModel implements MeshModel<LeverEntity> {
 	@Override
-	public ResourceLocation getModelResource(LeverEntity animatable) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "geo/lever.geo.json");
+	public ResourceLocation getMeshLocation(LeverEntity entity) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/redstone/lever.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureResource(LeverEntity animatable) {
-		return getTextureResource(animatable, false);
+	public ResourceLocation getTextureLocation(String textureName, LeverEntity entity) {
+		return switch (textureName) {
+			case "lever" -> getTextureResource(entity, true);
+			default -> getTextureResource(entity, false);
+		};
 	}
 
 	public ResourceLocation getTextureResource(LeverEntity animatable, boolean bl) {
@@ -39,7 +36,17 @@ public class LeverModel extends GeoModel<LeverEntity> {
 	}
 
 	@Override
-	public ResourceLocation getAnimationResource(LeverEntity animatable) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "animations/lever.animation.json");
+	public void setupAnim(LeverEntity entity, Armature armature, float deltaSeconds) {
+		BlockState state = entity.getBlockState();
+
+		float speed = deltaSeconds / ExtraDetails.getConfig().lever_animation_length;
+		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(LeverBlock.POWERED) ? speed : -speed));
+
+		float animValue = state.getValue(LeverBlock.POWERED) ?
+				DoorRenderer.doorAnimation.getValue(entity.animTime) :
+				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
+
+		armature.getBone("handle").ifPresent(bone ->
+				bone.localTransform.setRotationXYZ(Math.toRadians(Math.lerp(-45, 45, animValue)), 0, 0));
 	}
 }

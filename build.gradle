@@ -46,10 +46,6 @@ allprojects {
 
         maven { url "https://maven.shedaniel.me/" }
         maven { url "https://maven.terraformersmc.com/releases/" }
-        maven {
-            name = 'GeckoLib'
-            url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        }
 
         maven {
             name = 'ParchmentMC'

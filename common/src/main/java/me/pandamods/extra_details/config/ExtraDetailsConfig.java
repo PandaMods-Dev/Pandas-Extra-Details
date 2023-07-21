@@ -1,5 +1,6 @@
-package me.pandamods.extra_details;
+package me.pandamods.extra_details.config;
 
+import me.pandamods.extra_details.ExtraDetails;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -15,20 +16,28 @@ public class ExtraDetailsConfig implements ConfigData {
 	@ConfigEntry.Gui.RequiresRestart
 	public boolean enable_trap_door_animation = true;
 	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	@ConfigEntry.Gui.RequiresRestart
+	public boolean enable_fence_gate_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	@ConfigEntry.Gui.RequiresRestart
+	public boolean enable_lever_animation = true;
+	@ConfigEntry.Category("enabled_features")
 	public boolean enable_sign_tilt = true;
 
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float door_animation_length = 0.3f;
+	public float door_animation_length = 0.4f;
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float trap_door_animation_length = 0.3f;
-
+	public float trap_door_animation_length = 0.4f;
 	@ConfigEntry.Category("animation")
-	public float fence_gate_animation_speed = 1;
-
+	@ConfigEntry.Gui.Tooltip
+	public float fence_gate_animation_length = 0.4f;
 	@ConfigEntry.Category("animation")
-	public float lever_animation_speed = 1;
+	@ConfigEntry.Gui.Tooltip
+	public float lever_animation_length = 0.4f;
 
 	@ConfigEntry.Category("detail_properties")
 	@ConfigEntry.Gui.CollapsibleObject

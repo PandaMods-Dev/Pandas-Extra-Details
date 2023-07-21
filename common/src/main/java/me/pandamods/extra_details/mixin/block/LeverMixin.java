@@ -1,5 +1,6 @@
 package me.pandamods.extra_details.mixin.block;
 
+import me.pandamods.extra_details.config.PersistentConfig;
 import me.pandamods.extra_details.entity.BetterEntityBlock;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
@@ -22,13 +23,13 @@ public abstract class LeverMixin extends HorizontalDirectionalBlock implements B
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.INVISIBLE;
+		return PersistentConfig.enable_lever_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return BlockEntityRegistry.LEVER_ENTITY.get().create(pos, state);
+		return PersistentConfig.enable_lever_animation ? BlockEntityRegistry.LEVER_ENTITY.get().create(pos, state) : null;
 	}
 
 	@Override

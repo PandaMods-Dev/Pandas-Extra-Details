@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.TrapDoorEntity;
 import me.pandamods.extra_details.utils.RenderUtils;
-import me.pandamods.extra_details.utils.VectorUtils;
+import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -36,12 +36,12 @@ public class TrapDoorRenderer implements BlockEntityRenderer<TrapDoorEntity> {
 
 		blockEntity.openingTime = Math.clamp(0, 1, blockEntity.openingTime + (blockState.getValue(DoorBlock.OPEN) ? speed : -speed));
 
-		Vector3f pivot = new Vector3f(0, blockState.getValue(TrapDoorBlock.HALF).equals(Half.TOP) ? 14.5f : 1.5f, 14.5f);
+		Vector3f pivot = new Vector3f(0, blockState.getValue(TrapDoorBlock.HALF).equals(Half.TOP) ? 14.5f : 1.5f, 14.5f).div(16);
 
 		poseStack.pushPose();
 		VectorUtils.rotateByPivot(
 				poseStack,
-				new Vector3f(8, 0, 8),
+				new Vector3f(0.5f, 0, 0.5f),
 				VectorUtils.toRadians(new Vector3f(0, -blockState.getValue(TrapDoorBlock.FACING).toYRot() + 180, 0))
 		);
 
@@ -53,11 +53,7 @@ public class TrapDoorRenderer implements BlockEntityRenderer<TrapDoorEntity> {
 		VectorUtils.rotateByPivot(
 				poseStack,
 				new Vector3f(pivot.x, pivot.y, pivot.z),
-				new Vector3f(
-						Math.toRadians(animValue * openMaxRotation),
-						0,
-						0
-				)
+				new Vector3f(Math.toRadians(animValue * openMaxRotation), 0, 0)
 		);
 
 		RenderUtils.renderBlock(poseStack, state, multiBufferSource, i, j);

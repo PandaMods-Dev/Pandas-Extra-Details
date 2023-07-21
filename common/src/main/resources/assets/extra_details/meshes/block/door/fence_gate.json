@@ -1,0 +1,6596 @@
+{
+  "format_version": "0.1",
+  "scale": 1.0,
+  "mesh": {
+    "fence_gate": {
+      "position": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "faces": [
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 11,
+              "position": [
+                0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 18,
+              "position": [
+                0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 3,
+              "position": [
+                0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 33,
+              "position": [
+                0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 35,
+              "position": [
+                0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 26,
+              "position": [
+                0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 30,
+              "position": [
+                0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 24,
+              "position": [
+                0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 25,
+              "position": [
+                0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 27,
+              "position": [
+                0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 18,
+              "position": [
+                0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.875
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 17,
+              "position": [
+                0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.875
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 19,
+              "position": [
+                0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "position": [
+                0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 10,
+              "position": [
+                0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 10,
+              "position": [
+                0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 6,
+              "position": [
+                0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 8,
+              "position": [
+                0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 9,
+              "position": [
+                0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 11,
+              "position": [
+                0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 18,
+              "position": [
+                0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 20,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 15,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 11,
+              "position": [
+                0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 20,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 22,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 13,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 15,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 22,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 17,
+              "position": [
+                0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 9,
+              "position": [
+                0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 13,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 10,
+              "position": [
+                0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 8,
+              "position": [
+                0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 12,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 14,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 15,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 13,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 9,
+              "position": [
+                0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 11,
+              "position": [
+                0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 12,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 8,
+              "position": [
+                0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 16,
+              "position": [
+                0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 23,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 23,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 16,
+              "position": [
+                0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 17,
+              "position": [
+                0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 22,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 14,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 12,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 23,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 21,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 21,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 23,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 22,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 20,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 10,
+              "position": [
+                0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 14,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 21,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 19,
+              "position": [
+                0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 19,
+              "position": [
+                0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 21,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 20,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 18,
+              "position": [
+                0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 16,
+              "position": [
+                0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "position": [
+                0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 19,
+              "position": [
+                0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.625,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 16,
+              "position": [
+                0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 19,
+              "position": [
+                0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 18,
+              "position": [
+                0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 17,
+              "position": [
+                0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 8,
+              "position": [
+                0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 6,
+              "position": [
+                0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 16,
+              "position": [
+                0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 17,
+              "position": [
+                0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 9,
+              "position": [
+                0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.625,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 28,
+              "position": [
+                0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 29,
+              "position": [
+                0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 25,
+              "position": [
+                0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 24,
+              "position": [
+                0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 30,
+              "position": [
+                0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 27,
+              "position": [
+                0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 26,
+              "position": [
+                0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 31,
+              "position": [
+                0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 2,
+              "position": [
+                0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 25,
+              "position": [
+                0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 29,
+              "position": [
+                0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 6,
+              "position": [
+                0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 28,
+              "position": [
+                0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 24,
+              "position": [
+                0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 5,
+              "position": [
+                0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 24,
+              "position": [
+                0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 30,
+              "position": [
+                0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 5,
+              "position": [
+                0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 30,
+              "position": [
+                0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 31,
+              "position": [
+                0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 29,
+              "position": [
+                0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 38,
+              "position": [
+                0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 36,
+              "position": [
+                0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 3,
+              "position": [
+                0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 26,
+              "position": [
+                0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 27,
+              "position": [
+                0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 27,
+              "position": [
+                0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 25,
+              "position": [
+                0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "position": [
+                0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 0,
+              "position": [
+                0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "position": [
+                0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 32,
+              "position": [
+                0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 34,
+              "position": [
+                0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 35,
+              "position": [
+                0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 33,
+              "position": [
+                0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 26,
+              "position": [
+                0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 35,
+              "position": [
+                0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 34,
+              "position": [
+                0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 31,
+              "position": [
+                0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 31,
+              "position": [
+                0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 34,
+              "position": [
+                0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 32,
+              "position": [
+                0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 4,
+              "position": [
+                0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 32,
+              "position": [
+                0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 33,
+              "position": [
+                0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 36,
+              "position": [
+                0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 38,
+              "position": [
+                0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 39,
+              "position": [
+                0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 37,
+              "position": [
+                0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 7,
+              "position": [
+                0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 36,
+              "position": [
+                0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.875,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 37,
+              "position": [
+                0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 6,
+              "position": [
+                0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 6,
+              "position": [
+                0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 37,
+              "position": [
+                0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 39,
+              "position": [
+                0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 28,
+              "position": [
+                0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 28,
+              "position": [
+                0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 39,
+              "position": [
+                0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.875,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 38,
+              "position": [
+                0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 29,
+              "position": [
+                0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                1.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "right.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 51,
+              "position": [
+                -0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 58,
+              "position": [
+                -0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 40,
+              "position": [
+                -0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 43,
+              "position": [
+                -0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 43,
+              "position": [
+                -0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 66,
+              "position": [
+                -0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 75,
+              "position": [
+                -0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 73,
+              "position": [
+                -0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 70,
+              "position": [
+                -0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 67,
+              "position": [
+                -0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 65,
+              "position": [
+                -0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 64,
+              "position": [
+                -0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 58,
+              "position": [
+                -0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 57,
+              "position": [
+                -0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.875
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 45,
+              "position": [
+                -0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.875
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 40,
+              "position": [
+                -0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 59,
+              "position": [
+                -0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 50,
+              "position": [
+                -0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 47,
+              "position": [
+                -0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 42,
+              "position": [
+                -0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 50,
+              "position": [
+                -0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 48,
+              "position": [
+                -0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 46,
+              "position": [
+                -0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 47,
+              "position": [
+                -0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 49,
+              "position": [
+                -0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 51,
+              "position": [
+                -0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 43,
+              "position": [
+                -0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 44,
+              "position": [
+                -0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 58,
+              "position": [
+                -0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 51,
+              "position": [
+                -0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 55,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 60,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 60,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 55,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 53,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 62,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 62,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 53,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 49,
+              "position": [
+                -0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 57,
+              "position": [
+                -0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 50,
+              "position": [
+                -0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 54,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 52,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 48,
+              "position": [
+                -0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 55,
+              "position": [
+                0.0,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 51,
+              "position": [
+                -0.125,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 49,
+              "position": [
+                -0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 53,
+              "position": [
+                0.0,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 52,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 63,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 56,
+              "position": [
+                -0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 48,
+              "position": [
+                -0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 63,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 62,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 57,
+              "position": [
+                -0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 56,
+              "position": [
+                -0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 54,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 61,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 63,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 52,
+              "position": [
+                0.0,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 61,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 60,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 62,
+              "position": [
+                0.0,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 63,
+              "position": [
+                0.0,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 50,
+              "position": [
+                -0.125,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 59,
+              "position": [
+                -0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 61,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 54,
+              "position": [
+                0.0,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 59,
+              "position": [
+                -0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 58,
+              "position": [
+                -0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 60,
+              "position": [
+                0.0,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 61,
+              "position": [
+                0.0,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 56,
+              "position": [
+                -0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 59,
+              "position": [
+                -0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.375,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 42,
+              "position": [
+                -0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 41,
+              "position": [
+                -0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 56,
+              "position": [
+                -0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 57,
+              "position": [
+                -0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 58,
+              "position": [
+                -0.125,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 59,
+              "position": [
+                -0.125,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.5,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 48,
+              "position": [
+                -0.125,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 56,
+              "position": [
+                -0.125,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 41,
+              "position": [
+                -0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 46,
+              "position": [
+                -0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 57,
+              "position": [
+                -0.125,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 49,
+              "position": [
+                -0.125,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.375,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 44,
+              "position": [
+                -0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 45,
+              "position": [
+                -0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 68,
+              "position": [
+                -0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 64,
+              "position": [
+                -0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 65,
+              "position": [
+                -0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 69,
+              "position": [
+                -0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "vertices": [
+            {
+              "index": 70,
+              "position": [
+                -0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 71,
+              "position": [
+                -0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 66,
+              "position": [
+                -0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 67,
+              "position": [
+                -0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 42,
+              "position": [
+                -0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 47,
+              "position": [
+                -0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 69,
+              "position": [
+                -0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 65,
+              "position": [
+                -0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 46,
+              "position": [
+                -0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 41,
+              "position": [
+                -0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 64,
+              "position": [
+                -0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 68,
+              "position": [
+                -0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 45,
+              "position": [
+                -0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 70,
+              "position": [
+                -0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 64,
+              "position": [
+                -0.5,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 41,
+              "position": [
+                -0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 45,
+              "position": [
+                -0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 44,
+              "position": [
+                -0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 71,
+              "position": [
+                -0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 70,
+              "position": [
+                -0.5,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 69,
+              "position": [
+                -0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 47,
+              "position": [
+                -0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 76,
+              "position": [
+                -0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 78,
+              "position": [
+                -0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 43,
+              "position": [
+                -0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 40,
+              "position": [
+                -0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 67,
+              "position": [
+                -0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 66,
+              "position": [
+                -0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 67,
+              "position": [
+                -0.5,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 40,
+              "position": [
+                -0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 42,
+              "position": [
+                -0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 65,
+              "position": [
+                -0.5,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 40,
+              "position": [
+                -0.375,
+                0.75,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 45,
+              "position": [
+                -0.375,
+                0.75,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.75
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 41,
+              "position": [
+                -0.375,
+                0.5625,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 42,
+              "position": [
+                -0.375,
+                0.5625,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 72,
+              "position": [
+                -0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 73,
+              "position": [
+                -0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 75,
+              "position": [
+                -0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 74,
+              "position": [
+                -0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 66,
+              "position": [
+                -0.5,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 71,
+              "position": [
+                -0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 74,
+              "position": [
+                -0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 75,
+              "position": [
+                -0.5,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 71,
+              "position": [
+                -0.5,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 44,
+              "position": [
+                -0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 72,
+              "position": [
+                -0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 74,
+              "position": [
+                -0.5,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 44,
+              "position": [
+                -0.375,
+                0.9375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 43,
+              "position": [
+                -0.375,
+                0.9375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.9375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 73,
+              "position": [
+                -0.375,
+                1.0,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 72,
+              "position": [
+                -0.375,
+                1.0,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 76,
+              "position": [
+                -0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 77,
+              "position": [
+                -0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 79,
+              "position": [
+                -0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.5625
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 78,
+              "position": [
+                -0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.4375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            -0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 47,
+              "position": [
+                -0.375,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 46,
+              "position": [
+                -0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 77,
+              "position": [
+                -0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 76,
+              "position": [
+                -0.375,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.125,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 46,
+              "position": [
+                -0.375,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 68,
+              "position": [
+                -0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 79,
+              "position": [
+                -0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 77,
+              "position": [
+                -0.375,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 68,
+              "position": [
+                -0.5,
+                0.375,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 69,
+              "position": [
+                -0.5,
+                0.375,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.375
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 78,
+              "position": [
+                -0.5,
+                0.3125,
+                -0.0625
+              ],
+              "uv": [
+                0.0,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 79,
+              "position": [
+                -0.5,
+                0.3125,
+                0.0625
+              ],
+              "uv": [
+                0.125,
+                0.3125
+              ],
+              "weights": [
+                {
+                  "name": "left.door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        }
+      ]
+    }
+  },
+  "bone": {
+    "right.door": {
+      "position": [
+        0.4375,
+        0.3125,
+        -0.0
+      ]
+    },
+    "left.door": {
+      "position": [
+        -0.4375,
+        0.3125,
+        -0.0
+      ]
+    }
+  }
+}

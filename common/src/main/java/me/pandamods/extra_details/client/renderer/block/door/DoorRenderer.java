@@ -4,10 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.DoorEntity;
 import me.pandamods.extra_details.utils.RenderUtils;
-import me.pandamods.extra_details.utils.VectorUtils;
 import me.pandamods.extra_details.utils.animation.CurveRamp;
 import me.pandamods.extra_details.utils.animation.KeyPoint;
 import me.pandamods.extra_details.utils.animation.KeyType;
+import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,6 +27,7 @@ public class DoorRenderer implements BlockEntityRenderer<DoorEntity> {
 
 	public DoorRenderer(BlockEntityRendererProvider.Context context) {
 		this.blockRender = context.getBlockRenderDispatcher();
+		ExtraDetails.LOGGER.error("created renderer");
 	}
 
 	public static final CurveRamp doorAnimation = new CurveRamp(
@@ -38,25 +39,25 @@ public class DoorRenderer implements BlockEntityRenderer<DoorEntity> {
 
 	@Override
 	public void render(DoorEntity blockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
+		ExtraDetails.LOGGER.error("im rendering");
 		BlockState blockState = blockEntity.getBlockState();
 		BlockState state = blockEntity.getBlockState().getBlock().defaultBlockState()
 				.setValue(DoorBlock.HALF, blockState.getValue(DoorBlock.HALF));
 
 		float speed = RenderUtils.getDeltaSeconds() / ExtraDetails.getConfig().door_animation_length;
-
 		blockEntity.openingTime = Math.clamp(0, 1, blockEntity.openingTime + (blockState.getValue(DoorBlock.OPEN) ? speed : -speed));
 
-		Vector3f pivot = new Vector3f(1.5f, 0, 14.5f);
+		Vector3f pivot = new Vector3f(1.5f, 0, 14.5f).div(16);
 
 		poseStack.pushPose();
 		VectorUtils.rotateByPivot(
 				poseStack,
-				new Vector3f(8, 0, 8),
+				new Vector3f(0.5f, 0, 0.5f),
 				VectorUtils.toRadians(new Vector3f(0, -blockState.getValue(DoorBlock.FACING).toYRot() + 180, 0))
 		);
 		VectorUtils.rotateByPivot(
 				poseStack,
-				new Vector3f(8, pivot.y, pivot.z),
+				new Vector3f(0.5f, pivot.y, pivot.z),
 				VectorUtils.toRadians(new Vector3f(0, blockState.getValue(DoorBlock.HINGE) == DoorHingeSide.RIGHT ? 180 : 0, 0))
 		);
 

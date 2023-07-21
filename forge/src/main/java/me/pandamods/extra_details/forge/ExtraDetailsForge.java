@@ -2,7 +2,7 @@ package me.pandamods.extra_details.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.ExtraDetailsConfig;
+import me.pandamods.extra_details.config.ExtraDetailsConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
