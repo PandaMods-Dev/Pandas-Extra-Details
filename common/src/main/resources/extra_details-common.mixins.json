@@ -6,11 +6,13 @@
 	"mixins": [
 	],
 	"client": [
-		"block.FenceGateMixin",
-		"block.LeverMixin",
 		"BlockEntityTypeMixin",
 		"block.DoorMixin",
+		"block.FenceGateMixin",
+		"block.LeverMixin",
 		"block.TrapDoorMixin",
+		"pandalib.ChunkRenderDispatcherRenderChunkRebuildTaskMixin",
+		"pandalib.LevelRendererMixin",
 		"renderer.BlockRenderDispatcherAccessor"
 	],
 	"injectors": {

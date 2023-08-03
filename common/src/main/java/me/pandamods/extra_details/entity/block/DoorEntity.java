@@ -13,6 +13,5 @@ public class DoorEntity extends BlockEntity {
 	public DoorEntity(BlockPos blockPos, BlockState blockState) {
 		super(BlockEntityRegistry.DOOR_ENTITY.get(), blockPos, blockState);
 		openingTime = blockState.getValue(DoorBlock.OPEN) ? 1 : 0;
-		ExtraDetails.LOGGER.error("created entity");
 	}
 }

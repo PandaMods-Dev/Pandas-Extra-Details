@@ -7,7 +7,7 @@
         <listEntry value="4"/>
     </listAttribute>
     <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-        <mapEntry key="MOD_CLASSES" value="main%%C:\Users\Olive\IdeaProjects\Extra Details\forge\build\resources\main;main%%C:\Users\Olive\IdeaProjects\Extra Details\forge\build\classes\java\main;main%%C:\Users\Olive\IdeaProjects\Extra Details\out\production\Extra Details.forge.main"/><mapEntry key="MCP_MAPPINGS" value="loom.stub"/>
+        <mapEntry key="MOD_CLASSES" value="main%%C:\Users\Olive\IdeaProjects\Extra Details\forge\build\resources\main;main%%C:\Users\Olive\IdeaProjects\Extra Details\forge\build\classes\java\main"/><mapEntry key="MCP_MAPPINGS" value="loom.stub"/>
     </mapAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
