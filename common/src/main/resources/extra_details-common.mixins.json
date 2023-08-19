@@ -4,15 +4,13 @@
 	"package": "me.pandamods.extra_details.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"pandalib.block.BlockStateMixin"
 	],
 	"client": [
-		"BlockEntityTypeMixin",
-		"block.DoorMixin",
-		"block.FenceGateMixin",
-		"block.LeverMixin",
-		"block.TrapDoorMixin",
-		"pandalib.ChunkRenderDispatcherRenderChunkRebuildTaskMixin",
-		"pandalib.LevelRendererMixin",
+		"pandalib.client.ChunkRenderDispatcherRenderChunkMixin",
+		"pandalib.client.CompiledChunkMixin",
+		"pandalib.client.CompileResultsMixin",
+		"pandalib.client.LevelRendererMixin",
 		"renderer.BlockRenderDispatcherAccessor"
 	],
 	"injectors": {

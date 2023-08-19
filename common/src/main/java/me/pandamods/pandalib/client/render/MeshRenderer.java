@@ -26,56 +26,49 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
-public abstract class MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
-	public final M model;
+public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
 
-	public MeshRenderer(M model) {
-		this.model = model;
-	}
-
-	public RenderType getRenderType(ResourceLocation location) {
+	default RenderType getRenderType(ResourceLocation location) {
 		return RenderType.entityCutout(location);
 	}
 
-	public void renderMesh(T entity, PoseStack stack, MultiBufferSource buffer, float partialTick, int packedLight, int packedOverlay) {
+	default void renderMesh(T base, M model, PoseStack stack, MultiBufferSource buffer, float partialTick, int packedLight, int packedOverlay) {
 		stack.pushPose();
-//		stack.mulPose(Axis.XP.rotationDegrees(-90));
 
-		Mesh mesh = Resources.meshes.getOrDefault(this.model.getMeshLocation(entity), null);
+		Mesh mesh = Resources.meshes.getOrDefault(model.getMeshLocation(base), null);
 		if (mesh != null) {
-			if (entity.getCache().mesh == null || !entity.getCache().mesh.equals(mesh)) {
-				entity.getCache().mesh = mesh;
-				entity.getCache().armature = new Armature(entity.getCache().mesh);
+			if (base.getCache().mesh == null || !base.getCache().mesh.equals(mesh)) {
+				base.getCache().mesh = mesh;
+				base.getCache().armature = new Armature(base.getCache().mesh);
 			}
 
-			if (entity.getCache().mesh != null) {
-				if (entity.getCache().armature != null) {
+			if (base.getCache().mesh != null) {
+				if (base.getCache().armature != null) {
 					float deltaSeconds = GameUtils.getDeltaSeconds();
-					this.model.setupAnim(entity, entity.getCache().armature, deltaSeconds);
+					model.setupAnim(base, base.getCache().armature, deltaSeconds);
 				}
 
-				if (Objects.equals(entity.getCache().mesh.format_version(), "0.1")) {
-					for (Map.Entry<String, Mesh.Object> meshEntry : entity.getCache().mesh.mesh().entrySet()) {
-						renderObject(meshEntry.getValue(), entity, stack, buffer, packedLight, packedOverlay);
+				if (Objects.equals(base.getCache().mesh.format_version(), "0.1")) {
+					for (Map.Entry<String, Mesh.Object> meshEntry : base.getCache().mesh.mesh().entrySet()) {
+						renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay);
 					}
 				}
 			}
 		} else {
-			ExtraDetails.LOGGER.error("Cant find mesh " + this.model.getMeshLocation(entity));
+			ExtraDetails.LOGGER.error("Cant find mesh " + model.getMeshLocation(base));
 		}
 		stack.popPose();
 	}
 
-	public void renderObject(Mesh.Object object, T entity, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 		for (Mesh.Object.Face face : object.faces()) {
-			VertexConsumer consumer = buffer.getBuffer(this.getRenderType(this.model.getTextureLocation(face.texture_name(), entity)));
+			VertexConsumer consumer = buffer.getBuffer(this.getRenderType(model.getTextureLocation(face.texture_name(), base)));
 
 			for (Mesh.Object.Face.Vertex vertex : face.vertices()) {
 				Matrix4f pose = stack.last().pose();
 				Matrix3f normal = stack.last().normal();
 
-				// important part
 				float maxWeight = (float) Arrays.stream(vertex.weights()).mapToDouble(Mesh.Object.Face.Vertex.Weight::weight).sum();
 				Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
 				Vector3f newVertexPos = new Vector3f();
@@ -83,7 +76,7 @@ public abstract class MeshRenderer<T extends MeshAnimatable, M extends MeshModel
 
 				if (vertex.weights().length > 0) {
 					for (Mesh.Object.Face.Vertex.Weight weight : vertex.weights()) {
-						Optional<Bone> bone = entity.getCache().armature.getBone(weight.name());
+						Optional<Bone> bone = base.getCache().armature.getBone(weight.name());
 						float weightPercent = weight.weight() / maxWeight;
 
 						if (bone.isPresent()) {
@@ -101,17 +94,15 @@ public abstract class MeshRenderer<T extends MeshAnimatable, M extends MeshModel
 					newVertexPos.set(vertexPos);
 				}
 
-				// creating the vertex
 				this.vertex(pose, normal, consumer, Color.WHITE,
 						newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), vertexNormal,
 						packedLight, packedOverlay);
-				// important part end
 			}
 		}
 		stack.popPose();
 	}
 
-	public final void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
+	default void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
 							 Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {
 		vertexConsumer.vertex(pose, pos.x, pos.y, pos.z)
 				.color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())

@@ -3,9 +3,11 @@ accessWidener v2 named
 accessible class net/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk$RebuildTask
 accessible class net/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk$RebuildTask$CompileResults
 accessible class net/minecraft/core/registries/BuiltInRegistries$RegistryBootstrap
-
+accessible class net/minecraft/client/renderer/chunk/ChunkRenderDispatcher$ChunkTaskResult
 accessible class net/minecraft/client/renderer/LevelRenderer$RenderChunkInfo
 
 accessible method net/minecraft/core/registries/Registries createRegistryKey (Ljava/lang/String;)Lnet/minecraft/resources/ResourceKey;
 accessible method net/minecraft/core/registries/BuiltInRegistries registerSimple (Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/registries/BuiltInRegistries$RegistryBootstrap;)Lnet/minecraft/core/Registry;
 accessible method net/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk$RebuildTask compile (FFFLnet/minecraft/client/renderer/ChunkBufferBuilderPack;)Lnet/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk$RebuildTask$CompileResults;
+
+accessible field net/minecraft/client/renderer/LevelRenderer$RenderChunkInfo chunk Lnet/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk;

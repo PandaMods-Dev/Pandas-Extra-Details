@@ -2,7 +2,7 @@ package me.pandamods.extra_details.client.model.block;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
-import me.pandamods.extra_details.entity.block.LeverEntity;
+import me.pandamods.extra_details.entity.block.LeverClientBlock;
 import me.pandamods.extra_details.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
@@ -13,21 +13,21 @@ import org.joml.Math;
 
 import java.util.List;
 
-public class LeverModel implements MeshModel<LeverEntity> {
+public class LeverModel implements MeshModel<LeverClientBlock> {
 	@Override
-	public ResourceLocation getMeshLocation(LeverEntity entity) {
+	public ResourceLocation getMeshLocation(LeverClientBlock entity) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/redstone/lever.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, LeverEntity entity) {
+	public ResourceLocation getTextureLocation(String textureName, LeverClientBlock entity) {
 		return switch (textureName) {
 			case "lever" -> getTextureResource(entity, true);
 			default -> getTextureResource(entity, false);
 		};
 	}
 
-	public ResourceLocation getTextureResource(LeverEntity animatable, boolean bl) {
+	public ResourceLocation getTextureResource(LeverClientBlock animatable, boolean bl) {
 		List<ResourceLocation> textures = RenderUtils.getBlockTextures(animatable.getBlockState());
 		ResourceLocation resourceLocation = bl && textures.size() > 1 ? textures.get(1) : textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
@@ -36,7 +36,7 @@ public class LeverModel implements MeshModel<LeverEntity> {
 	}
 
 	@Override
-	public void setupAnim(LeverEntity entity, Armature armature, float deltaSeconds) {
+	public void setupAnim(LeverClientBlock entity, Armature armature, float deltaSeconds) {
 		BlockState state = entity.getBlockState();
 
 		float speed = deltaSeconds / ExtraDetails.getConfig().lever_animation_length;

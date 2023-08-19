@@ -2,8 +2,6 @@ package me.pandamods.extra_details;
 
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
-import dev.architectury.event.events.client.ClientPlayerEvent;
-import dev.architectury.event.events.common.ChunkEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
@@ -19,13 +17,6 @@ import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
-import net.minecraft.client.multiplayer.ClientChunkCache;
-import net.minecraft.client.telemetry.events.WorldLoadEvent;
-import net.minecraft.client.telemetry.events.WorldLoadTimesEvent;
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
 
@@ -40,7 +31,7 @@ public class ExtraDetails {
 			AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
 			PersistentConfig.init(getConfig());
 
-			BlockEntityRegistry.BLOCK_ENTITIES.register();
+			BlockEntityRegistry.init();
 			if (Platform.getEnv().equals(EnvType.CLIENT)) {
 				ClientLifecycleEvent.CLIENT_SETUP.register(instance -> client());
 			}
@@ -50,12 +41,10 @@ public class ExtraDetails {
 	private static void client() {
 		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
-		BlockRendererRegistry.register(BlockTags.DOORS, new DoorRenderer());
-//		BlockEntityRendererRegistry.register(BlockEntityRegistry.DOOR_ENTITY.get(), DoorRenderer::new);
-		BlockEntityRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR_ENTITY.get(), TrapDoorRenderer::new);
-		BlockEntityRendererRegistry.register(BlockEntityRegistry.FENCE_GATE_ENTITY.get(), context -> new FenceGateRenderer());
-
-		BlockEntityRendererRegistry.register(BlockEntityRegistry.LEVER_ENTITY.get(), context -> new LeverRenderer());
+		BlockRendererRegistry.register(BlockEntityRegistry.DOOR, new DoorRenderer());
+		BlockRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR, new TrapDoorRenderer());
+		BlockRendererRegistry.register(BlockEntityRegistry.FENCE_GATE, new FenceGateRenderer());
+		BlockRendererRegistry.register(BlockEntityRegistry.LEVER, new LeverRenderer());
 	}
 
 	public static ExtraDetailsConfig getConfig() {

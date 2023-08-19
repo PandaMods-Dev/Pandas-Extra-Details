@@ -1,8 +1,4 @@
-## Changelog Version 0.2
+## Changelog Version 0.3
 * **Fixes:**
-  * Fixed Modded Doors and TrapDoors not rendering.
-
-
-* **Added:**
-  * Fence gate Animation.
-  * Lever Animation
+  * Fixed Block's affected by the mod being invisible in all know case's, most importantly on server's.
+  * Fixed Block's affected by the mod not being able to be pushed by piston.

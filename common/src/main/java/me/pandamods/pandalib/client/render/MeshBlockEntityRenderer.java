@@ -6,30 +6,29 @@ import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
-public abstract class MeshBlockRenderer<T extends BlockEntity & MeshAnimatable, M extends MeshModel<T>>
-		extends MeshRenderer<T, M> implements BlockEntityRenderer<T> {
-	public MeshBlockRenderer(M model) {
-		super(model);
+public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimatable, M extends MeshModel<T>>
+		implements MeshRenderer<T, M>, BlockEntityRenderer<T> {
+	private final M model;
+
+	public MeshBlockEntityRenderer(M model) {
+		this.model = model;
 	}
+
 
 	@Override
 	public void render(T blockEntity, float partialTick, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 		translateBlock(blockEntity, stack);
-		this.renderMesh(blockEntity, stack, buffer, partialTick, packedLight, packedOverlay);
+		this.renderMesh(blockEntity, model, stack, buffer, partialTick, packedLight, packedOverlay);
 		stack.popPose();
 	}
 

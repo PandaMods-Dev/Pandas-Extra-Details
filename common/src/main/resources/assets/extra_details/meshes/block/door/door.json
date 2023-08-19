@@ -1,0 +1,521 @@
+{
+  "format_version": "0.1",
+  "scale": 1.0,
+  "mesh": {
+    "door": {
+      "position": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "faces": [
+        {
+          "normal": [
+            -1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 0,
+              "position": [
+                -0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                0.1875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                -0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                -0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                -0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                0.0,
+                -0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "position": [
+                -0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                0.1875,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            -1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 2,
+              "position": [
+                -0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                -0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                -0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                -0.0,
+                0.8125
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                1.0,
+                0.8125
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 6,
+              "position": [
+                0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            1.0,
+            0.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 6,
+              "position": [
+                0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                0.1875,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 7,
+              "position": [
+                0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                0.0,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                0.1875,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "vertices": [
+            {
+              "index": 4,
+              "position": [
+                0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                1.0,
+                0.8125
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                -0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                0.0,
+                0.8125
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                -0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            -5.960464477539063e-08,
+            1.0
+          ],
+          "vertices": [
+            {
+              "index": 2,
+              "position": [
+                -0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                0.0,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 6,
+              "position": [
+                0.5,
+                0.0,
+                0.4999999403953552
+              ],
+              "uv": [
+                1.0,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 4,
+              "position": [
+                0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 0,
+              "position": [
+                -0.5,
+                1.0,
+                0.5
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        },
+        {
+          "normal": [
+            0.0,
+            5.960464477539063e-08,
+            -1.0
+          ],
+          "vertices": [
+            {
+              "index": 7,
+              "position": [
+                0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                1.0,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "position": [
+                -0.5,
+                0.0,
+                0.3125
+              ],
+              "uv": [
+                0.0,
+                0.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "position": [
+                -0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                0.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            },
+            {
+              "index": 5,
+              "position": [
+                0.5,
+                1.0,
+                0.3125000596046448
+              ],
+              "uv": [
+                1.0,
+                1.0
+              ],
+              "weights": [
+                {
+                  "name": "door",
+                  "weight": 1.0
+                }
+              ]
+            }
+          ],
+          "texture_name": "base"
+        }
+      ]
+    }
+  },
+  "bone": {
+    "door": {
+      "position": [
+        -0.40625,
+        0.0,
+        0.40625
+      ]
+    }
+  }
+}
