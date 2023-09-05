@@ -10,7 +10,6 @@ import me.pandamods.extra_details.client.renderer.block.door.TrapDoorRenderer;
 import me.pandamods.extra_details.client.renderer.block.redstone.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.ExtraDetailsConfig;
-import me.pandamods.extra_details.config.PersistentConfig;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
@@ -29,7 +28,6 @@ public class ExtraDetails {
 			PandaLib.init();
 
 			AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
-			PersistentConfig.init(getConfig());
 
 			BlockEntityRegistry.init();
 			if (Platform.getEnv().equals(EnvType.CLIENT)) {

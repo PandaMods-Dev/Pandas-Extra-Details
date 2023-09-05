@@ -30,6 +30,8 @@ dependencies {
     }
     modApi("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
+    modImplementation("maven.modrinth:sodium:mc1.20-0.4.10")
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

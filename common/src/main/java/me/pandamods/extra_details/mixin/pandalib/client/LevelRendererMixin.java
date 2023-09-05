@@ -45,6 +45,7 @@ public abstract class LevelRendererMixin {
 		Vec3 vec3 = camera.getPosition();
 
 		if (this.level != null) {
+			System.out.println(this.renderChunksInFrustum);
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
 				for (ClientBlock block : ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks()) {
 					BlockState state = block.getBlockState();

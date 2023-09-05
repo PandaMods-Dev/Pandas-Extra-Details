@@ -7,22 +7,22 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = ExtraDetails.MOD_ID)
 public class ExtraDetailsConfig implements ConfigData {
-	@ConfigEntry.Category("enabled_features")
-	@ConfigEntry.Gui.Tooltip
-	@ConfigEntry.Gui.RequiresRestart
-	public boolean enable_door_animation = true;
-	@ConfigEntry.Category("enabled_features")
-	@ConfigEntry.Gui.Tooltip
-	@ConfigEntry.Gui.RequiresRestart
-	public boolean enable_trap_door_animation = true;
-	@ConfigEntry.Category("enabled_features")
-	@ConfigEntry.Gui.Tooltip
-	@ConfigEntry.Gui.RequiresRestart
-	public boolean enable_fence_gate_animation = true;
-	@ConfigEntry.Category("enabled_features")
-	@ConfigEntry.Gui.Tooltip
-	@ConfigEntry.Gui.RequiresRestart
-	public boolean enable_lever_animation = true;
+//	@ConfigEntry.Category("enabled_features")
+//	@ConfigEntry.Gui.Tooltip
+//	@ConfigEntry.Gui.RequiresRestart
+//	public boolean enable_door_animation = true;
+//	@ConfigEntry.Category("enabled_features")
+//	@ConfigEntry.Gui.Tooltip
+//	@ConfigEntry.Gui.RequiresRestart
+//	public boolean enable_trap_door_animation = true;
+//	@ConfigEntry.Category("enabled_features")
+//	@ConfigEntry.Gui.Tooltip
+//	@ConfigEntry.Gui.RequiresRestart
+//	public boolean enable_fence_gate_animation = true;
+//	@ConfigEntry.Category("enabled_features")
+//	@ConfigEntry.Gui.Tooltip
+//	@ConfigEntry.Gui.RequiresRestart
+//	public boolean enable_lever_animation = true;
 	@ConfigEntry.Category("enabled_features")
 	public boolean enable_sign_tilt = true;
 

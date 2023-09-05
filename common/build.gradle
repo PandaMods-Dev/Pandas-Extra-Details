@@ -6,6 +6,8 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+
+    modImplementation("maven.modrinth:sodium:mc1.20-0.4.10")
 }
 
 loom {

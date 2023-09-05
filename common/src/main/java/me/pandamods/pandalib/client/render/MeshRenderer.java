@@ -35,7 +35,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	default void renderMesh(T base, M model, PoseStack stack, MultiBufferSource buffer, float partialTick, int packedLight, int packedOverlay) {
 		stack.pushPose();
 
-		Mesh mesh = Resources.meshes.getOrDefault(model.getMeshLocation(base), null);
+		Mesh mesh = Resources.MESHES.getOrDefault(model.getMeshLocation(base), null);
 		if (mesh != null) {
 			if (base.getCache().mesh == null || !base.getCache().mesh.equals(mesh)) {
 				base.getCache().mesh = mesh;

@@ -34,6 +34,8 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
+    modImplementation("curse.maven:rubidium-574856:4573226")
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
