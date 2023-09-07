@@ -52,10 +52,11 @@ allprojects {
             url = 'https://maven.parchmentmc.org'
         }
         maven {
-            url = "https://api.modrinth.com/maven"
+            url "https://cursemaven.com"
         }
         maven {
-            url "https://cursemaven.com"
+            name = "Modrinth"
+            url = "https://api.modrinth.com/maven"
         }
     }
 
