@@ -3,16 +3,13 @@ package me.pandamods.extra_details.client.model.block;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.entity.block.DoorClientBlock;
-import me.pandamods.extra_details.utils.RenderUtils;
+import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
-import net.minecraft.world.level.block.state.properties.Half;
 import org.joml.Math;
 
 import java.util.List;

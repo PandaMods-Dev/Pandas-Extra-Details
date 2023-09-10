@@ -2,7 +2,6 @@ package me.pandamods.pandalib.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.Bone;
@@ -10,7 +9,7 @@ import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
 import me.pandamods.pandalib.resources.Resources;
-import me.pandamods.pandalib.utils.GameUtils;
+import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.*;
 
 import java.awt.*;
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
@@ -44,7 +42,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 
 			if (base.getCache().mesh != null) {
 				if (base.getCache().armature != null) {
-					float deltaSeconds = GameUtils.getDeltaSeconds();
+					float deltaSeconds = RenderUtils.getDeltaSeconds();
 					model.setupAnim(base, base.getCache().armature, deltaSeconds);
 				}
 

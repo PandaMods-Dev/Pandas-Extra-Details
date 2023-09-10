@@ -3,7 +3,7 @@ package me.pandamods.extra_details.client.model.block;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
-import me.pandamods.extra_details.utils.RenderUtils;
+import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;

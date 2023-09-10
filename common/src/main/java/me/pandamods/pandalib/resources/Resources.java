@@ -11,6 +11,7 @@ import me.pandamods.pandalib.utils.gsonadapter.Vector3fTypeAdapter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
@@ -36,7 +37,15 @@ public class Resources {
 
 	public static Map<ResourceLocation, Mesh> MESHES = new HashMap<>();
 
-	public static CompletableFuture<Void> reloadShaders(PreparableReloadListener.PreparationBarrier preparationBarrier, ResourceManager manager,
+	public static void registerReloadListener() {
+		Minecraft mc = Minecraft.getInstance();
+		if (!(mc.getResourceManager() instanceof ReloadableResourceManager resourceManager))
+			throw new RuntimeException("PandaLib was initialized too early!");
+
+		resourceManager.registerReloadListener(Resources::reload);
+	}
+
+	public static CompletableFuture<Void> reload(PreparableReloadListener.PreparationBarrier preparationBarrier, ResourceManager manager,
 														ProfilerFiller profilerFiller, ProfilerFiller profilerFiller1, Executor executor, Executor executor1) {
 		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
 

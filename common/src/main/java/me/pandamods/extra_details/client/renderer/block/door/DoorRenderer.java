@@ -1,17 +1,13 @@
 package me.pandamods.extra_details.client.renderer.block.door;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.client.model.block.DoorModel;
 import me.pandamods.extra_details.entity.block.DoorClientBlock;
-import me.pandamods.extra_details.utils.animation.CurveRamp;
-import me.pandamods.extra_details.utils.animation.KeyPoint;
-import me.pandamods.extra_details.utils.animation.KeyType;
+import me.pandamods.pandalib.utils.animation.CurveRamp;
+import me.pandamods.pandalib.utils.animation.KeyPoint;
+import me.pandamods.pandalib.utils.animation.KeyType;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector2f;

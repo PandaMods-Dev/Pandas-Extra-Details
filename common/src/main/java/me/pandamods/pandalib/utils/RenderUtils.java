@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.utils;
+package me.pandamods.pandalib.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.mixin.renderer.BlockRenderDispatcherAccessor;

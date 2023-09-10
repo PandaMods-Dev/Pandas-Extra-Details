@@ -2,10 +2,8 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
-import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
+import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -16,8 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(LevelRenderer.class)
+@Mixin(value = LevelRenderer.class, priority = 0)
 public abstract class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
@@ -37,15 +33,11 @@ public abstract class LevelRendererMixin {
 
 	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
 
-	@Shadow public abstract void needsUpdate();
-
-	@Shadow public abstract void clear();
-
 	@Inject(
 			method = "renderLevel",
 			at = @At(
 					value = "FIELD",
-					target = "Lnet/minecraft/client/renderer/LevelRenderer;renderChunksInFrustum:Lit/unimi/dsi/fastutil/objects/ObjectArrayList;",
+					target = "Lnet/minecraft/client/renderer/LevelRenderer;globalBlockEntities:Ljava/util/Set;",
 					shift = At.Shift.BEFORE
 			), locals = LocalCapture.CAPTURE_FAILHARD
 	)
@@ -56,9 +48,6 @@ public abstract class LevelRendererMixin {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
 				clientBlocks.addAll(((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks());
 			}
-		} else if (this.level != null) {
-			SodiumWorldRenderer worldRenderer = ((WorldRendererExtended) this).getSodiumWorldRenderer();
-			clientBlocks.addAll(((CompileResultsExtension) worldRenderer.getRenderSectionManager()).getBlocks());
 		}
 
 		Vec3 vec3 = camera.getPosition();

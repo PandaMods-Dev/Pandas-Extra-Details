@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.utils.animation;
+package me.pandamods.pandalib.utils.animation;
 
 import org.joml.Vector2f;
 

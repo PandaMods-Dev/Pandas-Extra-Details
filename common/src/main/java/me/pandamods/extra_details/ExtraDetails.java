@@ -25,8 +25,6 @@ public class ExtraDetails {
 
 	public static void init() {
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
-			PandaLib.init();
-
 			AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
 
 			BlockEntityRegistry.init();
