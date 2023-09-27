@@ -27,5 +27,5 @@ This mod aims to add small animations and details to blocks that originally didn
   * [A] Yes but it won't support custom vanilla models for blocks that are changed by the mod.
 
 ---
-### Do you need a cheap Minecraft server and want to support me, click the banner below and use my code to get 15% off you first month at Kinetic Hosting.
+### Do you need a cheap Minecraft server and want to support me, click the banner below and sign up, you can also use my code to get 15% off you first month at Kinetic Hosting.
 [![](https://github.com/PandaDap2006/PandaDap2006/blob/main/assets_for_readme/kinetic_hosting_banner.png?raw=true)](https://billing.kinetichosting.net/aff.php?aff=476)
