@@ -2,12 +2,6 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
-import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
-import me.jellysquid.mods.sodium.client.render.chunk.lists.SortedRenderLists;
-import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.extra_details.mixin.pandalib.sodium.SodiumWorldRendererAccessor;
 import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
@@ -54,14 +48,6 @@ public abstract class LevelRendererMixin {
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
 				clientBlocks.addAll(((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks());
-			}
-		} else if (this.level != null) {
-			SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
-			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor)sodiumWorld).getRenderSectionManager();
-			Iterator<ChunkRenderList> iterator = renderSectionManager.getRenderLists().iterator();
-			while (iterator.hasNext()) {
-				ChunkRenderList renderList = iterator.next();
-
 			}
 		}
 

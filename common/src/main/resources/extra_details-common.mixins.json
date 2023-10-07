@@ -11,8 +11,6 @@
 		"pandalib.client.CompiledChunkMixin",
 		"pandalib.client.CompileResultsMixin",
 		"pandalib.client.LevelRendererMixin",
-		"pandalib.sodium.ChunkBuilderMeshingTaskMixin",
-		"pandalib.sodium.SodiumWorldRendererAccessor",
 		"renderer.BlockRenderDispatcherAccessor"
 	],
 	"injectors": {
