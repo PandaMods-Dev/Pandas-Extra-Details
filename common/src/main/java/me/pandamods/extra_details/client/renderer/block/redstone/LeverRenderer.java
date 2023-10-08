@@ -24,4 +24,9 @@ public class LeverRenderer extends MeshClientBlockRenderer<LeverClientBlock, Lev
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.INVISIBLE;
 	}
+
+	@Override
+	public void render(LeverClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
+		super.render(block, poseStack, buffer, lightColor, overlay, partialTick);
+	}
 }

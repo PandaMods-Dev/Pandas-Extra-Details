@@ -1,17 +1,13 @@
-package me.pandamods.extra_details.mixin.pandalib.client;
+package me.pandamods.extra_details.mixin.pandalib.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
 import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
-import me.jellysquid.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;
-import me.jellysquid.mods.sodium.client.util.iterator.ByteArrayIterator;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.extra_details.mixin.pandalib.sodium.SodiumWorldRendererAccessor;
 import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
@@ -37,12 +33,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(LevelRenderer.class)
-public abstract class LevelRendererMixin {
+public class SodiumLevelRendererMixin {
+	@Shadow private @Nullable ClientLevel level;
+
 	@Shadow @Final private RenderBuffers renderBuffers;
-
-	@Shadow @Nullable private ClientLevel level;
-
-	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
 
 	@Inject(
 			method = "renderLevel",
@@ -55,9 +49,25 @@ public abstract class LevelRendererMixin {
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
 		List<ClientBlock> clientBlocks = new ArrayList<>();
-		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
-			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				clientBlocks.addAll(((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks());
+		if (this.level != null) {
+			SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
+			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) sodiumWorld).getRenderSectionManager();
+			Iterator<ChunkRenderList> iterator = renderSectionManager.getRenderLists().iterator();
+			while (iterator.hasNext()) {
+				ChunkRenderList renderList = iterator.next();
+
+				RenderRegion renderRegion = renderList.getRegion();
+				ByteIterator renderSectionIterator = renderList.sectionsWithEntitiesIterator();
+
+				if (renderSectionIterator == null) {
+					continue;
+				}
+
+				while (renderSectionIterator.hasNext()) {
+					int renderSectionId = renderSectionIterator.nextByteAsInt();
+                	RenderSection renderSection = renderRegion.getSection(renderSectionId);
+					clientBlocks.addAll(((CompileResultsExtension) renderSection).getBlocks());
+				}
 			}
 		}
 
