@@ -1,0 +1,44 @@
+{
+	"text.autoconfig.extra_details.title": "Настройки Panda's Extra Details",
+
+
+	"text.autoconfig.extra_details.category.enabled_features": "Включённые особенности",
+
+	"text.autoconfig.extra_details.option.enable_door_animation": "Включить анимацию двери",
+	"text.autoconfig.extra_details.option.enable_door_animation.@Tooltip": "Требуется перезапуск",
+
+	"text.autoconfig.extra_details.option.enable_trap_door_animation": "Включить анимацию люка",
+	"text.autoconfig.extra_details.option.enable_trap_door_animation.@Tooltip": "Требуется перезапуск",
+
+	"text.autoconfig.extra_details.option.enable_fence_gate_animation": "Включить анимацию калитки",
+	"text.autoconfig.extra_details.option.enable_fence_gate_animation.@Tooltip": "Требуется перезапуск",
+
+	"text.autoconfig.extra_details.option.enable_lever_animation": "Включить анимацию рычага",
+	"text.autoconfig.extra_details.option.enable_lever_animation.@Tooltip": "Требуется перезапуск",
+
+	"text.autoconfig.extra_details.option.enable_sign_tilt": "Включить наклонение таблички",
+
+
+	"text.autoconfig.extra_details.category.animation": "Анимации",
+
+	"text.autoconfig.extra_details.option.door_animation_length": "Длительность анимации двери",
+	"text.autoconfig.extra_details.option.door_animation_length.@Tooltip": "Длительность анимации в секундах",
+
+	"text.autoconfig.extra_details.option.trap_door_animation_length": "Длительность анимации люка",
+	"text.autoconfig.extra_details.option.trap_door_animation_length.@Tooltip": "Длительность анимации в секундах",
+
+	"text.autoconfig.extra_details.option.fence_gate_animation_length": "Длительность анимации калитки",
+	"text.autoconfig.extra_details.option.fence_gate_animation_length.@Tooltip": "Длительность анимации в секундах",
+
+	"text.autoconfig.extra_details.option.lever_animation_length": "Длительность анимации рычага",
+	"text.autoconfig.extra_details.option.lever_animation_length.@Tooltip": "Длительность анимации в секундах",
+
+
+	"text.autoconfig.extra_details.category.detail_properties": "Детали",
+
+	"text.autoconfig.extra_details.option.sign_details": "Наклонение таблички",
+	"text.autoconfig.extra_details.option.sign_details.pitch_tilt": "Наклон по Z",
+	"text.autoconfig.extra_details.option.sign_details.yaw_tilt": "Наклон по Y",
+	"text.autoconfig.extra_details.option.sign_details.roll_tilt": "Наклон по X",
+	"text.autoconfig.extra_details.option.sign_details.random_tilt": "Случайное наклонение"
+}
