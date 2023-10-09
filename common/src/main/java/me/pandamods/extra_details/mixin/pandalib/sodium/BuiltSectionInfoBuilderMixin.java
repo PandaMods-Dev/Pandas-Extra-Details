@@ -6,6 +6,7 @@ import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Pseudo
 @Environment(EnvType.CLIENT)
 @Mixin(value = BuiltSectionInfo.Builder.class, remap = false)
 public class BuiltSectionInfoBuilderMixin implements CompileResultsExtension {

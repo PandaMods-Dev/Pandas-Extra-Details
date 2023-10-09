@@ -33,7 +33,7 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	public void setupAnim(DoorClientBlock entity, Armature armature, float deltaSeconds) {
 		BlockState state = entity.getBlockState();
 
-		float speed = deltaSeconds / ExtraDetails.getConfig().fence_gate_animation_length;
+		float speed = deltaSeconds / ExtraDetails.getConfig().door_animation_length;
 		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(DoorBlock.OPEN) ? speed : -speed));
 
 		float animValue = state.getValue(DoorBlock.OPEN) ?

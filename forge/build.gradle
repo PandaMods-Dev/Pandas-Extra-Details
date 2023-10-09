@@ -32,16 +32,17 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+//    modImplementation("maven.modrinth:rubidium:${rootProject.rubidium_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", rootProject.mod_version
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand "version": rootProject.mod_version
     }
 }
 

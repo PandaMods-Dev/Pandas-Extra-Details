@@ -33,7 +33,7 @@ public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 	public void setupAnim(TrapDoorClientBlock entity, Armature armature, float deltaSeconds) {
 		BlockState state = entity.getBlockState();
 
-		float speed = deltaSeconds / ExtraDetails.getConfig().fence_gate_animation_length;
+		float speed = deltaSeconds / ExtraDetails.getConfig().trap_door_animation_length;
 		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(TrapDoorBlock.OPEN) ? speed : -speed));
 
 		float animValue = state.getValue(TrapDoorBlock.OPEN) ?

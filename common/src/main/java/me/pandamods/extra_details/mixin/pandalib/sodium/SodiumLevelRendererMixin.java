@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.mixin.pandalib.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
@@ -33,10 +34,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(LevelRenderer.class)
-public class SodiumLevelRendererMixin {
-	@Shadow private @Nullable ClientLevel level;
-
+public abstract class SodiumLevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
+
+	@Shadow @Nullable private ClientLevel level;
 
 	@Inject(
 			method = "renderLevel",

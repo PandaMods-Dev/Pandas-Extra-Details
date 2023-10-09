@@ -16,6 +16,8 @@ import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
 
@@ -26,6 +28,10 @@ public class ExtraDetails {
 	public static void init() {
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
 			AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
+			AutoConfig.getConfigHolder(ExtraDetailsConfig.class).registerSaveListener((configHolder, extraDetailsConfig) -> {
+				Minecraft.getInstance().reloadResourcePacks();
+				return InteractionResult.sidedSuccess(true);
+			});
 
 			BlockEntityRegistry.init();
 			if (Platform.getEnv().equals(EnvType.CLIENT)) {

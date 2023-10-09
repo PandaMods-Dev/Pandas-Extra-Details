@@ -1,5 +1,7 @@
 package me.pandamods.extra_details.client.renderer.block.door;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.DoorModel;
 import me.pandamods.extra_details.entity.block.DoorClientBlock;
 import me.pandamods.pandalib.utils.animation.CurveRamp;
@@ -8,6 +10,7 @@ import me.pandamods.pandalib.utils.animation.KeyType;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector2f;
@@ -27,6 +30,13 @@ public class DoorRenderer extends MeshClientBlockRenderer<DoorClientBlock, DoorM
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.INVISIBLE;
+		return ExtraDetails.getConfig().enable_door_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
+	}
+
+	@Override
+	public void render(DoorClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
+		if (ExtraDetails.getConfig().enable_door_animation) {
+			super.render(block, poseStack, buffer, lightColor, overlay, partialTick);
+		}
 	}
 }

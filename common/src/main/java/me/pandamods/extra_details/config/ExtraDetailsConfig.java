@@ -7,37 +7,33 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = ExtraDetails.MOD_ID)
 public class ExtraDetailsConfig implements ConfigData {
-//	@ConfigEntry.Category("enabled_features")
-//	@ConfigEntry.Gui.Tooltip
-//	@ConfigEntry.Gui.RequiresRestart
-//	public boolean enable_door_animation = true;
-//	@ConfigEntry.Category("enabled_features")
-//	@ConfigEntry.Gui.Tooltip
-//	@ConfigEntry.Gui.RequiresRestart
-//	public boolean enable_trap_door_animation = true;
-//	@ConfigEntry.Category("enabled_features")
-//	@ConfigEntry.Gui.Tooltip
-//	@ConfigEntry.Gui.RequiresRestart
-//	public boolean enable_fence_gate_animation = true;
-//	@ConfigEntry.Category("enabled_features")
-//	@ConfigEntry.Gui.Tooltip
-//	@ConfigEntry.Gui.RequiresRestart
-//	public boolean enable_lever_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	public boolean enable_door_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	public boolean enable_trap_door_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	public boolean enable_fence_gate_animation = true;
+	@ConfigEntry.Category("enabled_features")
+	@ConfigEntry.Gui.Tooltip
+	public boolean enable_lever_animation = true;
 	@ConfigEntry.Category("enabled_features")
 	public boolean enable_sign_tilt = true;
 
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float door_animation_length = 0.4f;
+	public float door_animation_length = 0.7f;
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float trap_door_animation_length = 0.4f;
+	public float trap_door_animation_length = 0.7f;
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float fence_gate_animation_length = 0.4f;
+	public float fence_gate_animation_length = 0.7f;
 	@ConfigEntry.Category("animation")
 	@ConfigEntry.Gui.Tooltip
-	public float lever_animation_length = 0.4f;
+	public float lever_animation_length = 0.7f;
 
 	@ConfigEntry.Category("detail_properties")
 	@ConfigEntry.Gui.CollapsibleObject
