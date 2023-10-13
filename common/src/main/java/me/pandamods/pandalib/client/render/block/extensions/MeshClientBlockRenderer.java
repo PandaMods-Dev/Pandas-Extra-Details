@@ -28,11 +28,11 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimat
 	public void render(T block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
 		poseStack.pushPose();
 		translateBlock(block, poseStack);
-		this.renderMesh(block, this.model, poseStack, buffer, partialTick, lightColor, overlay);
+		this.renderMesh(block, this.model, poseStack, buffer, lightColor, overlay);
 		poseStack.popPose();
 	}
 
-	protected void translateBlock(T block, PoseStack stack) {
+	public void translateBlock(T block, PoseStack stack) {
 		BlockState blockState = block.getBlockState();
 
 		stack.translate(0.5f, 0.5f, 0.5f);

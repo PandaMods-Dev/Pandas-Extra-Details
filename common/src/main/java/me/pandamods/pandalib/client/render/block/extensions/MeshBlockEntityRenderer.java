@@ -1,8 +1,9 @@
-package me.pandamods.pandalib.client.render;
+package me.pandamods.pandalib.client.render.block.extensions;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import me.pandamods.pandalib.client.model.MeshModel;
+import me.pandamods.pandalib.client.render.MeshRenderer;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,6 +14,8 @@ import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 @Environment(EnvType.CLIENT)
 public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimatable, M extends MeshModel<T>>
@@ -28,15 +31,25 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimat
 	public void render(T blockEntity, float partialTick, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 		translateBlock(blockEntity, stack);
-		this.renderMesh(blockEntity, model, stack, buffer, partialTick, packedLight, packedOverlay);
+		this.renderMesh(blockEntity, model, stack, buffer, packedLight, packedOverlay);
 		stack.popPose();
 	}
 
-	protected void translateBlock(T blockEntity, PoseStack stack) {
+	public void translateBlock(T block, PoseStack stack) {
+		BlockState blockState = block.getBlockState();
+
 		stack.translate(0.5f, 0.5f, 0.5f);
 
-		Direction direction = getFacing(blockEntity);
+		Direction direction = getFacing(block);
 		stack.mulPose(Axis.YP.rotationDegrees(-direction.toYRot()));
+
+		if (blockState.hasProperty(BlockStateProperties.ATTACH_FACE)) {
+			AttachFace face = blockState.getValue(BlockStateProperties.ATTACH_FACE);
+			switch (face) {
+				case CEILING -> stack.mulPose(Axis.XP.rotationDegrees(180));
+				case WALL -> stack.mulPose(Axis.XP.rotationDegrees(90));
+			}
+		}
 
 		stack.translate(0, -0.5f, 0);
 	}

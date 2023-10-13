@@ -5,9 +5,12 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.TrapDoorModel;
 import me.pandamods.extra_details.entity.block.TrapDoorClientBlock;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
+import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 

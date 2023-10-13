@@ -30,7 +30,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		return RenderType.entityCutout(location);
 	}
 
-	default void renderMesh(T base, M model, PoseStack stack, MultiBufferSource buffer, float partialTick, int packedLight, int packedOverlay) {
+	default void renderMesh(T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 
 		Mesh mesh = Resources.MESHES.getOrDefault(model.getMeshLocation(base), null);
@@ -59,7 +59,6 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	}
 
 	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-		stack.pushPose();
 		for (Mesh.Object.Face face : object.faces()) {
 			VertexConsumer consumer = buffer.getBuffer(this.getRenderType(model.getTextureLocation(face.texture_name(), base)));
 
@@ -70,7 +69,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 				float maxWeight = (float) Arrays.stream(vertex.weights()).mapToDouble(Mesh.Object.Face.Vertex.Weight::weight).sum();
 				Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
 				Vector3f newVertexPos = new Vector3f();
-				Vector3f vertexNormal = new Vector3f(face.normal());
+				Vector3f newVertexNormal = new Vector3f();
 
 				if (vertex.weights().length > 0) {
 					for (Mesh.Object.Face.Vertex.Weight weight : vertex.weights()) {
@@ -86,18 +85,23 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 							boneTransform.transform(transformedPosition);
 
 							newVertexPos.add(new Vector3f(transformedPosition.x, transformedPosition.y, transformedPosition.z).mul(weightPercent));
+							
+							Matrix3f rotationMatrix = new Matrix3f(boneTransform);
+							Vector3f transformedNormal = new Vector3f(face.normal());
+							rotationMatrix.transform(transformedNormal);
+							newVertexNormal.add(transformedNormal.mul(weightPercent));
 						}
 					}
 				} else {
 					newVertexPos.set(vertexPos);
+					newVertexNormal.set(face.normal());
 				}
 
 				this.vertex(pose, normal, consumer, Color.WHITE,
-						newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), vertexNormal,
+						newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
 						packedLight, packedOverlay);
 			}
 		}
-		stack.popPose();
 	}
 
 	default void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,

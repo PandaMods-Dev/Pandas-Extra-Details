@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.FenceGateModel;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
-import me.pandamods.pandalib.client.render.MeshBlockEntityRenderer;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.level.block.FenceGateBlock;
