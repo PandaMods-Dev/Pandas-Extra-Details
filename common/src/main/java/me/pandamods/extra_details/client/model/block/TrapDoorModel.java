@@ -43,8 +43,8 @@ public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 		armature.getBone("door").ifPresent(bone -> {
 			boolean isTop = state.getValue(TrapDoorBlock.HALF).equals(Half.TOP);
 			if (isTop)
-				bone.localTransform.setTranslation(0, (float) 13 / 16, 0);
-			bone.localTransform.setRotationXYZ(Math.toRadians(
+				bone.setTranslation(0, (float) 13 / 16, 0);
+			bone.setRotation(Math.toRadians(
 					Math.lerp(0, isTop ? 90 : -90, animValue)), 0, 0);
 		});
 	}

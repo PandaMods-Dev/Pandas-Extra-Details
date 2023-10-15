@@ -42,8 +42,8 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 
 		armature.getBone("door").ifPresent(bone -> {
 			boolean isRightHinge = state.getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);
-			bone.localTransform.setTranslation(isRightHinge ? (float) 0 : (float) 13 /16, 0, (float) -13 /16);
-			bone.localTransform.setRotationXYZ(0,
+			bone.getLocalTransform().setTranslation(isRightHinge ? (float) 0 : (float) 13 /16, 0, (float) -13 /16);
+			bone.getLocalTransform().setRotationXYZ(0,
 					Math.toRadians(Math.lerp(0, isRightHinge ? -90 : 90, animValue) + (isRightHinge ? 0 : 180)), 0);
 		});
 	}

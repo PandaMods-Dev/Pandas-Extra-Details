@@ -1,13 +1,9 @@
 package me.pandamods.pandalib.client.model;
 
 import me.pandamods.pandalib.resources.Mesh;
-import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import org.joml.AxisAngle4d;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import java.util.Optional;
 
@@ -15,17 +11,20 @@ import java.util.Optional;
 public class Bone {
 	private final String name;
 	private final Matrix4f offsetTransform;
-    public Matrix4f localTransform = new Matrix4f();
+	private Matrix4f localTransform = new Matrix4f();
 	public Optional<Bone> parent;
+	private final Armature armature;
 
-	public Bone(String name, Matrix4f offsetMatrix, Optional<Bone> parent) {
+	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Optional<Bone> parent) {
 		this.name = name;
 		this.offsetTransform = offsetMatrix;
 		this.parent = parent;
+		this.armature = armature;
 	}
 
 	public Bone(Armature armature, String name, Mesh.Bone bone) {
 		this(
+				armature,
 				name,
 				new Matrix4f()
 						.identity()
@@ -42,7 +41,23 @@ public class Bone {
         return new Matrix4f(localTransform);
     }
 
-    public Matrix4f getWorldTransform() {
+
+	public void setLocalTransform(Matrix4f localTransform) {
+//		this.armature.updateBone(this);
+		if (!this.localTransform.equals(localTransform))
+			this.armature.updateBone(this);
+		this.localTransform = localTransform;
+	}
+
+	public void setTranslation(float x, float y, float z) {
+		setLocalTransform(this.getLocalTransform().setTranslation(x, y, z));
+	}
+
+	public void setRotation(float x, float y, float z) {
+		setLocalTransform(this.getLocalTransform().setRotationXYZ(x, y, z));
+	}
+
+	public Matrix4f getWorldTransform() {
 		Matrix4f offsetTransform = this.getOffsetTransform();
 		Matrix4f offsetInverse = new Matrix4f(offsetTransform).invert();
 
@@ -59,6 +74,10 @@ public class Bone {
             return new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
         }
     }
+
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public String toString() {

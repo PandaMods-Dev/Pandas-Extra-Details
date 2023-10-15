@@ -38,7 +38,7 @@ public abstract class SodiumLevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
 	@Shadow @Nullable private ClientLevel level;
-
+	
 	@Inject(
 			method = "renderLevel",
 			at = @At(
