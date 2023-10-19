@@ -33,7 +33,6 @@ public class ExtraDetails {
 				return InteractionResult.sidedSuccess(true);
 			});
 
-			BlockEntityRegistry.init();
 			if (Platform.getEnv().equals(EnvType.CLIENT)) {
 				ClientLifecycleEvent.CLIENT_SETUP.register(instance -> client());
 			}
@@ -43,6 +42,7 @@ public class ExtraDetails {
 	private static void client() {
 		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
+		BlockEntityRegistry.init();
 		BlockRendererRegistry.register(BlockEntityRegistry.DOOR, new DoorRenderer());
 		BlockRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR, new TrapDoorRenderer());
 		BlockRendererRegistry.register(BlockEntityRegistry.FENCE_GATE, new FenceGateRenderer());

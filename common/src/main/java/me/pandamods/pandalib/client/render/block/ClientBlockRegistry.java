@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import org.apache.commons.compress.archivers.dump.DumpArchiveEntry;
 
 import java.util.*;
 
@@ -13,6 +14,7 @@ public class ClientBlockRegistry {
     public static final Map<ResourceLocation, ClientBlockType<?>> BLOCK_TYPES = new HashMap<>();
 
     public static <T extends ClientBlock> ClientBlockType<T> register(ResourceLocation resourceLocation, ClientBlockType<T> blockRenderType) {
+		blockRenderType.name = resourceLocation;
         BLOCK_TYPES.put(resourceLocation, blockRenderType);
 		return blockRenderType;
     }

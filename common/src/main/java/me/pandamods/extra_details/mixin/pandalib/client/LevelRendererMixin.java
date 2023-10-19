@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.mixin.pandalib.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
@@ -14,6 +15,8 @@ import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.extra_details.mixin.pandalib.sodium.SodiumWorldRendererAccessor;
 import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
+import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
+import me.pandamods.pandalib.client.render.block.ClientBlockType;
 import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Camera;
@@ -34,9 +37,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
@@ -48,38 +49,36 @@ public abstract class LevelRendererMixin {
 
 	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
 
+	@Shadow public abstract void clear();
+
 	@Inject(
 			method = "renderLevel",
 			at = @At(
 					value = "INVOKE",
 					target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;",
 					shift = At.Shift.BY, by = -2
-			), locals = LocalCapture.CAPTURE_FAILEXCEPTION
+			), locals = LocalCapture.CAPTURE_FAILHARD
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
 		ProfilerFiller profilerfiller = this.level.getProfiler();
 		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
+		Vec3 cameraPosition = camera.getPosition();
 
 		profilerfiller.popPush("clientblocks");
-		List<ClientBlock> clientBlocks = new ArrayList<>();
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				clientBlocks.addAll(((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks());
+				List<ClientBlock> clientBlocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks();
+				if (clientBlocks.isEmpty()) continue;
+				for (ClientBlock clientBlock : clientBlocks) {
+					BlockPos pos = clientBlock.getBlockPos();
+
+					poseStack.pushPose();
+					poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
+					BlockRendererDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
+					poseStack.popPose();
+				}
 			}
-		}
-
-		Vec3 vec3 = camera.getPosition();
-		for (ClientBlock clientBlock : clientBlocks) {
-			BlockState state = clientBlock.getBlockState();
-			BlockPos pos = clientBlock.getBlockPos();
-
-			MultiBufferSource buffer = this.renderBuffers.bufferSource();
-			poseStack.pushPose();
-			poseStack.translate(pos.getX() - vec3.x, pos.getY() - vec3.y, pos.getZ() - vec3.z);
-			BlockRendererDispatcher.render(this.level, poseStack, buffer, clientBlock,
-					LevelRenderer.getLightColor(this.level, state, pos), OverlayTexture.NO_OVERLAY, partialTick);
-			poseStack.popPose();
 		}
 
 		this.checkPoseStack(poseStack);

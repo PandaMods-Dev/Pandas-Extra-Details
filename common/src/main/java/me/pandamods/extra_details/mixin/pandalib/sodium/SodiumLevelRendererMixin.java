@@ -46,18 +46,18 @@ public abstract class SodiumLevelRendererMixin {
 	@Inject(
 			method = "renderLevel",
 			at = @At(
-					value = "FIELD",
-					target = "Lnet/minecraft/client/renderer/LevelRenderer;globalBlockEntities:Ljava/util/Set;",
-					shift = At.Shift.BEFORE
+					value = "INVOKE",
+					target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;",
+					shift = At.Shift.BY, by = -2
 			), locals = LocalCapture.CAPTURE_FAILHARD
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
 		ProfilerFiller profilerfiller = this.level.getProfiler();
 		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
+		Vec3 cameraPosition = camera.getPosition();
 
 		profilerfiller.popPush("clientblocks");
-		List<ClientBlock> clientBlocks = new ArrayList<>();
 		if (this.level != null) {
 			SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) sodiumWorld).getRenderSectionManager();
@@ -75,22 +75,19 @@ public abstract class SodiumLevelRendererMixin {
 				while (renderSectionIterator.hasNext()) {
 					int renderSectionId = renderSectionIterator.nextByteAsInt();
                 	RenderSection renderSection = renderRegion.getSection(renderSectionId);
-					clientBlocks.addAll(((CompileResultsExtension) renderSection).getBlocks());
+
+					List<ClientBlock> clientBlocks = ((CompileResultsExtension) renderSection).getBlocks();
+					if (clientBlocks.isEmpty()) continue;
+					for (ClientBlock clientBlock : clientBlocks) {
+						BlockPos pos = clientBlock.getBlockPos();
+
+						poseStack.pushPose();
+						poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
+						BlockRendererDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
+						poseStack.popPose();
+					}
 				}
 			}
-		}
-
-		Vec3 vec3 = camera.getPosition();
-		for (ClientBlock clientBlock : clientBlocks) {
-			BlockState state = clientBlock.getBlockState();
-			BlockPos pos = clientBlock.getBlockPos();
-
-			MultiBufferSource buffer = this.renderBuffers.bufferSource();
-			poseStack.pushPose();
-			poseStack.translate(pos.getX() - vec3.x, pos.getY() - vec3.y, pos.getZ() - vec3.z);
-			BlockRendererDispatcher.render(this.level, poseStack, buffer, clientBlock,
-					LevelRenderer.getLightColor(this.level, state, pos), OverlayTexture.NO_OVERLAY, partialTick);
-			poseStack.popPose();
 		}
 
 		this.checkPoseStack(poseStack);

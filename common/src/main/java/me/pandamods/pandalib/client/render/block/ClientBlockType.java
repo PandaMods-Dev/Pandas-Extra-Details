@@ -1,5 +1,6 @@
 package me.pandamods.pandalib.client.render.block;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -11,6 +12,7 @@ public class ClientBlockType<T extends ClientBlock> {
 	public final ClientBlockProvider provider;
 	public final List<Block> blocks;
 	public final List<TagKey<Block>> blockTags;
+	public ResourceLocation name;
 
 	public ClientBlockType(ClientBlockProvider provider, List<Block> blocks, List<TagKey<Block>> blockTags) {
 		this.provider = provider;
