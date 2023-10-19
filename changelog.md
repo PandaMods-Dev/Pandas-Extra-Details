@@ -11,6 +11,7 @@
   * **Fixed:**
     * Lighting not getting applied correctly.
     * Performance a tiny bit.
+    * Animation speed being uneven when fps is unstable.
 
 **Note:**
 If any mod developer know any way i can increase the performance a bit more,

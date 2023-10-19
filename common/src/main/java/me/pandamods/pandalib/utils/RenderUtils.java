@@ -32,7 +32,7 @@ public class RenderUtils {
 	}
 
 	public static float getDeltaSeconds() {
-		return 1 / ((float) Minecraft.getInstance().getFps());
+		return Minecraft.getInstance().getDeltaFrameTime() / 20;
 	}
 
 	public static List<ResourceLocation> getBlockTextures(BlockState blockState) {

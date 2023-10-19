@@ -40,8 +40,8 @@ public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
 
 		armature.getBone("right.door").ifPresent(bone ->
-				bone.getLocalTransform().setRotationXYZ(0, Math.toRadians(Math.lerp(0, 90, animValue)), 0));
+				bone.setRotation(0, Math.toRadians(Math.lerp(0, 90, animValue)), 0));
 		armature.getBone("left.door").ifPresent(bone ->
-				bone.getLocalTransform().setRotationXYZ(0, Math.toRadians(Math.lerp(0, -90, animValue)), 0));
+				bone.setRotation(0, Math.toRadians(Math.lerp(0, -90, animValue)), 0));
 	}
 }

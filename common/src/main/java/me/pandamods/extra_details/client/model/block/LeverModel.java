@@ -47,6 +47,6 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
 
 		armature.getBone("handle").ifPresent(bone ->
-				bone.getLocalTransform().setRotationXYZ(Math.toRadians(Math.lerp(-45, 45, animValue)), 0, 0));
+				bone.setRotation(Math.toRadians(Math.lerp(-45, 45, animValue)), 0, 0));
 	}
 }
