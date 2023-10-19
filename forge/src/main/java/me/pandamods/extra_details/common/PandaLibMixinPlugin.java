@@ -12,7 +12,7 @@ import java.util.Set;
 public class PandaLibMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		return PandaLibMixinPluginCommon.getConditions(LoadingModList.get().getModFileById("sodium") != null)
+		return PandaLibMixinPluginCommon.getConditions(s -> LoadingModList.get().getModFileById(s) != null)
 				.getOrDefault(mixinClassName, () -> true).get();
 	}
 

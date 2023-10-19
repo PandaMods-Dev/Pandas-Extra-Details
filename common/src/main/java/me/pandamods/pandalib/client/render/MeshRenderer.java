@@ -11,15 +11,11 @@ import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
 import me.pandamods.pandalib.resources.Resources;
 import me.pandamods.pandalib.utils.RenderUtils;
-import me.pandamods.pandalib.utils.time_testing.TimeTesting;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 import org.joml.*;
 
 import java.awt.*;
