@@ -19,8 +19,11 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -43,16 +46,22 @@ public abstract class LevelRendererMixin {
 
 	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
 
+	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
+
 	@Inject(
 			method = "renderLevel",
 			at = @At(
-					value = "FIELD",
-					target = "Lnet/minecraft/client/renderer/LevelRenderer;globalBlockEntities:Ljava/util/Set;",
-					shift = At.Shift.BEFORE
-			), locals = LocalCapture.CAPTURE_FAILHARD
+					value = "INVOKE",
+					target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;",
+					shift = At.Shift.BY, by = -2
+			), locals = LocalCapture.CAPTURE_FAILEXCEPTION
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
+		ProfilerFiller profilerfiller = this.level.getProfiler();
+		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
+
+		profilerfiller.popPush("clientblocks");
 		List<ClientBlock> clientBlocks = new ArrayList<>();
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
@@ -72,5 +81,13 @@ public abstract class LevelRendererMixin {
 					LevelRenderer.getLightColor(this.level, state, pos), OverlayTexture.NO_OVERLAY, partialTick);
 			poseStack.popPose();
 		}
+
+		this.checkPoseStack(poseStack);
+		buffersource.endBatch(RenderType.solid());
+		buffersource.endBatch(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entitySmoothCutout(TextureAtlas.LOCATION_BLOCKS));
+		this.renderBuffers.outlineBufferSource().endOutlineBatch();
 	}
 }

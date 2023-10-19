@@ -16,7 +16,9 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +40,9 @@ public abstract class SodiumLevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
 	@Shadow @Nullable private ClientLevel level;
-	
+
+	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
+
 	@Inject(
 			method = "renderLevel",
 			at = @At(
@@ -49,6 +53,10 @@ public abstract class SodiumLevelRendererMixin {
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
+		ProfilerFiller profilerfiller = this.level.getProfiler();
+		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
+
+		profilerfiller.popPush("clientblocks");
 		List<ClientBlock> clientBlocks = new ArrayList<>();
 		if (this.level != null) {
 			SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
@@ -84,5 +92,13 @@ public abstract class SodiumLevelRendererMixin {
 					LevelRenderer.getLightColor(this.level, state, pos), OverlayTexture.NO_OVERLAY, partialTick);
 			poseStack.popPose();
 		}
+
+		this.checkPoseStack(poseStack);
+		buffersource.endBatch(RenderType.solid());
+		buffersource.endBatch(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS));
+		buffersource.endBatch(RenderType.entitySmoothCutout(TextureAtlas.LOCATION_BLOCKS));
+		this.renderBuffers.outlineBufferSource().endOutlineBatch();
 	}
 }
