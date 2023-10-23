@@ -1,8 +1,11 @@
 package me.pandamods.extra_details.client.model.block;
 
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.client.animation_controller.block.LeverAnimationController;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.entity.block.LeverClientBlock;
+import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
+import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
@@ -15,15 +18,15 @@ import java.util.List;
 
 public class LeverModel implements MeshModel<LeverClientBlock> {
 	@Override
-	public ResourceLocation getMeshLocation(LeverClientBlock entity) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/redstone/lever.json");
+	public ResourceLocation getMeshLocation(LeverClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, LeverClientBlock entity) {
+	public ResourceLocation getTextureLocation(String textureName, LeverClientBlock base) {
 		return switch (textureName) {
-			case "lever" -> getTextureResource(entity, true);
-			default -> getTextureResource(entity, false);
+			case "lever" -> getTextureResource(base, true);
+			default -> getTextureResource(base, false);
 		};
 	}
 
@@ -36,17 +39,22 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 	}
 
 	@Override
-	public void setupAnim(LeverClientBlock entity, Armature armature, float deltaSeconds) {
-		BlockState state = entity.getBlockState();
+	public AnimationControllerProvider<LeverClientBlock> createAnimationController() {
+		return LeverAnimationController::new;
+	}
 
-		float speed = deltaSeconds / ExtraDetails.getConfig().lever_animation_length;
-		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(LeverBlock.POWERED) ? speed : -speed));
-
-		float animValue = state.getValue(LeverBlock.POWERED) ?
-				DoorRenderer.doorAnimation.getValue(entity.animTime) :
-				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
-
-		armature.getBone("handle").ifPresent(bone ->
-				bone.setRotation(Math.toRadians(Math.lerp(-45, 45, animValue)), 0, 0));
+	@Override
+	public void setupAnim(LeverClientBlock base, Armature armature, float deltaSeconds) {
+//		BlockState state = base.getBlockState();
+//
+//		float speed = deltaSeconds / ExtraDetails.getConfig().lever_animation_length;
+//		base.animTime = Math.clamp(0, 1, base.animTime + (state.getValue(LeverBlock.POWERED) ? speed : -speed));
+//
+//		float animValue = state.getValue(LeverBlock.POWERED) ?
+//				DoorRenderer.doorAnimation.getValue(base.animTime) :
+//				1 - DoorRenderer.doorAnimation.getValue(1 - base.animTime);
+//
+//		armature.getBone("handle").ifPresent(bone ->
+//				bone.setRotation(Math.toRadians(Math.lerp(-45, 45, animValue)), 0, 0));
 	}
 }

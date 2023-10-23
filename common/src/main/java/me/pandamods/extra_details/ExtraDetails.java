@@ -13,6 +13,7 @@ import me.pandamods.extra_details.config.ExtraDetailsConfig;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
 import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
+import me.pandamods.pandalib.resources.Resources;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;

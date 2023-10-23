@@ -1,6 +1,9 @@
 package me.pandamods.extra_details.entity.block;
 
+import me.pandamods.extra_details.client.animation_controller.block.LeverAnimationController;
 import me.pandamods.pandalib.cache.MeshCache;
+import me.pandamods.pandalib.client.animation_controller.AnimationController;
+import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.minecraft.client.multiplayer.ClientLevel;

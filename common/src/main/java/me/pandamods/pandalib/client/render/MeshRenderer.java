@@ -3,6 +3,7 @@ package me.pandamods.pandalib.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.cache.MeshCache;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.Bone;
@@ -37,7 +38,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 			if (base.getCache().mesh != null) {
 				base.getCache().armature = new Armature(base.getCache().mesh);
 			} else {
-				ExtraDetails.LOGGER.error("Cant find objects " + model.getMeshLocation(base));
+				PandaLib.LOGGER.error("Cant find mesh at " + model.getMeshLocation(base).toString());
 			}
 		}
 		Mesh mesh = base.getCache().mesh;
@@ -46,18 +47,23 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		if (mesh != null) {
 			if (armature != null) {
 				float deltaSeconds = RenderUtils.getDeltaSeconds();
+
+				if (base.getCache().animationController == null && model.createAnimationController() != null) {
+					base.getCache().animationController = model.createAnimationController().create(base);
+				}
+
+				if (base.getCache().animationController != null) {
+					base.getCache().animationController.updateAnimations(deltaSeconds);
+				}
+
 				model.setupAnim(base, armature, deltaSeconds);
 
-				if (Objects.equals(mesh.format_version(), "0.2")) {
-					Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
-					base.getCache().vertices.clear();
-					for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
-						renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices);
-					}
-					armature.clearUpdatedBones();
-				} else {
-					ExtraDetails.LOGGER.error("Format version " + mesh.format_version() + " is not supported");
+				Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
+				base.getCache().vertices.clear();
+				for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
+					renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices);
 				}
+				armature.clearUpdatedBones();
 			}
 		}
 		stack.popPose();

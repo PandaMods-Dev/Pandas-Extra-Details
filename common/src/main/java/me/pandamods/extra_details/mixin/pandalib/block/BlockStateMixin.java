@@ -3,6 +3,8 @@ package me.pandamods.extra_details.mixin.pandalib.block;
 import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.ClientBlockRenderer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -13,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Environment(EnvType.CLIENT)
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class BlockStateMixin {
 	@Shadow public abstract Block getBlock();

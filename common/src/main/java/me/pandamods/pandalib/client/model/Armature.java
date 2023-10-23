@@ -13,6 +13,7 @@ public class Armature {
 
 	public Armature(Mesh mesh) {
 		mesh.bone().forEach((s, bone) -> bones.put(s, new Bone(this, s, bone)));
+		updatedBones.addAll(bones.keySet());
 	}
 
 	public Optional<Bone> getBone(String name) {
@@ -39,5 +40,9 @@ public class Armature {
 
 	public void clearUpdatedBones() {
 		updatedBones.clear();
+	}
+
+	public Map<String, Bone> getBones() {
+		return new HashMap<>(bones);
 	}
 }

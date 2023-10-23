@@ -16,13 +16,13 @@ import java.util.List;
 
 public class DoorModel implements MeshModel<DoorClientBlock> {
 	@Override
-	public ResourceLocation getMeshLocation(DoorClientBlock entity) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/door/door.json");
+	public ResourceLocation getMeshLocation(DoorClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/door.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, DoorClientBlock entity) {
-		List<ResourceLocation> textures = RenderUtils.getBlockTextures(entity.getBlockState());
+	public ResourceLocation getTextureLocation(String textureName, DoorClientBlock base) {
+		List<ResourceLocation> textures = RenderUtils.getBlockTextures(base.getBlockState());
 		ResourceLocation resourceLocation = textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
 			return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
@@ -30,15 +30,15 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	}
 
 	@Override
-	public void setupAnim(DoorClientBlock entity, Armature armature, float deltaSeconds) {
-		BlockState state = entity.getBlockState();
+	public void setupAnim(DoorClientBlock base, Armature armature, float deltaSeconds) {
+		BlockState state = base.getBlockState();
 
 		float speed = deltaSeconds / ExtraDetails.getConfig().door_animation_length;
-		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(DoorBlock.OPEN) ? speed : -speed));
+		base.animTime = Math.clamp(0, 1, base.animTime + (state.getValue(DoorBlock.OPEN) ? speed : -speed));
 
 		float animValue = state.getValue(DoorBlock.OPEN) ?
-				DoorRenderer.doorAnimation.getValue(entity.animTime) :
-				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
+				DoorRenderer.doorAnimation.getValue(base.animTime) :
+				1 - DoorRenderer.doorAnimation.getValue(1 - base.animTime);
 
 		armature.getBone("door").ifPresent(bone -> {
 			boolean isRightHinge = state.getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);

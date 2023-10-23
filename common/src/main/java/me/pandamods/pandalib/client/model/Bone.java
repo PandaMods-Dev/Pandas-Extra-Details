@@ -12,10 +12,10 @@ public class Bone {
 	private final String name;
 	private final Matrix4f offsetTransform;
 	private Matrix4f localTransform = new Matrix4f();
-	public Optional<Bone> parent;
+	private Bone parent;
 	private final Armature armature;
 
-	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Optional<Bone> parent) {
+	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Bone parent) {
 		this.name = name;
 		this.offsetTransform = offsetMatrix;
 		this.parent = parent;
@@ -29,8 +29,12 @@ public class Bone {
 				new Matrix4f()
 						.identity()
 						.translate(bone.position()),
-				armature.getBone(bone.parent())
+				armature.getBone(bone.parent()).orElse(null)
 		);
+	}
+
+	public Optional<Bone> getParent() {
+		return Optional.ofNullable(parent);
 	}
 
 	public Matrix4f getOffsetTransform() {
@@ -43,7 +47,6 @@ public class Bone {
 
 
 	public void setLocalTransform(Matrix4f localTransform) {
-//		this.armature.updateBone(this);
 		if (!this.localTransform.equals(localTransform))
 			this.armature.updateBone(this);
 		this.localTransform = localTransform;
@@ -61,8 +64,8 @@ public class Bone {
 		Matrix4f offsetTransform = this.getOffsetTransform();
 		Matrix4f offsetInverse = new Matrix4f(offsetTransform).invert();
 
-        if (parent.isPresent()) {
-            Matrix4f parentWorldTransform = parent.get().getWorldTransform();
+        if (getParent().isPresent()) {
+            Matrix4f parentWorldTransform = getParent().get().getWorldTransform();
 
             Matrix4f worldTransform = new Matrix4f(parentWorldTransform);
 			Matrix4f finalTransform = new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
@@ -83,7 +86,7 @@ public class Bone {
 	public String toString() {
 		return "NewBone{" +
 				"name=" + name +
-				", parent=" + parent +
+				", parent=" + parent.name +
 				", offsetMatrix=" + offsetTransform +
 				", localTransform=" + getLocalTransform() +
 				", worldTransform=" + getWorldTransform() +

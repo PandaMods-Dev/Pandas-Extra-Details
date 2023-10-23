@@ -16,13 +16,13 @@ import java.util.List;
 
 public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 	@Override
-	public ResourceLocation getMeshLocation(TrapDoorClientBlock entity) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/door/trap_door.json");
+	public ResourceLocation getMeshLocation(TrapDoorClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/trap_door.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, TrapDoorClientBlock entity) {
-		List<ResourceLocation> textures = RenderUtils.getBlockTextures(entity.getBlockState());
+	public ResourceLocation getTextureLocation(String textureName, TrapDoorClientBlock base) {
+		List<ResourceLocation> textures = RenderUtils.getBlockTextures(base.getBlockState());
 		ResourceLocation resourceLocation = textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
 			return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
@@ -30,15 +30,15 @@ public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 	}
 
 	@Override
-	public void setupAnim(TrapDoorClientBlock entity, Armature armature, float deltaSeconds) {
-		BlockState state = entity.getBlockState();
+	public void setupAnim(TrapDoorClientBlock base, Armature armature, float deltaSeconds) {
+		BlockState state = base.getBlockState();
 
 		float speed = deltaSeconds / ExtraDetails.getConfig().trap_door_animation_length;
-		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(TrapDoorBlock.OPEN) ? speed : -speed));
+		base.animTime = Math.clamp(0, 1, base.animTime + (state.getValue(TrapDoorBlock.OPEN) ? speed : -speed));
 
 		float animValue = state.getValue(TrapDoorBlock.OPEN) ?
-				DoorRenderer.doorAnimation.getValue(entity.animTime) :
-				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
+				DoorRenderer.doorAnimation.getValue(base.animTime) :
+				1 - DoorRenderer.doorAnimation.getValue(1 - base.animTime);
 
 		armature.getBone("door").ifPresent(bone -> {
 			boolean isTop = state.getValue(TrapDoorBlock.HALF).equals(Half.TOP);

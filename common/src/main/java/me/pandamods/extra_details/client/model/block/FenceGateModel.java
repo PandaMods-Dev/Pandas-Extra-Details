@@ -15,13 +15,13 @@ import java.util.List;
 
 public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	@Override
-	public ResourceLocation getMeshLocation(FenceGateClientBlock entity) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "meshes/block/door/fence_gate.json");
+	public ResourceLocation getMeshLocation(FenceGateClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/fence_gate.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, FenceGateClientBlock entity) {
-		List<ResourceLocation> textures = RenderUtils.getBlockTextures(entity.getBlockState());
+	public ResourceLocation getTextureLocation(String textureName, FenceGateClientBlock base) {
+		List<ResourceLocation> textures = RenderUtils.getBlockTextures(base.getBlockState());
 		ResourceLocation resourceLocation = textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
 			return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
@@ -29,15 +29,15 @@ public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	}
 
 	@Override
-	public void setupAnim(FenceGateClientBlock entity, Armature armature, float deltaSeconds) {
-		BlockState state = entity.getBlockState();
+	public void setupAnim(FenceGateClientBlock base, Armature armature, float deltaSeconds) {
+		BlockState state = base.getBlockState();
 
 		float speed = deltaSeconds / ExtraDetails.getConfig().fence_gate_animation_length;
-		entity.animTime = Math.clamp(0, 1, entity.animTime + (state.getValue(FenceGateBlock.OPEN) ? speed : -speed));
+		base.animTime = Math.clamp(0, 1, base.animTime + (state.getValue(FenceGateBlock.OPEN) ? speed : -speed));
 
 		float animValue = state.getValue(FenceGateBlock.OPEN) ?
-				DoorRenderer.doorAnimation.getValue(entity.animTime) :
-				1 - DoorRenderer.doorAnimation.getValue(1 - entity.animTime);
+				DoorRenderer.doorAnimation.getValue(base.animTime) :
+				1 - DoorRenderer.doorAnimation.getValue(1 - base.animTime);
 
 		armature.getBone("right.door").ifPresent(bone ->
 				bone.setRotation(0, Math.toRadians(Math.lerp(0, 90, animValue)), 0));

@@ -6,9 +6,12 @@
 	* Rotation not getting applied.
 * **Pre 2:**
   * **Added**
-    * Support for sodium.
+    * Support for Sodium.
 * **Full Release:**
   * **Fixed:**
     * Lighting not getting applied correctly.
     * Performance a tiny bit.
     * Animation speed being uneven when fps is unstable.
+  * **Added**
+	  * Support for Embeddium.
+      * New Animation System

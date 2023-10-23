@@ -1,5 +1,6 @@
 package me.pandamods.pandalib.cache;
 
+import me.pandamods.pandalib.client.animation_controller.AnimationController;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.resources.Mesh;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,8 @@ public class MeshCache {
 	public ResourceLocation meshLocation;
 	public Armature armature;
 	public Map<Integer, Map<String, vertexVectors>> vertices = new HashMap<>();
+
+	public AnimationController animationController;
 
 	public record vertexVectors(Vector3f position, Vector3f normal) {}
 }
