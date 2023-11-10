@@ -3,7 +3,7 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.ClientBlockProvider;
 import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
-import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
+import me.pandamods.pandalib.impl.CompileResultsExtension;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
@@ -22,10 +22,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Stream;
 
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
 public class ChunkRenderDispatcherRenderChunkMixin {

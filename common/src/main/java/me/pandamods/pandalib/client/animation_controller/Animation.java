@@ -37,11 +37,7 @@ public record Animation(RawAnimation rawAnimation, PlayType playType) {
 		Vector3f scale = interpolateKeyframes(bone.scale(), time, new Vector3f(1));
 
 		Quaternionf rotationQuaternion = new Quaternionf().identity();
-		rotationQuaternion.rotationXYZ(
-				(float) Math.toRadians(rotation.x()),
-				(float) Math.toRadians(rotation.y()),
-				(float) Math.toRadians(rotation.z())
-		);
+		rotationQuaternion.rotationXYZ(rotation.x(), rotation.y(), rotation.z());
 
 		Matrix4f translationMatrix = new Matrix4f().translation(position);
 		Matrix4f rotationMatrix = new Matrix4f().rotation(rotationQuaternion);

@@ -27,7 +27,7 @@ import java.util.function.BiConsumer;
 
 public class Resources {
 	private static final String SUPPORTED_MESH_VERSION = "0.2";
-	private static final String SUPPORTED_ANIMATION_VERSION = "0.1";
+	private static final String SUPPORTED_ANIMATION_VERSION = "0.2";
 
 	public static final Gson GSON = new GsonBuilder()
 			.registerTypeAdapter(Vector3f.class, new Vector3fTypeAdapter())

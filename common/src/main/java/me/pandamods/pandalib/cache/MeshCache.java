@@ -1,8 +1,11 @@
 package me.pandamods.pandalib.cache;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.pandalib.client.animation_controller.AnimationController;
 import me.pandamods.pandalib.client.model.Armature;
+import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 
@@ -15,7 +18,7 @@ public class MeshCache {
 	public Armature armature;
 	public Map<Integer, Map<String, vertexVectors>> vertices = new HashMap<>();
 
-	public AnimationController animationController;
+	public AnimationController<?> animationController;
 
 	public record vertexVectors(Vector3f position, Vector3f normal) {}
 }

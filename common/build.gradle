@@ -7,6 +7,7 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
     modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
+    modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 }
 
 loom {

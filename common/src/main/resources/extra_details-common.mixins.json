@@ -7,6 +7,11 @@
 	"mixins": [
 	],
 	"client": [
+		"blockentity.ChestBlockEntityMixin",
+		"blockentity.EnderChestBlockEntityMixin",
+		"pandalib.block.BlockEntityRenderDispatcherMixin",
+		"pandalib.block.BlockStateMixin",
+		"pandalib.client.BlockEntityRenderDispatcherMixin",
 		"pandalib.client.ChunkRenderDispatcherRenderChunkMixin",
 		"pandalib.client.CompiledChunkMixin",
 		"pandalib.client.CompileResultsMixin",
@@ -19,8 +24,7 @@
 		"pandalib.sodium.RenderSectionMixin",
 		"pandalib.sodium.SodiumLevelRendererMixin",
 		"pandalib.sodium.SodiumWorldRendererAccessor",
-		"renderer.BlockRenderDispatcherAccessor",
-		"pandalib.block.BlockStateMixin"
+		"renderer.BlockRenderDispatcherAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

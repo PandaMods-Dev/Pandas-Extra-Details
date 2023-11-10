@@ -4,6 +4,7 @@ import me.pandamods.pandalib.resources.Mesh;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public class Bone {
 	private final String name;
 	private final Matrix4f offsetTransform;
 	private Matrix4f localTransform = new Matrix4f();
-	private Bone parent;
+	private final Bone parent;
 	private final Armature armature;
 
 	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Bone parent) {
@@ -58,6 +59,10 @@ public class Bone {
 
 	public void setRotation(float x, float y, float z) {
 		setLocalTransform(this.getLocalTransform().setRotationXYZ(x, y, z));
+	}
+
+	public Vector3f getRotation() {
+		return this.getLocalTransform().getEulerAnglesXYZ(new Vector3f());
 	}
 
 	public Matrix4f getWorldTransform() {

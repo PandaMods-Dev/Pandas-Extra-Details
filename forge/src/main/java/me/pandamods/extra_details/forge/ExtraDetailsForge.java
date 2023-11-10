@@ -2,18 +2,15 @@ package me.pandamods.extra_details.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.config.ExtraDetailsConfig;
+import me.pandamods.extra_details.config.ModConfig;
 import me.pandamods.pandalib.resources.Resources;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLModContainer;
-import org.apache.logging.log4j.util.LoaderUtil;
 
 @Mod(ExtraDetails.MOD_ID)
 public class ExtraDetailsForge {
@@ -25,6 +22,6 @@ public class ExtraDetailsForge {
 
 		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
 				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
-						AutoConfig.getConfigScreen(ExtraDetailsConfig.class, screen).get()));
+						AutoConfig.getConfigScreen(ModConfig.class, screen).get()));
     }
 }

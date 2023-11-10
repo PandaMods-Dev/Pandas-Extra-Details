@@ -2,7 +2,7 @@ package me.pandamods.extra_details.client.renderer.block.door;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.client.model.block.FenceGateModel;
+import me.pandamods.extra_details.client.model.block.door.FenceGateModel;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,12 +17,12 @@ public class FenceGateRenderer extends MeshClientBlockRenderer<FenceGateClientBl
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return ExtraDetails.getConfig().enable_fence_gate_animation ? RenderShape.INVISIBLE : RenderShape.MODEL;
+		return ExtraDetails.getConfig().blockSettings.fenceGate.enabled ? RenderShape.INVISIBLE : RenderShape.MODEL;
 	}
 
 	@Override
 	public void render(FenceGateClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
-		if (ExtraDetails.getConfig().enable_fence_gate_animation) {
+		if (ExtraDetails.getConfig().blockSettings.fenceGate.enabled) {
 			poseStack.pushPose();
 			if (block.getBlockState().getValue(FenceGateBlock.IN_WALL)) {
 				poseStack.translate(0, (float) -3 /16, 0);

@@ -21,14 +21,17 @@ public class Armature {
 	}
 
 	public void updateBone(Bone bone) {
-		updateBone(bone.getName());
-	}
-
-	public void updateBone(String name) {
-		if (!updatedBones.contains(name)) {
-			updatedBones.add(name);
+		if (!updatedBones.contains(bone.getName())) {
+			updatedBones.add(bone.getName());
+			for (Map.Entry<String, Bone> entry : bones.entrySet()) {
+				Optional<Bone> childBonesParent = entry.getValue().getParent();
+				if (childBonesParent.isPresent() && childBonesParent.get().getName().equals(bone.getName())) {
+					updateBone(entry.getValue());
+				}
+			}
 		}
 	}
+
 
 	public boolean isUpdated(Bone bone) {
 		return isUpdated(bone.getName());

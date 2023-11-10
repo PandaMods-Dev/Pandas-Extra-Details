@@ -2,7 +2,7 @@ package me.pandamods.pandalib.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.pandamods.extra_details.ExtraDetails;
+import com.mojang.math.Axis;
 import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.cache.MeshCache;
 import me.pandamods.pandalib.client.model.Armature;
@@ -16,63 +16,79 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.*;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
 
-	default RenderType getRenderType(ResourceLocation location) {
+	default RenderType getRenderType(ResourceLocation location, T base) {
 		return RenderType.entityCutout(location);
 	}
 
+	default VertexConsumer getVertexConsumer(MultiBufferSource bufferSource, ResourceLocation location, T base) {
+		return bufferSource.getBuffer(getRenderType(location, base));
+	}
+
 	default void renderMesh(T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-		stack.pushPose();
-		ResourceLocation location = model.getMeshLocation(base);
-		if (base.getCache().mesh == null || !base.getCache().meshLocation.equals(location)) {
-			base.getCache().meshLocation = location;
-			base.getCache().mesh = Resources.MESHES.getOrDefault(location, null);
-			if (base.getCache().mesh != null) {
-				base.getCache().armature = new Armature(base.getCache().mesh);
-			} else {
-				PandaLib.LOGGER.error("Cant find mesh at " + model.getMeshLocation(base).toString());
+		if (base.getCache() != null) {
+			stack.pushPose();
+			ResourceLocation location = model.getMeshLocation(base);
+			if (base.getCache().mesh == null || !base.getCache().meshLocation.equals(location)) {
+				base.getCache().meshLocation = location;
+				base.getCache().mesh = Resources.MESHES.getOrDefault(location, null);
+				if (base.getCache().mesh != null) {
+					base.getCache().armature = new Armature(base.getCache().mesh);
+				} else {
+					PandaLib.LOGGER.error("Cant find mesh at " + model.getMeshLocation(base).toString());
+				}
 			}
-		}
-		Mesh mesh = base.getCache().mesh;
-		Armature armature = base.getCache().armature;
+			Mesh mesh = base.getCache().mesh;
+			Armature armature = base.getCache().armature;
 
-		if (mesh != null) {
-			if (armature != null) {
-				float deltaSeconds = RenderUtils.getDeltaSeconds();
+			if (mesh != null) {
+				if (armature != null) {
+					float deltaSeconds = RenderUtils.getDeltaSeconds();
 
-				if (base.getCache().animationController == null && model.createAnimationController() != null) {
-					base.getCache().animationController = model.createAnimationController().create(base);
+					if (base.getCache().animationController == null && model.createAnimationController() != null) {
+						base.getCache().animationController = model.createAnimationController().create(base);
+					}
+
+					if (base.getCache().animationController != null) {
+						base.getCache().animationController.updateAnimations(deltaSeconds);
+					}
+
+					model.setupAnim(base, armature, deltaSeconds);
+
+					Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
+					base.getCache().vertices.clear();
+					for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
+						renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices);
+					}
+					armature.clearUpdatedBones();
 				}
-
-				if (base.getCache().animationController != null) {
-					base.getCache().animationController.updateAnimations(deltaSeconds);
-				}
-
-				model.setupAnim(base, armature, deltaSeconds);
-
-				Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
-				base.getCache().vertices.clear();
-				for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
-					renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices);
-				}
-				armature.clearUpdatedBones();
 			}
+			stack.popPose();
 		}
-		stack.popPose();
 	}
 
 	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
 							  Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
 		for (Mesh.Object.Face face : object.faces()) {
-			VertexConsumer consumer = buffer.getBuffer(this.getRenderType(model.getTextureLocation(face.texture_name(), base)));
+			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
+			VertexConsumer consumer = getVertexConsumer(buffer, textureLocation, base);
 
 			for (Map.Entry<Integer, Mesh.Object.Face.Vertex> vertexEntry : face.vertices().entrySet()) {
 				base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
@@ -146,5 +162,32 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 				.uv2(packedLight)
 				.normal(normal, normalVec.x, normalVec.y, normalVec.z)
 				.endVertex();
+	}
+
+	default void translateBlock(BlockState blockState, PoseStack stack) {
+		stack.translate(0.5f, 0.5f, 0.5f);
+
+		float direction = getFacing(blockState).toYRot();
+		stack.mulPose(Axis.YP.rotationDegrees(-direction));
+
+		if (blockState.hasProperty(BlockStateProperties.ATTACH_FACE)) {
+			AttachFace face = blockState.getValue(BlockStateProperties.ATTACH_FACE);
+			switch (face) {
+				case CEILING -> stack.mulPose(Axis.XP.rotationDegrees(180));
+				case WALL -> stack.mulPose(Axis.XP.rotationDegrees(90));
+			}
+		}
+
+		stack.translate(0, -0.5f, 0);
+	}
+
+	default Direction getFacing(BlockState blockState) {
+		if (blockState.hasProperty(HorizontalDirectionalBlock.FACING))
+			return blockState.getValue(HorizontalDirectionalBlock.FACING);
+
+		if (blockState.hasProperty(DirectionalBlock.FACING))
+			return blockState.getValue(DirectionalBlock.FACING);
+
+		return Direction.NORTH;
 	}
 }

@@ -1,7 +1,6 @@
 package me.pandamods.extra_details.mixin.pandalib.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
@@ -11,15 +10,13 @@ import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
+import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -31,7 +28,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

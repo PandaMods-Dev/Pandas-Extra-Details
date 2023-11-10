@@ -2,6 +2,8 @@ package me.pandamods.pandalib.client.animation_controller;
 
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.entity.MeshAnimatable;
+import me.pandamods.pandalib.utils.MatrixUtils;
+import org.joml.Math;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -14,9 +16,14 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 	private final ApplyMethod applyMethod;
 	private final List<AnimationController<T>> subControllers = new ArrayList<>();
 
+	private Animation previousAnimation;
 	private Animation currentAnimation;
 
+	private float previousAnimationTime = 0;
 	private float animationTime = 0;
+	private float transitionTime = 0;
+	private float transitionLength = 0;
+	private boolean skipAnimation = false;
 
 	public AnimationController(T base) {
 		this(base, ApplyMethod.REPLACE_ALL);
@@ -34,11 +41,24 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 	public final void updateAnimations(float deltaSeconds) {
 		Animation animation = controller(base, getArmature(), deltaSeconds);
 		if (animation != this.currentAnimation) {
+			this.previousAnimation = this.currentAnimation;
+			this.previousAnimationTime = this.animationTime;
+
 			this.currentAnimation = animation;
 			this.animationTime = 0;
+			if (this.previousAnimation != null)
+				this.transitionTime = 0;
+			else {
+				this.transitionTime = 1;
+			}
 		}
 
 		if (this.currentAnimation != null) {
+			if (this.skipAnimation) {
+				this.animationTime = this.currentAnimation.rawAnimation().animation_length();
+				this.skipAnimation = false;
+			}
+
 			Set<String> boneNames = this.applyMethod.equals(ApplyMethod.REPLACE_ALL) ?
 					this.getArmature().getBones().keySet() :
 					this.currentAnimation.rawAnimation().bones().keySet();
@@ -48,6 +68,12 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 					if (this.applyMethod.equals(ApplyMethod.ADD)) {
 						transform.mul(bone.getLocalTransform());
 					}
+
+					if (this.previousAnimation != null) {
+						Matrix4f previousTransform = this.previousAnimation.getBoneTransform(boneName, this.previousAnimationTime);
+						transform = MatrixUtils.lerpMatrix(previousTransform, transform, this.transitionTime);
+					}
+
 					bone.setLocalTransform(transform);
 				});
 			}
@@ -56,7 +82,9 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 				subController.updateAnimations(deltaSeconds);
 			}
 
-			this.animationTime += deltaSeconds;
+			this.transitionTime = Math.min(this.transitionTime + (deltaSeconds / this.transitionLength), 1);
+			if (transitionTime >= 1)
+				this.animationTime += deltaSeconds;
 			if (this.currentAnimation.playType().equals(PlayType.LOOP) && this.animationTime >= this.currentAnimation.rawAnimation().animation_length()) {
 				this.animationTime -= this.currentAnimation.rawAnimation().animation_length();
 			}
@@ -67,6 +95,18 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 
 	protected final void registerSubController(AnimationControllerProvider<T> newSubAnimationController) {
 		this.subControllers.add(newSubAnimationController.create(this.base));
+	}
+
+	protected final void skipAnimation() {
+		this.skipAnimation = true;
+	}
+
+	public void setAnimationTime(float animationTime) {
+		this.animationTime = animationTime;
+	}
+
+	public void setTransitionLength(float transitionLength) {
+		this.transitionLength = transitionLength;
 	}
 
 	public enum ApplyMethod {

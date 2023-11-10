@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.pandalib.client;
 
 import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
+import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

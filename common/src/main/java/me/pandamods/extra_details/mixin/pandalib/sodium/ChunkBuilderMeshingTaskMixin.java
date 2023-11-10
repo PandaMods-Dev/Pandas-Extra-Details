@@ -1,7 +1,6 @@
 package me.pandamods.extra_details.mixin.pandalib.sodium;
 
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
-import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildContext;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildOutput;
@@ -14,7 +13,7 @@ import me.jellysquid.mods.sodium.client.world.WorldSlice;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.ClientBlockProvider;
 import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
-import me.pandamods.pandalib.mixin_extensions.CompileResultsExtension;
+import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -31,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Pseudo

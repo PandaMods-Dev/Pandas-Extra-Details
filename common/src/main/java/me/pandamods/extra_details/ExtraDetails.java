@@ -4,17 +4,18 @@ import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
+import me.pandamods.extra_details.client.renderer.block.chest.AnimatedChestRenderer;
+import me.pandamods.extra_details.client.renderer.block.chest.AnimatedEnderChestRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.FenceGateRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.TrapDoorRenderer;
 import me.pandamods.extra_details.client.renderer.block.redstone.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.TiltSignRenderer;
-import me.pandamods.extra_details.config.ExtraDetailsConfig;
+import me.pandamods.extra_details.config.ModConfig;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
-import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
-import me.pandamods.pandalib.resources.Resources;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
@@ -28,8 +29,7 @@ public class ExtraDetails {
 
 	public static void init() {
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
-			AutoConfig.register(ExtraDetailsConfig.class, GsonConfigSerializer::new);
-			AutoConfig.getConfigHolder(ExtraDetailsConfig.class).registerSaveListener((configHolder, extraDetailsConfig) -> {
+			AutoConfig.register(ModConfig.class, GsonConfigSerializer::new).registerSaveListener((configHolder, extraDetailsConfig) -> {
 				Minecraft.getInstance().reloadResourcePacks();
 				return InteractionResult.sidedSuccess(true);
 			});
@@ -42,6 +42,9 @@ public class ExtraDetails {
 
 	private static void client() {
 		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
+		BlockEntityRendererRegistry.register(BlockEntityType.ENDER_CHEST, AnimatedEnderChestRenderer::new);
+		BlockEntityRendererRegistry.register(BlockEntityType.CHEST, AnimatedChestRenderer::new);
+		BlockEntityRendererRegistry.register(BlockEntityType.TRAPPED_CHEST, AnimatedChestRenderer::new);
 
 		BlockEntityRegistry.init();
 		BlockRendererRegistry.register(BlockEntityRegistry.DOOR, new DoorRenderer());
@@ -50,7 +53,11 @@ public class ExtraDetails {
 		BlockRendererRegistry.register(BlockEntityRegistry.LEVER, new LeverRenderer());
 	}
 
-	public static ExtraDetailsConfig getConfig() {
-		return AutoConfig.getConfigHolder(ExtraDetailsConfig.class).getConfig();
+	public static ModConfig getConfig() {
+		return getConfigHolder().getConfig();
+	}
+
+	public static ConfigHolder<ModConfig> getConfigHolder() {
+		return AutoConfig.getConfigHolder(ModConfig.class);
 	}
 }

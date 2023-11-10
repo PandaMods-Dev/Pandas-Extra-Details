@@ -1,21 +1,12 @@
 package me.pandamods.extra_details.registries;
 
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.entity.block.DoorClientBlock;
-import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
-import me.pandamods.extra_details.entity.block.LeverClientBlock;
-import me.pandamods.extra_details.entity.block.TrapDoorClientBlock;
+import me.pandamods.extra_details.entity.block.*;
 import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
 import me.pandamods.pandalib.client.render.block.ClientBlockType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class BlockEntityRegistry {
 	public static void init() { }

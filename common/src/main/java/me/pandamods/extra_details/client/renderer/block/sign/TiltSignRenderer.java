@@ -22,24 +22,24 @@ public class TiltSignRenderer extends SignRenderer {
 	@Override
 	public void render(SignBlockEntity signBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
 		poseStack.pushPose();
-		if (ExtraDetails.getConfig().enable_sign_tilt && !(signBlockEntity.getBlockState().getBlock() instanceof WallSignBlock)) {
-			float tiltX = ExtraDetails.getConfig().sign_details.pitch_tilt;
-			float tiltY = ExtraDetails.getConfig().sign_details.yaw_tilt;
-			float tiltZ = ExtraDetails.getConfig().sign_details.roll_tilt;
+		if (ExtraDetails.getConfig().blockSettings.sign.enabled && !(signBlockEntity.getBlockState().getBlock() instanceof WallSignBlock)) {
+			float tiltX = ExtraDetails.getConfig().blockSettings.sign.pitch_tilt;
+			float tiltY = ExtraDetails.getConfig().blockSettings.sign.yaw_tilt;
+			float tiltZ = ExtraDetails.getConfig().blockSettings.sign.roll_tilt;
 
-			if (ExtraDetails.getConfig().sign_details.random_tilt) {
-				float minX = -ExtraDetails.getConfig().sign_details.pitch_tilt;
-				float maxX = ExtraDetails.getConfig().sign_details.pitch_tilt;
+			if (ExtraDetails.getConfig().blockSettings.sign.random_tilt) {
+				float minX = -ExtraDetails.getConfig().blockSettings.sign.pitch_tilt;
+				float maxX = ExtraDetails.getConfig().blockSettings.sign.pitch_tilt;
 				tiltX = new Random(
 						signBlockEntity.getBlockPos().asLong()).nextFloat() * (maxX - minX) + minX;
 
-				float minY = -ExtraDetails.getConfig().sign_details.yaw_tilt;
-				float maxY = ExtraDetails.getConfig().sign_details.yaw_tilt;
+				float minY = -ExtraDetails.getConfig().blockSettings.sign.yaw_tilt;
+				float maxY = ExtraDetails.getConfig().blockSettings.sign.yaw_tilt;
 				tiltY = new Random(
 						(long) (signBlockEntity.getBlockPos().asLong() - signBlockEntity.getBlockPos().asLong() / 2.5)).nextFloat() * (maxY - minY) + minY;
 
-				float minZ = -ExtraDetails.getConfig().sign_details.roll_tilt;
-				float maxZ = ExtraDetails.getConfig().sign_details.roll_tilt;
+				float minZ = -ExtraDetails.getConfig().blockSettings.sign.roll_tilt;
+				float maxZ = ExtraDetails.getConfig().blockSettings.sign.roll_tilt;
 				tiltZ = new Random(
 						(long) (signBlockEntity.getBlockPos().asLong() + signBlockEntity.getBlockPos().asLong() / 1.5)).nextFloat() * (maxZ - minZ) + minZ;
 			}
