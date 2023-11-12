@@ -21,4 +21,8 @@ public interface ClientBlockRenderer<T extends ClientBlock> {
 	default boolean shouldRender(T clientBlock, Vec3 cameraPos) {
 		return Vec3.atCenterOf(clientBlock.getBlockPos()).closerThan(cameraPos, this.getViewDistance());
 	}
+
+	default boolean enabled(BlockState state) {
+		return true;
+	}
 }

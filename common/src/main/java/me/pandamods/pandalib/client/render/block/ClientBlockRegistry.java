@@ -29,8 +29,10 @@ public class ClientBlockRegistry {
 
 	public static ClientBlockType<?> getType(Block block) {
 		List<ClientBlockType<?>> list = BLOCK_TYPES.values().stream().filter(renderType ->
-				renderType.blockTags.stream().anyMatch(tag -> block.defaultBlockState().is(tag)) ||
-						renderType.blocks != null && renderType.blocks.contains(block)).toList();
+				renderType.blockTags.stream().anyMatch(
+						tag -> block.defaultBlockState().is(tag)
+				) || renderType.blocks != null && renderType.blocks.contains(block)
+		).toList();
 		if (list.isEmpty())
 			return null;
 		return list.get(0);

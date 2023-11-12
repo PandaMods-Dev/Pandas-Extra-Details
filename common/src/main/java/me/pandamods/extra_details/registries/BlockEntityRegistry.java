@@ -22,4 +22,7 @@ public class BlockEntityRegistry {
 
 	public static ClientBlockType<LeverClientBlock> LEVER = ClientBlockRegistry.register(new ResourceLocation(ExtraDetails.MOD_ID, "lever"),
 			new ClientBlockType.Builder<LeverClientBlock>(LeverClientBlock::new).validBlocks(Blocks.LEVER).build());
+
+	public static ClientBlockType<HangingSignClientBlock> HANGING_SIGN = ClientBlockRegistry.register(new ResourceLocation(ExtraDetails.MOD_ID, "hanging_sign"),
+			new ClientBlockType.Builder<HangingSignClientBlock>(HangingSignClientBlock::new).validBlockTags(BlockTags.ALL_HANGING_SIGNS).build());
 }

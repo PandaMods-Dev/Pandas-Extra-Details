@@ -25,7 +25,7 @@ public abstract class BlockStateMixin {
 	@Inject(method = "getRenderShape", at = @At("HEAD"), cancellable = true)
 	public void getRenderShape(CallbackInfoReturnable<RenderShape> cir) {
 		ClientBlockRenderer<ClientBlock> renderer = BlockRendererRegistry.get(this.getBlock());
-		if (renderer != null) {
+		if (renderer != null && renderer.enabled(this.asState())) {
 			RenderShape renderShape = renderer.getRenderShape(this.asState());
 			if (renderShape != null)
 				cir.setReturnValue(renderShape);

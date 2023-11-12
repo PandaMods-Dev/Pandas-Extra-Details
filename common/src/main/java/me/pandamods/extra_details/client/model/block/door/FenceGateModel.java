@@ -39,7 +39,9 @@ public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 
 	@Override
 	public void setupAnim(FenceGateClientBlock base, Armature armature, float deltaSeconds) {
-		armature.getBone("door").ifPresent(bone ->
-				bone.setRotation(bone.getRotation().x, bone.getRotation().y + (float) Math.PI, bone.getRotation().z));
+		armature.getBone("right.door").ifPresent(bone ->
+				bone.setRotation(bone.getRotation().x, -bone.getRotation().y, bone.getRotation().z));
+		armature.getBone("left.door").ifPresent(bone ->
+				bone.setRotation(bone.getRotation().x, -bone.getRotation().y, bone.getRotation().z));
 	}
 }

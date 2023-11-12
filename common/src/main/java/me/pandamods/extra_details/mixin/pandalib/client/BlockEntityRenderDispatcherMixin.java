@@ -3,6 +3,9 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import me.pandamods.pandalib.client.render.MeshRenderer;
+import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
+import me.pandamods.pandalib.client.render.block.ClientBlock;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -11,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -40,5 +44,13 @@ public class BlockEntityRenderDispatcherMixin {
 	public <E extends BlockEntity> void renderItemReturn(E blockEntity, PoseStack poseStack, MultiBufferSource bufferSource,
 													   int packedLight, int packedOverlay, CallbackInfoReturnable<Boolean> cir) {
 		poseStack.popPose();
+	}
+
+	@Inject(method = "setupAndRender", at = @At("HEAD"), cancellable = true)
+	private static <T extends BlockEntity> void setupAndRender(BlockEntityRenderer<T> renderer, T blockEntity, float partialTick, PoseStack poseStack,
+															   MultiBufferSource bufferSource, CallbackInfo ci) {
+		ClientBlockRenderer<ClientBlock> clientRenderer = BlockRendererRegistry.get(blockEntity.getBlockState().getBlock());
+		if (clientRenderer != null && clientRenderer.enabled(blockEntity.getBlockState()))
+			ci.cancel();
 	}
 }

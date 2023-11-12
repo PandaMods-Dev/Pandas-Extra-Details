@@ -1,6 +1,7 @@
 package me.pandamods.pandalib.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import me.pandamods.pandalib.PandaLib;
@@ -14,10 +15,13 @@ import me.pandamods.pandalib.resources.Resources;
 import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Direction;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,10 +30,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.*;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
@@ -74,8 +75,21 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 
 					Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
 					base.getCache().vertices.clear();
+
+					BlockPos blockPos = base.getBlockPos();
+					VertexConsumer destroyConsumer = null;
+					if (blockPos != null) {
+						SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance().levelRenderer.destructionProgress.get(blockPos.asLong());
+						int progress;
+						if (sortedSet != null && !sortedSet.isEmpty() && (progress = sortedSet.last().getProgress()) >= 0) {
+							destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
+									.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
+									stack.last().pose(), stack.last().normal(), 1.0f);
+						}
+					}
 					for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
-						renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices);
+						if (!armature.getVisibility(meshEntry.getKey()))
+							renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices, destroyConsumer);
 					}
 					armature.clearUpdatedBones();
 				}
@@ -85,7 +99,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	}
 
 	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-							  Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
+							  Map<Integer, Map<String, MeshCache.vertexVectors>> vertices, VertexConsumer destroyConsumer) {
 		for (Mesh.Object.Face face : object.faces()) {
 			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
 			VertexConsumer consumer = getVertexConsumer(buffer, textureLocation, base);
@@ -137,7 +151,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 							newVertexNormal.add(vertexVectors.normal());
 
 							if (!vertices.containsKey(vertexEntry.getKey()))
-									base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
+								base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
 							base.getCache().vertices.get(vertexEntry.getKey()).put(weight.name(), vertexVectors);
 						}
 					}
@@ -149,9 +163,16 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 				this.vertex(poseMatrix, normalMatrix, consumer, Color.WHITE,
 						newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
 						packedLight, packedOverlay);
+
+				if (destroyConsumer != null)
+					this.vertex(poseMatrix, normalMatrix, destroyConsumer, Color.WHITE,
+							newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
+							packedLight, packedOverlay);
 			}
 		}
 	}
+
+
 
 	default void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
 						Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {
@@ -167,8 +188,8 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	default void translateBlock(BlockState blockState, PoseStack stack) {
 		stack.translate(0.5f, 0.5f, 0.5f);
 
-		float direction = getFacing(blockState).toYRot();
-		stack.mulPose(Axis.YP.rotationDegrees(-direction));
+		float direction = getYRotation(blockState);
+		stack.mulPose(Axis.YP.rotationDegrees(direction));
 
 		if (blockState.hasProperty(BlockStateProperties.ATTACH_FACE)) {
 			AttachFace face = blockState.getValue(BlockStateProperties.ATTACH_FACE);
@@ -181,13 +202,16 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		stack.translate(0, -0.5f, 0);
 	}
 
-	default Direction getFacing(BlockState blockState) {
+	default float getYRotation(BlockState blockState) {
+		if (blockState.hasProperty(BlockStateProperties.ROTATION_16))
+			return (360f/16f) * blockState.getValue(BlockStateProperties.ROTATION_16);
+
 		if (blockState.hasProperty(HorizontalDirectionalBlock.FACING))
-			return blockState.getValue(HorizontalDirectionalBlock.FACING);
+			return -blockState.getValue(HorizontalDirectionalBlock.FACING).toYRot();
 
 		if (blockState.hasProperty(DirectionalBlock.FACING))
-			return blockState.getValue(DirectionalBlock.FACING);
+			return -blockState.getValue(DirectionalBlock.FACING).toYRot();
 
-		return Direction.NORTH;
+		return 0;
 	}
 }

@@ -2,6 +2,7 @@
 	"accessWidener": "extra_details.accesswidener",
 	"injected_interfaces": {
 		"net/minecraft/class_2595": ["me/pandamods/pandalib/entity/MeshAnimatable"],
-		"net/minecraft/class_2611": ["me/pandamods/pandalib/entity/MeshAnimatable"]
+		"net/minecraft/class_2611": ["me/pandamods/pandalib/entity/MeshAnimatable"],
+		"net/minecraft/class_7717": ["me/pandamods/pandalib/entity/MeshAnimatable"]
 	}
 }

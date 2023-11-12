@@ -9,7 +9,6 @@
 	"client": [
 		"blockentity.ChestBlockEntityMixin",
 		"blockentity.EnderChestBlockEntityMixin",
-		"pandalib.block.BlockEntityRenderDispatcherMixin",
 		"pandalib.block.BlockStateMixin",
 		"pandalib.client.BlockEntityRenderDispatcherMixin",
 		"pandalib.client.ChunkRenderDispatcherRenderChunkMixin",

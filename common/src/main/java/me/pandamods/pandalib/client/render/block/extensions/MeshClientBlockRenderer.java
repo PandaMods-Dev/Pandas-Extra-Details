@@ -27,39 +27,8 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimat
 	@Override
 	public void render(T block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
 		poseStack.pushPose();
-		translateBlock(block, poseStack);
+		translateBlock(block.getBlockState(), poseStack);
 		this.renderMesh(block, this.model, poseStack, buffer, lightColor, overlay);
 		poseStack.popPose();
-	}
-
-	public void translateBlock(T block, PoseStack stack) {
-		BlockState blockState = block.getBlockState();
-
-		stack.translate(0.5f, 0.5f, 0.5f);
-
-		Direction direction = getFacing(block);
-		stack.mulPose(Axis.YP.rotationDegrees(-direction.toYRot()));
-
-		if (blockState.hasProperty(BlockStateProperties.ATTACH_FACE)) {
-			AttachFace face = blockState.getValue(BlockStateProperties.ATTACH_FACE);
-			switch (face) {
-				case CEILING -> stack.mulPose(Axis.XP.rotationDegrees(180));
-				case WALL -> stack.mulPose(Axis.XP.rotationDegrees(90));
-			}
-		}
-
-		stack.translate(0, -0.5f, 0);
-	}
-
-	protected Direction getFacing(T block) {
-		BlockState blockState = block.getBlockState();
-
-		if (blockState.hasProperty(HorizontalDirectionalBlock.FACING))
-			return blockState.getValue(HorizontalDirectionalBlock.FACING);
-
-		if (blockState.hasProperty(DirectionalBlock.FACING))
-			return blockState.getValue(DirectionalBlock.FACING);
-
-		return Direction.NORTH;
 	}
 }

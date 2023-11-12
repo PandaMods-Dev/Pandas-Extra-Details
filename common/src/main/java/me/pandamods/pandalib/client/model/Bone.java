@@ -1,5 +1,6 @@
 package me.pandamods.pandalib.client.model;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.pandalib.resources.Mesh;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,13 +14,15 @@ public class Bone {
 	private final String name;
 	private final Matrix4f offsetTransform;
 	private Matrix4f localTransform = new Matrix4f();
-	private final Bone parent;
+	private final Bone defaultParent;
+	private Bone parent;
 	private final Armature armature;
 
 	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Bone parent) {
 		this.name = name;
 		this.offsetTransform = offsetMatrix;
 		this.parent = parent;
+		this.defaultParent = parent;
 		this.armature = armature;
 	}
 
@@ -36,6 +39,12 @@ public class Bone {
 
 	public Optional<Bone> getParent() {
 		return Optional.ofNullable(parent);
+	}
+	public void setParent(Bone bone) {
+		this.parent = bone;
+	}
+	public void resetParent() {
+		this.parent = this.defaultParent;
 	}
 
 	public Matrix4f getOffsetTransform() {
@@ -58,7 +67,7 @@ public class Bone {
 	}
 
 	public void setRotation(float x, float y, float z) {
-		setLocalTransform(this.getLocalTransform().setRotationXYZ(x, y, z));
+		setLocalTransform(this.getLocalTransform().setRotationZYX(z, y, x));
 	}
 
 	public Vector3f getRotation() {
@@ -89,12 +98,19 @@ public class Bone {
 
 	@Override
 	public String toString() {
-		return "NewBone{" +
+		return "Bone{" +
 				"name=" + name +
 				", parent=" + parent.name +
 				", offsetMatrix=" + offsetTransform +
 				", localTransform=" + getLocalTransform() +
 				", worldTransform=" + getWorldTransform() +
 				'}';
+	}
+
+	public void applyToPoseStack(PoseStack poseStack) {
+		poseStack.translate(0.5, 0, 0.5);
+		Vector3f offset = this.getOffsetTransform().getTranslation(new Vector3f());
+		poseStack.translate(offset.x, offset.y, offset.z);
+		poseStack.mulPoseMatrix(this.getLocalTransform());
 	}
 }

@@ -9,7 +9,8 @@ import java.util.*;
 @Environment(EnvType.CLIENT)
 public class Armature {
 	private final Map<String, Bone> bones = new HashMap<>();
-	private final List<String> updatedBones = new ArrayList<>();
+	private final Set<String> updatedBones = new HashSet<>();
+	private final Set<String> hiddenObjects = new HashSet<>();
 
 	public Armature(Mesh mesh) {
 		mesh.bone().forEach((s, bone) -> bones.put(s, new Bone(this, s, bone)));
@@ -47,5 +48,24 @@ public class Armature {
 
 	public Map<String, Bone> getBones() {
 		return new HashMap<>(bones);
+	}
+
+	public void setHidden(String... objectNames) {
+		setVisibility(false, objectNames);
+	}
+
+	public void setVisible(String... objectNames) {
+		setVisibility(true, objectNames);
+	}
+
+	public void setVisibility(boolean visible, String... objectNames) {
+		if (visible)
+			List.of(objectNames).forEach(this.hiddenObjects::remove);
+		else
+			this.hiddenObjects.addAll(List.of(objectNames));
+	}
+
+	public boolean getVisibility(String objectName) {
+		return this.hiddenObjects.contains(objectName);
 	}
 }

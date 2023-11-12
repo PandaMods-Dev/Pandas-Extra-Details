@@ -5,18 +5,23 @@ import me.pandamods.pandalib.cache.MeshCache;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.entity.ChestLidController;
-import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Environment(EnvType.CLIENT)
 @Mixin(EnderChestBlockEntity.class)
-public class EnderChestBlockEntityMixin implements IChest, MeshAnimatable {
+public abstract class EnderChestBlockEntityMixin extends BlockEntity implements IChest, MeshAnimatable {
 	@Shadow @Final private ChestLidController chestLidController;
 	private final MeshCache cache = new MeshCache();
+
+	public EnderChestBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+		super(blockEntityType, blockPos, blockState);
+	}
+
 	@Override
 	public MeshCache getCache() {
 		return cache;

@@ -11,11 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public class FenceGateClientBlock extends ClientBlock implements MeshAnimatable {
 	private final MeshCache cache = new MeshCache();
 
-	public float animTime;
-
 	public FenceGateClientBlock(BlockPos blockPos, BlockState blockState, ClientLevel level) {
 		super(blockPos, blockState, level);
-		animTime = blockState.getValue(FenceGateBlock.OPEN) ? 1 : 0;
 	}
 
 	@Override

@@ -5,13 +5,13 @@ import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TrapDoorClientBlock extends ClientBlock implements MeshAnimatable {
+public class HangingSignClientBlock extends ClientBlock implements MeshAnimatable {
 	private final MeshCache cache = new MeshCache();
+	public float animTime = 0;
 
-	public TrapDoorClientBlock(BlockPos blockPos, BlockState blockState, ClientLevel level) {
+	public HangingSignClientBlock(BlockPos blockPos, BlockState blockState, ClientLevel level) {
 		super(blockPos, blockState, level);
 	}
 

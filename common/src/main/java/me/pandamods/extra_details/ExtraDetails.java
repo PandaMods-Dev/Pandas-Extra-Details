@@ -10,6 +10,7 @@ import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.FenceGateRenderer;
 import me.pandamods.extra_details.client.renderer.block.door.TrapDoorRenderer;
 import me.pandamods.extra_details.client.renderer.block.redstone.LeverRenderer;
+import me.pandamods.extra_details.client.renderer.block.sign.SwingingHangingSignRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.ModConfig;
 import me.pandamods.extra_details.registries.BlockEntityRegistry;
@@ -51,6 +52,7 @@ public class ExtraDetails {
 		BlockRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR, new TrapDoorRenderer());
 		BlockRendererRegistry.register(BlockEntityRegistry.FENCE_GATE, new FenceGateRenderer());
 		BlockRendererRegistry.register(BlockEntityRegistry.LEVER, new LeverRenderer());
+		BlockRendererRegistry.register(BlockEntityRegistry.HANGING_SIGN, new SwingingHangingSignRenderer());
 	}
 
 	public static ModConfig getConfig() {

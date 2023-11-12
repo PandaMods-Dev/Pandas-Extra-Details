@@ -17,18 +17,21 @@ public class FenceGateRenderer extends MeshClientBlockRenderer<FenceGateClientBl
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return ExtraDetails.getConfig().blockSettings.fenceGate.enabled ? RenderShape.INVISIBLE : RenderShape.MODEL;
+		return RenderShape.INVISIBLE;
+	}
+
+	@Override
+	public boolean enabled(BlockState state) {
+		return ExtraDetails.getConfig().blockSettings.fenceGate.enabled && ExtraDetails.getConfig().isAllowed(state.getBlock());
 	}
 
 	@Override
 	public void render(FenceGateClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
-		if (ExtraDetails.getConfig().blockSettings.fenceGate.enabled) {
-			poseStack.pushPose();
-			if (block.getBlockState().getValue(FenceGateBlock.IN_WALL)) {
-				poseStack.translate(0, (float) -3 /16, 0);
-			}
-			super.render(block, poseStack, buffer, lightColor, overlay, partialTick);
-			poseStack.popPose();
+		poseStack.pushPose();
+		if (block.getBlockState().getValue(FenceGateBlock.IN_WALL)) {
+			poseStack.translate(0, (float) -3 /16, 0);
 		}
+		super.render(block, poseStack, buffer, lightColor, overlay, partialTick);
+		poseStack.popPose();
 	}
 }
