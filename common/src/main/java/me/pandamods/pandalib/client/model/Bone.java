@@ -100,7 +100,7 @@ public class Bone {
 	public String toString() {
 		return "Bone{" +
 				"name=" + name +
-				", parent=" + parent.name +
+				", parent=" + (parent != null ? parent.name : "None") +
 				", offsetMatrix=" + offsetTransform +
 				", localTransform=" + getLocalTransform() +
 				", worldTransform=" + getWorldTransform() +

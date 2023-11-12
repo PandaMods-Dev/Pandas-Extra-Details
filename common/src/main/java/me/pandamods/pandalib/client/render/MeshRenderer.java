@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
 import java.awt.*;
@@ -79,7 +80,8 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 					BlockPos blockPos = base.getBlockPos();
 					VertexConsumer destroyConsumer = null;
 					if (blockPos != null) {
-						SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance().levelRenderer.destructionProgress.get(blockPos.asLong());
+						SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance()
+								.levelRenderer.destructionProgress.get(blockPos.asLong());
 						int progress;
 						if (sortedSet != null && !sortedSet.isEmpty() && (progress = sortedSet.last().getProgress()) >= 0) {
 							destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
@@ -95,6 +97,71 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 				}
 			}
 			stack.popPose();
+		}
+	}
+
+	default void renderRig(T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+		if (base.getCache() != null) {
+			stack.pushPose();
+
+			ResourceLocation location = model.getMeshLocation(base);
+			if (base.getCache().mesh == null || !base.getCache().meshLocation.equals(location)) {
+				base.getCache().meshLocation = location;
+				base.getCache().mesh = Resources.MESHES.getOrDefault(location, null);
+				if (base.getCache().mesh != null) {
+					base.getCache().armature = new Armature(base.getCache().mesh);
+				} else {
+					PandaLib.LOGGER.error("Cant find mesh at " + model.getMeshLocation(base).toString());
+				}
+			}
+			Mesh mesh = base.getCache().mesh;
+			Armature armature = base.getCache().armature;
+			if (armature != null)
+				animateArmature(base, model, armature);
+			if (mesh != null)
+				renderMesh2(base, model, armature, mesh, stack, buffer, packedLight, packedOverlay);
+			stack.popPose();
+		}
+	}
+
+	default void animateArmature(T base, M model, Armature armature) {
+		float deltaSeconds = RenderUtils.getDeltaSeconds();
+
+		if (base.getCache().animationController == null && model.createAnimationController() != null) {
+			base.getCache().animationController = model.createAnimationController().create(base);
+		}
+
+		if (base.getCache().animationController != null) {
+			base.getCache().animationController.updateAnimations(deltaSeconds);
+		}
+
+		model.setupAnim(base, armature, deltaSeconds);
+	}
+
+	default void renderMesh2(T base, M model, @Nullable Armature armature, Mesh mesh, PoseStack stack,
+							 MultiBufferSource buffer, int packedLight, int packedOverlay) {
+		Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
+		base.getCache().vertices.clear();
+
+		BlockPos blockPos = base.getBlockPos();
+		VertexConsumer destroyConsumer = null;
+		if (blockPos != null) {
+			SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance()
+					.levelRenderer.destructionProgress.get(blockPos.asLong());
+			int progress;
+			if (sortedSet != null && !sortedSet.isEmpty() && (progress = sortedSet.last().getProgress()) >= 0) {
+				destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
+						.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
+						stack.last().pose(), stack.last().normal(), 1.0f);
+			}
+		}
+		for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
+			if (armature == null || !armature.getVisibility(meshEntry.getKey()))
+				renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices, destroyConsumer);
+		}
+
+		if (armature != null) {
+			armature.clearUpdatedBones();
 		}
 	}
 
