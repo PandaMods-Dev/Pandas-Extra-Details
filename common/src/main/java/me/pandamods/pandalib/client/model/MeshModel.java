@@ -15,4 +15,6 @@ public interface MeshModel<T extends MeshAnimatable> {
 	}
 
 	default void setupAnim(T base, Armature armature, float deltaSeconds) {}
+
+	default void setPropertiesOnCreation(T base, Armature armature) {}
 }

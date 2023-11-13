@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimatable, M extends MeshModel<T>>
 		implements ClientBlockRenderer<T>, MeshRenderer<T, M> {
-	private final M model;
+	protected final M model;
 
 	public MeshClientBlockRenderer(M model) {
 		this.model = model;
@@ -28,8 +28,7 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimat
 	public void render(T block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
 		poseStack.pushPose();
 		translateBlock(block.getBlockState(), poseStack);
-//		this.renderMesh(block, this.model, poseStack, buffer, lightColor, overlay);
-		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay);
+		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay, true);
 		poseStack.popPose();
 	}
 }

@@ -5,6 +5,8 @@ import me.pandamods.pandalib.resources.Mesh;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Matrix4f;
+import org.joml.Quaterniond;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Optional;
@@ -48,11 +50,11 @@ public class Bone {
 	}
 
 	public Matrix4f getOffsetTransform() {
-		return new Matrix4f(offsetTransform);
+		return mirrorMatrix(offsetTransform);
 	}
 
 	public Matrix4f getLocalTransform() {
-        return new Matrix4f(localTransform);
+		return mirrorMatrix(localTransform);
     }
 
 
@@ -86,9 +88,9 @@ public class Bone {
 
             worldTransform.mul(finalTransform);
 
-            return worldTransform;
+			return worldTransform;
         } else {
-            return new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
+			return new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
         }
     }
 
@@ -112,5 +114,30 @@ public class Bone {
 		Vector3f offset = this.getOffsetTransform().getTranslation(new Vector3f());
 		poseStack.translate(offset.x, offset.y, offset.z);
 		poseStack.mulPoseMatrix(this.getLocalTransform());
+		poseStack.translate(-offset.x, -offset.y, -offset.z);
+		poseStack.translate(-0.5, 0, -0.5);
+	}
+
+	public Matrix4f mirrorMatrix(Matrix4f matrix) {
+		Vector3f translation = matrix.getTranslation(new Vector3f());
+		Vector3f rotation = matrix.getEulerAnglesXYZ(new Vector3f());
+		Vector3f scale = matrix.getScale(new Vector3f());
+		return new Matrix4f().translationRotateScale(
+				new Vector3f(
+						translation.x * (armature.mirrorXTranslation ? -1 : 1),
+						translation.y * (armature.mirrorYTranslation ? -1 : 1),
+						translation.z * (armature.mirrorZTranslation ? -1 : 1)
+				),
+				new Quaternionf().identity().rotateZYX(
+						rotation.z * (armature.mirrorZRotation ? -1 : 1),
+						rotation.y * (armature.mirrorYRotation ? -1 : 1),
+						rotation.x * (armature.mirrorXRotation ? -1 : 1)
+				),
+				new Vector3f(
+						scale.x * (armature.mirrorXScale ? -1 : 1),
+						scale.y * (armature.mirrorYScale ? -1 : 1),
+						scale.z * (armature.mirrorZScale ? -1 : 1)
+				)
+		);
 	}
 }

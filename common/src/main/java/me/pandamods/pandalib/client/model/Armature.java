@@ -12,6 +12,18 @@ public class Armature {
 	private final Set<String> updatedBones = new HashSet<>();
 	private final Set<String> hiddenObjects = new HashSet<>();
 
+	protected boolean mirrorXTranslation = false;
+	protected boolean mirrorYTranslation = false;
+	protected boolean mirrorZTranslation = false;
+
+	protected boolean mirrorXRotation = false;
+	protected boolean mirrorYRotation = false;
+	protected boolean mirrorZRotation = false;
+
+	protected boolean mirrorXScale = false;
+	protected boolean mirrorYScale = false;
+	protected boolean mirrorZScale = false;
+
 	public Armature(Mesh mesh) {
 		mesh.bone().forEach((s, bone) -> bones.put(s, new Bone(this, s, bone)));
 		updatedBones.addAll(bones.keySet());
@@ -67,5 +79,23 @@ public class Armature {
 
 	public boolean getVisibility(String objectName) {
 		return this.hiddenObjects.contains(objectName);
+	}
+
+	public void mirrorX(boolean translation, boolean rotation, boolean scale) {
+		this.mirrorXTranslation = translation;
+		this.mirrorXRotation = rotation;
+		this.mirrorXScale = scale;
+	}
+
+	public void mirrorY(boolean translation, boolean rotation, boolean scale) {
+		this.mirrorYTranslation = translation;
+		this.mirrorYRotation = rotation;
+		this.mirrorYScale = scale;
+	}
+
+	public void mirrorZ(boolean translation, boolean rotation, boolean scale) {
+		this.mirrorZTranslation = translation;
+		this.mirrorZRotation = rotation;
+		this.mirrorZScale = scale;
 	}
 }

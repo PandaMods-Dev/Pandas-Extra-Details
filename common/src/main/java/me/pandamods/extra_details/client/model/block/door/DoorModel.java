@@ -4,6 +4,7 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.door.DoorAnimationController;
 import me.pandamods.extra_details.entity.block.DoorClientBlock;
 import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
+import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
@@ -36,13 +37,9 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	}
 
 	@Override
-	public void setupAnim(DoorClientBlock base, Armature armature, float deltaSeconds) {
-		BlockState state = base.getBlockState();
-
-		armature.getBone("door").ifPresent(bone -> {
-			boolean isRightHinge = state.getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);
-			bone.setTranslation(isRightHinge ? (float) 0 : (float) 13 /16, 0, (float) -13 /16);
-			bone.setRotation(0, (bone.getRotation().y * (isRightHinge ? -1 : 1)) + (isRightHinge ? 0 : (float) Math.PI), 0);
-		});
+	public void setPropertiesOnCreation(DoorClientBlock base, Armature armature) {
+		boolean mirror = base.getBlockState().getValue(DoorBlock.HINGE) == DoorHingeSide.RIGHT;
+		armature.mirrorX(mirror, false, false);
+		armature.mirrorY(false, mirror, false);
 	}
 }

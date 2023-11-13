@@ -49,6 +49,7 @@ public class SwingingHangingSignRenderer extends MeshClientBlockRenderer<Hanging
 							new Vector3f(.5f, 0, .5f), new Vector3f(0, (float) Math.toRadians(this.getYRotation(blockState)), 0));
 
 					bone.applyToPoseStack(poseStack);
+					poseStack.translate(0.5f, 0, 0.5f);
 //					LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.LINES), new AABB(0, 0, 0, 0, 0, 1), 0, 0, 1, 1);
 					poseStack.translate(0, -6f/16f, 0);
 //					LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.LINES), new AABB(0, 0, 0, 0, 0, 1), 1, 0, 0, 1);

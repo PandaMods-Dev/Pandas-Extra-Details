@@ -32,8 +32,7 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimat
 	public void render(T blockEntity, float partialTick, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 		translateBlock(blockEntity.getBlockState(), stack);
-//		this.renderMesh(blockEntity, model, stack, buffer, packedLight, packedOverlay);
-		this.renderRig(blockEntity, model, stack, buffer, packedLight, packedOverlay);
+		this.renderRig(blockEntity, model, stack, buffer, packedLight, packedOverlay, true);
 		stack.popPose();
 	}
 }

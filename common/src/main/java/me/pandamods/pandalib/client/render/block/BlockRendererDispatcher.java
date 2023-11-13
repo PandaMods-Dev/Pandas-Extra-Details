@@ -34,8 +34,13 @@ public class BlockRendererDispatcher {
 	private static <T extends ClientBlock> void setupAndRender(ClientBlockRenderer<T> renderer, T clientBlock, float partialTick, PoseStack poseStack,
 															   MultiBufferSource bufferSource) {
 		Level level = clientBlock.getLevel();
-		int i = level != null ? LevelRenderer.getLightColor(level, clientBlock.getBlockPos()) : 0xF000F0;
-		renderer.render(clientBlock, poseStack, bufferSource, i, OverlayTexture.NO_OVERLAY, partialTick);
+		int lightColor;
+		if (level != null) {
+			lightColor = LevelRenderer.getLightColor(level, clientBlock.getBlockPos());
+		} else {
+			lightColor = 15728880;
+		}
+		renderer.render(clientBlock, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY, partialTick);
 	}
 
 	private static void tryRender(ClientBlock clientBlock, Runnable renderer) {

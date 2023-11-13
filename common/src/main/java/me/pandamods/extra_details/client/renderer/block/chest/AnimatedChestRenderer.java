@@ -37,7 +37,7 @@ public class AnimatedChestRenderer<T extends ChestBlockEntity> extends ChestRend
 			poseStack.pushPose();
 			translateBlock(blockEntity.getBlockState(), poseStack);
 //			this.renderMesh(blockEntity, model, poseStack, buffer, packedLight, packedOverlay);
-			this.renderRig(blockEntity, model, poseStack, buffer, packedLight, packedOverlay);
+			this.renderRig(blockEntity, model, poseStack, buffer, packedLight, packedOverlay, true);
 			poseStack.popPose();
 		} else {
 			super.render(blockEntity, partialTick, poseStack, buffer, packedLight, packedOverlay);
