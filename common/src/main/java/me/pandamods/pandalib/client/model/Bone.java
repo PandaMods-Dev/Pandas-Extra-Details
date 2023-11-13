@@ -112,7 +112,16 @@ public class Bone {
 		poseStack.translate(0.5, 0, 0.5);
 		Vector3f offset = this.getOffsetTransform().getTranslation(new Vector3f());
 		poseStack.translate(offset.x, offset.y, offset.z);
-		poseStack.mulPoseMatrix(this.getLocalTransform());
+
+		Matrix4f matrix = this.getLocalTransform();
+		Vector3f translation = matrix.getTranslation(new Vector3f());
+		Quaternionf rotation = matrix.getNormalizedRotation(new Quaternionf());
+		Vector3f scale = matrix.getScale(new Vector3f());
+
+		poseStack.translate(translation.x, translation.y, translation.z);
+		poseStack.mulPose(rotation);
+		poseStack.scale(scale.x, scale.y, scale.z);
+
 		poseStack.translate(-offset.x, -offset.y, -offset.z);
 		poseStack.translate(-0.5, 0, -0.5);
 	}

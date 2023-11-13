@@ -174,14 +174,14 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 				newVertexNormal.set(face.normal());
 			}
 
-			this.vertex(poseMatrix, normalMatrix, consumer, color,
+			vertex(poseMatrix, normalMatrix, consumer, color,
 					newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
 					packedLight, packedOverlay);
 		}
 	}
 
-	default void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
-						Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {
+	static void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
+					   Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {
 		vertexConsumer.vertex(pose, pos.x, pos.y, pos.z)
 				.color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())
 				.uv(uv.x, uv.y)

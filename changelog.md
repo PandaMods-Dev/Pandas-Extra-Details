@@ -19,3 +19,4 @@
       * Added Chest animations.
       * Added Hanging sign swinging animation
       * Added Blacklist option to config
+      * Added resource pack compatibility with Door's and Trap Door's

@@ -15,15 +15,14 @@
 		"pandalib.client.CompiledChunkMixin",
 		"pandalib.client.CompileResultsMixin",
 		"pandalib.client.LevelRendererMixin",
-		"pandalib.sodium.BuiltSectionInfoAccessor",
-		"pandalib.sodium.BuiltSectionInfoBuilderMixin",
-		"pandalib.sodium.BuiltSectionInfoMixin",
-		"pandalib.sodium.ChunkBuilderMeshingTaskMixin",
-		"pandalib.sodium.ChunkRenderListMixin",
-		"pandalib.sodium.RenderSectionMixin",
-		"pandalib.sodium.SodiumLevelRendererMixin",
-		"pandalib.sodium.SodiumWorldRendererAccessor",
-		"renderer.BlockRenderDispatcherAccessor"
+		"pandalib.client.sodium.BuiltSectionInfoAccessor",
+		"pandalib.client.sodium.BuiltSectionInfoBuilderMixin",
+		"pandalib.client.sodium.BuiltSectionInfoMixin",
+		"pandalib.client.sodium.ChunkBuilderMeshingTaskMixin",
+		"pandalib.client.sodium.ChunkRenderListMixin",
+		"pandalib.client.sodium.RenderSectionMixin",
+		"pandalib.client.sodium.SodiumLevelRendererMixin",
+		"pandalib.client.sodium.SodiumWorldRendererAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -2,7 +2,7 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.minecraft.client.Camera;
@@ -58,7 +58,7 @@ public abstract class LevelRendererMixin {
 
 					poseStack.pushPose();
 					poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
-					BlockRendererDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
+					ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
 					poseStack.popPose();
 				}
 			}

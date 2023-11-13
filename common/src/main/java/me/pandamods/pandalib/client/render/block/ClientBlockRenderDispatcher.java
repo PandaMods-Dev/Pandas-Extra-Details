@@ -11,11 +11,12 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
-public class BlockRendererDispatcher {
+public class ClientBlockRenderDispatcher {
+	public static final Map<BlockPos, ClientBlock> CLIENT_BLOCKS = new HashMap<>();
+
 	public static <T extends ClientBlock> void render(PoseStack poseStack, MultiBufferSource buffer, T clientBlock, float partialTick) {
 		ClientBlockRenderer<T> renderer = BlockRendererRegistry.get(clientBlock.getBlockState().getBlock());
 
@@ -27,8 +28,8 @@ public class BlockRendererDispatcher {
 			return;
 		}
 
-		BlockRendererDispatcher.tryRender(clientBlock, () ->
-				BlockRendererDispatcher.setupAndRender(renderer, clientBlock, partialTick, poseStack, buffer));
+		ClientBlockRenderDispatcher.tryRender(clientBlock, () ->
+				ClientBlockRenderDispatcher.setupAndRender(renderer, clientBlock, partialTick, poseStack, buffer));
 	}
 
 	private static <T extends ClientBlock> void setupAndRender(ClientBlockRenderer<T> renderer, T clientBlock, float partialTick, PoseStack poseStack,

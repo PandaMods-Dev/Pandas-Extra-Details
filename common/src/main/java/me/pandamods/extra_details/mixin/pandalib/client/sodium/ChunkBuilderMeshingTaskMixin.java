@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.mixin.pandalib.sodium;
+package me.pandamods.extra_details.mixin.pandalib.client.sodium;
 
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;

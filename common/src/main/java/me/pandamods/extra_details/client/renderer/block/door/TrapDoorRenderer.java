@@ -11,8 +11,11 @@ import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -56,7 +59,8 @@ public class TrapDoorRenderer extends MeshClientBlockRenderer<TrapDoorClientBloc
 			armature.getBone("door").ifPresent(bone -> bone.applyToPoseStack(poseStack));
 
 			RenderUtils.renderBlock(poseStack, blockState, block.getBlockPos(), block.getLevel(),
-					buffer.getBuffer(RenderType.cutout()));
+					buffer.getBuffer(ItemBlockRenderTypes.getRenderType(blockState, false)), lightColor, overlay);
+
 		}
 		poseStack.popPose();
 	}

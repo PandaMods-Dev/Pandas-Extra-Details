@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.mixin.pandalib.sodium;
+package me.pandamods.extra_details.mixin.pandalib.client.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
@@ -8,7 +8,7 @@ import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.pandalib.client.render.block.BlockRendererDispatcher;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.minecraft.client.Camera;
@@ -79,7 +79,7 @@ public abstract class SodiumLevelRendererMixin {
 
 						poseStack.pushPose();
 						poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
-						BlockRendererDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
+						ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
 						poseStack.popPose();
 					}
 				}
