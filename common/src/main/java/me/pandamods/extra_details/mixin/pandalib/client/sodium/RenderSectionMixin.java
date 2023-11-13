@@ -6,6 +6,7 @@ import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +16,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
@@ -23,10 +26,10 @@ import java.util.List;
 public abstract class RenderSectionMixin implements CompileResultsExtension {
 	@Shadow private int flags;
 	@Unique
-	private List<ClientBlock> blocks = new ArrayList<>();
+	private Set<BlockPos> blocks = new HashSet<>();
 
 	@Override
-	public List<ClientBlock> getBlocks() {
+	public Set<BlockPos> getBlocks() {
 		return blocks;
 	}
 

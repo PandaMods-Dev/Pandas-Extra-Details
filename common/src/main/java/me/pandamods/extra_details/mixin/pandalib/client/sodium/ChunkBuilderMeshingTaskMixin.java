@@ -13,12 +13,14 @@ import me.jellysquid.mods.sodium.client.world.WorldSlice;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.ClientBlockProvider;
 import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Final;
@@ -31,6 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
+import java.util.Optional;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
@@ -51,19 +54,23 @@ public class ChunkBuilderMeshingTaskMixin {
 						BuiltSectionInfo.Builder renderData, VisGraph occluder, ChunkBuildBuffers buffers, BlockRenderCache cache, WorldSlice slice,
 						int minX, int minY, int minZ, int maxX, int maxY, int maxZ, BlockPos.MutableBlockPos blockPos, BlockPos.MutableBlockPos modelOffset,
 						BlockRenderContext context, int y, int z, int x, BlockState blockState, FluidState fluidState) {
+		Level level = Minecraft.getInstance().level;
 		ClientBlockProvider blockProvider = ClientBlockRegistry.get(blockState.getBlock());
-		if (blockProvider != null) {
-			List<ClientBlock> compiledBlocks = ((CompileResultsExtension) this.render).getBlocks().stream().filter(
-							clientBlock -> clientBlock.getBlockPos().equals(blockPos.immutable()) && clientBlock.getBlockState()
-									.is(blockState.getBlock())).toList();
-			if (compiledBlocks.isEmpty()) {
-				((CompileResultsExtension) renderData).getBlocks().add(
+		if (blockProvider != null && level != null) {
+			Optional<BlockPos> compiledBlockPos = ((CompileResultsExtension) this.render).getBlocks().stream().filter(
+					clientBlockPos -> clientBlockPos.equals(blockPos.immutable()) && level.getBlockState(clientBlockPos).is(blockState.getBlock())
+			).findFirst();
+			if (compiledBlockPos.isEmpty()) {
+				ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(blockPos.immutable(),
 						blockProvider.create(blockPos.immutable(), blockState, Minecraft.getInstance().level));
+				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
 			} else {
-				ClientBlock block = compiledBlocks.get(0);
+				ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos.immutable());
 				block.setBlockState(blockState);
-				((CompileResultsExtension) renderData).getBlocks().add(block);
+				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
 			}
+		} else {
+			ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());
 		}
 	}
 }

@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Mixin(LevelRenderer.class)
 public abstract class SodiumLevelRendererMixin {
@@ -72,13 +73,17 @@ public abstract class SodiumLevelRendererMixin {
 					int renderSectionId = renderSectionIterator.nextByteAsInt();
                 	RenderSection renderSection = renderRegion.getSection(renderSectionId);
 
-					List<ClientBlock> clientBlocks = ((CompileResultsExtension) renderSection).getBlocks();
+					Set<BlockPos> clientBlocks = ((CompileResultsExtension) renderSection).getBlocks();
 					if (clientBlocks.isEmpty()) continue;
-					for (ClientBlock clientBlock : clientBlocks) {
-						BlockPos pos = clientBlock.getBlockPos();
+					for (BlockPos blockPos : clientBlocks) {
+						ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
 
 						poseStack.pushPose();
-						poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
+						poseStack.translate(
+								blockPos.getX() - cameraPosition.x,
+								blockPos.getY() - cameraPosition.y,
+								blockPos.getZ() - cameraPosition.z
+						);
 						ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
 						poseStack.popPose();
 					}

@@ -51,13 +51,17 @@ public abstract class LevelRendererMixin {
 		profilerfiller.popPush("clientblocks");
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				List<ClientBlock> clientBlocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks();
+				Set<BlockPos> clientBlocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks();
 				if (clientBlocks.isEmpty()) continue;
-				for (ClientBlock clientBlock : clientBlocks) {
-					BlockPos pos = clientBlock.getBlockPos();
+				for (BlockPos blockPos : clientBlocks) {
+					ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
 
 					poseStack.pushPose();
-					poseStack.translate(pos.getX() - cameraPosition.x, pos.getY() - cameraPosition.y, pos.getZ() - cameraPosition.z);
+					poseStack.translate(
+							blockPos.getX() - cameraPosition.x,
+							blockPos.getY() - cameraPosition.y,
+							blockPos.getZ() - cameraPosition.z
+					);
 					ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
 					poseStack.popPose();
 				}

@@ -4,6 +4,9 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
+import me.pandamods.pandalib.client.render.block.ClientBlock;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
+import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.utils.RandomUtils;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import org.joml.Math;
+
+import java.util.Optional;
 
 public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 	@Override
@@ -33,7 +38,6 @@ public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 	public void setupAnim(HangingSignClientBlock base, Armature armature, float deltaSeconds) {
 		evaluateVisibleObjects(armature, base.getBlockState());
 
-		BlockState blockState = base.getBlockState();
 		BlockState stateBelow = base.getLevel().getBlockState(base.getBlockPos().below());
 		if (!(stateBelow.is(BlockTags.ALL_HANGING_SIGNS) &&
 				stateBelow.hasProperty(CeilingHangingSignBlock.ATTACHED) && stateBelow.getValue(CeilingHangingSignBlock.ATTACHED))) {

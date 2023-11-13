@@ -9,6 +9,7 @@ import org.joml.Quaterniond;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
@@ -43,6 +44,8 @@ public class Bone {
 		return Optional.ofNullable(parent);
 	}
 	public void setParent(Bone bone) {
+		if (!Objects.equals(this.parent, bone))
+			this.armature.updateBone(this);
 		this.parent = bone;
 	}
 	public void resetParent() {

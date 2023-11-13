@@ -3,6 +3,7 @@ package me.pandamods.extra_details.mixin.pandalib.client;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.client.render.block.ClientBlockProvider;
 import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
+import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
@@ -23,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
@@ -50,23 +53,28 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						CallbackInfoReturnable<ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults> cir,
 						ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults, int i, BlockPos blockPos, BlockPos blockPos2,
 						VisGraph visGraph, RenderChunkRegion renderChunkRegion) {
-		if (this.captureRegion != null) {
+		Level level = Minecraft.getInstance().level;
+		if (this.captureRegion != null && level != null) {
 			for (BlockPos pos : BlockPos.betweenClosed(blockPos, blockPos2)) {
-				BlockState state = this.captureRegion.getBlockState(pos);
+				BlockState state = this.captureRegion.getBlockState(pos.immutable());
 				if (state.isAir())
 					continue;
 				ClientBlockProvider blockProvider = ClientBlockRegistry.get(state.getBlock());
 				if (blockProvider != null) {
-					List<ClientBlock> compiledBlocks = ((CompileResultsExtension) this.field_20839.getCompiledChunk()).getBlocks().stream().filter(
-							clientBlock -> clientBlock.getBlockPos().equals(pos.immutable()) && clientBlock.getBlockState().is(state.getBlock())).toList();
-					if (compiledBlocks.isEmpty()) {
-						((CompileResultsExtension) (Object) compileResults).getBlocks().add(
-							blockProvider.create(pos.immutable(), state, Minecraft.getInstance().level));
+					Optional<BlockPos> compiledBlockPos = ((CompileResultsExtension) this.field_20839.getCompiledChunk()).getBlocks().stream().filter(
+							clientBlockPos -> clientBlockPos.equals(pos.immutable()) && level.getBlockState(clientBlockPos).is(state.getBlock())
+					).findFirst();
+					if (compiledBlockPos.isEmpty()) {
+						ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(pos.immutable(),
+								blockProvider.create(pos.immutable(), state, Minecraft.getInstance().level));
+						((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
 					} else {
-						ClientBlock block = compiledBlocks.get(0);
+						ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(pos.immutable());
 						block.setBlockState(state);
-						((CompileResultsExtension) (Object) compileResults).getBlocks().add(block);
+						((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
 					}
+				} else {
+					ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());
 				}
 			}
 		}
