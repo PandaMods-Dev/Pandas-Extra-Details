@@ -97,7 +97,7 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 			if (sortedSet != null && !sortedSet.isEmpty() && (progress = sortedSet.last().getProgress()) >= 0) {
 				destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
 						.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
-						stack.last().pose(), stack.last().normal(), 1.0f);
+						stack.last().pose().translate(0.5f, 0f, 0.5f, new Matrix4f()), stack.last().normal(), 1.0f);
 			}
 		}
 		for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {

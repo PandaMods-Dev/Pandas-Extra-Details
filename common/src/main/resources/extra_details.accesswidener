@@ -13,6 +13,7 @@ accessible method net/minecraft/world/level/block/piston/PistonMovingBlockEntity
 accessible method net/minecraft/client/renderer/blockentity/SignRenderer renderSignWithText (Lnet/minecraft/world/level/block/entity/SignBlockEntity;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/SignBlock;Lnet/minecraft/world/level/block/state/properties/WoodType;Lnet/minecraft/client/model/Model;)V
 accessible method net/minecraft/client/renderer/blockentity/HangingSignRenderer translateSign (Lcom/mojang/blaze3d/vertex/PoseStack;FLnet/minecraft/world/level/block/state/BlockState;)V
 accessible method net/minecraft/client/renderer/blockentity/SignRenderer renderSignText (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/SignText;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IIIZ)V
+accessible method net/minecraft/client/renderer/block/ModelBlockRenderer renderModelFaceFlat (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;IIZLcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;Ljava/util/BitSet;)V
 
 accessible field net/minecraft/client/renderer/LevelRenderer$RenderChunkInfo chunk Lnet/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk;
 accessible field net/minecraft/world/level/block/entity/ChestLidController shouldBeOpen Z
