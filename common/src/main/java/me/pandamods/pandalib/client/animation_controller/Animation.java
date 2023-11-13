@@ -32,8 +32,8 @@ public record Animation(RawAnimation rawAnimation, PlayType playType) {
 			return new Matrix4f().identity();
 		}
 
-		Vector3f position = interpolateKeyframes(bone.position(), time, new Vector3f());
-		Vector3f rotation = interpolateKeyframes(bone.rotation(), time, new Vector3f());
+		Vector3f position = interpolateKeyframes(bone.position(), time, new Vector3f(0));
+		Vector3f rotation = interpolateKeyframes(bone.rotation(), time, new Vector3f(0));
 		Vector3f scale = interpolateKeyframes(bone.scale(), time, new Vector3f(1));
 
 		Quaternionf rotationQuaternion = new Quaternionf().identity();

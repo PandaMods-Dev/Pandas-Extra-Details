@@ -8,7 +8,9 @@ import me.pandamods.pandalib.client.model.Bone;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import me.pandamods.pandalib.utils.VectorUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.core.BlockPos;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.HangingSignBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.joml.Vector3f;
 
 public class SwingingHangingSignRenderer extends MeshClientBlockRenderer<HangingSignClientBlock, HangingSignModel> {
@@ -49,7 +52,7 @@ public class SwingingHangingSignRenderer extends MeshClientBlockRenderer<Hanging
 							new Vector3f(.5f, 0, .5f), new Vector3f(0, (float) Math.toRadians(this.getYRotation(blockState)), 0));
 
 					bone.applyToPoseStack(poseStack);
-					poseStack.translate(0.5f, 0, 0.5f);
+					poseStack.translate(0.5f, 1, 0.5f);
 //					LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.LINES), new AABB(0, 0, 0, 0, 0, 1), 0, 0, 1, 1);
 					poseStack.translate(0, -6f/16f, 0);
 //					LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.LINES), new AABB(0, 0, 0, 0, 0, 1), 1, 0, 0, 1);

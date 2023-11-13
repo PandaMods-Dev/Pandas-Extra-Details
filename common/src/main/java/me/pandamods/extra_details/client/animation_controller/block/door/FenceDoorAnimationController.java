@@ -16,6 +16,7 @@ public class FenceDoorAnimationController extends AnimationController<FenceGateC
 		super(base);
 		this.skipAnimation();
 		this.setTransitionLength(0.1f);
+		this.setAnimationSpeed(ExtraDetails.getConfig().blockSettings.fenceGate.animationSpeed);
 	}
 
 	private final Animation open = Animation.of(

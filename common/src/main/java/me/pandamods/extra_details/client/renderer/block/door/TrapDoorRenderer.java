@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.client.renderer.block.door;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.door.TrapDoorModel;
 import me.pandamods.extra_details.entity.block.TrapDoorClientBlock;
@@ -50,8 +51,8 @@ public class TrapDoorRenderer extends MeshClientBlockRenderer<TrapDoorClientBloc
 
 		Armature armature = block.getCache().armature;
 		if (armature != null) {
-			VectorUtils.rotateByPivot(poseStack, new Vector3f(.5f, 0, .5f), new Vector3f(0, Math.toRadians(this.getYRotation(blockState) + 180), 0));
-
+			VectorUtils.rotateByPivot(poseStack, new Vector3f(.5f, 0, .5f),
+					new Vector3f(0, Math.toRadians(this.getYRotation(block.getBlockState())), 0));
 			armature.getBone("door").ifPresent(bone -> bone.applyToPoseStack(poseStack));
 
 			RenderUtils.renderBlock(poseStack, blockState, block.getBlockPos(), block.getLevel(),

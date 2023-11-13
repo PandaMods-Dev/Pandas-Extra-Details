@@ -8,5 +8,4 @@ import net.minecraft.core.BlockPos;
 @Environment(EnvType.CLIENT)
 public interface MeshAnimatable {
 	MeshCache getCache();
-	BlockPos getBlockPos();
 }

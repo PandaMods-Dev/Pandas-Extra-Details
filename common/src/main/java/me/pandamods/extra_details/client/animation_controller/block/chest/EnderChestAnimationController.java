@@ -14,6 +14,7 @@ public class EnderChestAnimationController extends AnimationController<EnderChes
 		super(base);
 		this.skipAnimation();
 		this.setTransitionLength(0.1f);
+		this.setAnimationSpeed(ExtraDetails.getConfig().blockSettings.chest.animationSpeed);
 	}
 
 	private final Animation open = Animation.of(new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/animations/block/chest/chest_open.json"));

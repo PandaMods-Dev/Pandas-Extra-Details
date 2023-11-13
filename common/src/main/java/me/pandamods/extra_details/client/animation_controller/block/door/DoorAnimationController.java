@@ -17,6 +17,7 @@ public class DoorAnimationController extends AnimationController<DoorClientBlock
 		super(base);
 		this.skipAnimation();
 		this.setTransitionLength(0.1f);
+		this.setAnimationSpeed(ExtraDetails.getConfig().blockSettings.door.animationSpeed);
 	}
 
 	private final Animation open = Animation.of(

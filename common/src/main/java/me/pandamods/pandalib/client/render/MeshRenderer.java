@@ -32,6 +32,7 @@ import org.joml.*;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
@@ -88,21 +89,9 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
 		base.getCache().vertices.clear();
 
-		BlockPos blockPos = base.getBlockPos();
-		VertexConsumer destroyConsumer = null;
-		if (blockPos != null) {
-			SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance()
-					.levelRenderer.destructionProgress.get(blockPos.asLong());
-			int progress;
-			if (sortedSet != null && !sortedSet.isEmpty() && (progress = sortedSet.last().getProgress()) >= 0) {
-				destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
-						.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
-						stack.last().pose().translate(0.5f, 0f, 0.5f, new Matrix4f()), stack.last().normal(), 1.0f);
-			}
-		}
 		for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
 			if (armature == null || !armature.getVisibility(meshEntry.getKey()))
-				renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, vertices, destroyConsumer);
+				renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, Color.WHITE, vertices);
 		}
 
 		if (armature != null) {
@@ -111,80 +100,85 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	}
 
 	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-							  Map<Integer, Map<String, MeshCache.vertexVectors>> vertices, VertexConsumer destroyConsumer) {
+							  Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
 		for (Mesh.Object.Face face : object.faces()) {
 			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
 			VertexConsumer consumer = getVertexConsumer(buffer, textureLocation, base);
 
-			for (Map.Entry<Integer, Mesh.Object.Face.Vertex> vertexEntry : face.vertices().entrySet()) {
-				base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
-				Mesh.Object.Face.Vertex vertex = vertexEntry.getValue();
-				Matrix4f poseMatrix = stack.last().pose();
-				Matrix3f normalMatrix = stack.last().normal();
-
-				float maxWeight = (float) Arrays.stream(vertex.weights()).mapToDouble(Mesh.Object.Face.Vertex.Weight::weight).sum();
-				Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
-				Vector3f newVertexPos = new Vector3f();
-				Vector3f newVertexNormal = new Vector3f();
-
-				if (vertex.weights().length > 0) {
-					for (Mesh.Object.Face.Vertex.Weight weight : vertex.weights()) {
-						if (base.getCache().armature.isUpdated(weight.name())) {
-							Optional<Bone> bone = base.getCache().armature.getBone(weight.name());
-							float weightPercent = weight.weight() / maxWeight;
-
-							if (bone.isPresent()) {
-								Bone boneInst = bone.get();
-
-								Matrix4f boneTransform = boneInst.getWorldTransform();
-
-								Vector4f transformedPosition = new Vector4f(vertexPos, 1.0f);
-								boneTransform.transform(transformedPosition);
-
-								Vector3f position = new Vector3f(transformedPosition.x, transformedPosition.y, transformedPosition.z).mul(weightPercent);
-								newVertexPos.add(position);
-
-								Matrix3f rotationMatrix = new Matrix3f(boneTransform);
-								Vector3f transformedNormal = new Vector3f(face.normal());
-								rotationMatrix.transform(transformedNormal);
-
-								Vector3f normal = transformedNormal.mul(weightPercent);
-								newVertexNormal.add(normal);
-
-								if (!vertices.containsKey(vertexEntry.getKey()))
-									base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
-								base.getCache().vertices.get(vertexEntry.getKey()).put(weight.name(), new MeshCache.vertexVectors(position, normal));
-							}
-						} else if (vertices.containsKey(vertexEntry.getKey())) {
-							MeshCache.vertexVectors vertexVectors = vertices.get(vertexEntry.getKey()).getOrDefault(weight.name(),
-									new MeshCache.vertexVectors(new Vector3f(), new Vector3f()));
-
-							newVertexPos.add(vertexVectors.position());
-							newVertexNormal.add(vertexVectors.normal());
-
-							if (!vertices.containsKey(vertexEntry.getKey()))
-								base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
-							base.getCache().vertices.get(vertexEntry.getKey()).put(weight.name(), vertexVectors);
-						}
-					}
-				} else {
-					newVertexPos.set(vertexPos);
-					newVertexNormal.set(face.normal());
-				}
-
-				this.vertex(poseMatrix, normalMatrix, consumer, Color.WHITE,
-						newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
-						packedLight, packedOverlay);
-
-				if (destroyConsumer != null)
-					this.vertex(poseMatrix, normalMatrix, destroyConsumer, Color.WHITE,
-							newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
-							packedLight, packedOverlay);
-			}
+			renderFace(object, face, base, stack, consumer, packedLight, packedOverlay, color, vertices);
 		}
 	}
 
+	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
+							  Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
+		for (Mesh.Object.Face face : object.faces()) {
+			renderFace(object, face, base, stack, vertexConsumer, packedLight, packedOverlay, color, vertices);
+		}
+	}
 
+	default void renderFace(Mesh.Object object, Mesh.Object.Face face, T base, PoseStack stack, VertexConsumer consumer,
+							int packedLight, int packedOverlay, Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
+		for (Map.Entry<Integer, Mesh.Object.Face.Vertex> vertexEntry : face.vertices().entrySet()) {
+			base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
+			Mesh.Object.Face.Vertex vertex = vertexEntry.getValue();
+			Matrix4f poseMatrix = stack.last().pose();
+			Matrix3f normalMatrix = stack.last().normal();
+
+			float maxWeight = (float) Arrays.stream(vertex.weights()).mapToDouble(Mesh.Object.Face.Vertex.Weight::weight).sum();
+			Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
+			Vector3f newVertexPos = new Vector3f();
+			Vector3f newVertexNormal = new Vector3f();
+
+			if (vertex.weights().length > 0) {
+				for (Mesh.Object.Face.Vertex.Weight weight : vertex.weights()) {
+					if (base.getCache().armature.isUpdated(weight.name())) {
+						Optional<Bone> bone = base.getCache().armature.getBone(weight.name());
+						float weightPercent = weight.weight() / maxWeight;
+
+						if (bone.isPresent()) {
+							Bone boneInst = bone.get();
+
+							Matrix4f boneTransform = boneInst.getWorldTransform();
+
+							Vector4f transformedPosition = new Vector4f(vertexPos, 1.0f);
+							boneTransform.transform(transformedPosition);
+
+							Vector3f position = new Vector3f(transformedPosition.x, transformedPosition.y, transformedPosition.z).mul(weightPercent);
+							newVertexPos.add(position);
+
+							Matrix3f rotationMatrix = new Matrix3f(boneTransform);
+							Vector3f transformedNormal = new Vector3f(face.normal());
+							rotationMatrix.transform(transformedNormal);
+
+							Vector3f normal = transformedNormal.mul(weightPercent);
+							newVertexNormal.add(normal);
+
+							if (!vertices.containsKey(vertexEntry.getKey()))
+								base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
+							base.getCache().vertices.get(vertexEntry.getKey()).put(weight.name(), new MeshCache.vertexVectors(position, normal));
+						}
+					} else if (vertices.containsKey(vertexEntry.getKey())) {
+						MeshCache.vertexVectors vertexVectors = vertices.get(vertexEntry.getKey()).getOrDefault(weight.name(),
+								new MeshCache.vertexVectors(new Vector3f(), new Vector3f()));
+
+						newVertexPos.add(vertexVectors.position());
+						newVertexNormal.add(vertexVectors.normal());
+
+						if (!vertices.containsKey(vertexEntry.getKey()))
+							base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
+						base.getCache().vertices.get(vertexEntry.getKey()).put(weight.name(), vertexVectors);
+					}
+				}
+			} else {
+				newVertexPos.set(vertexPos);
+				newVertexNormal.set(face.normal());
+			}
+
+			this.vertex(poseMatrix, normalMatrix, consumer, color,
+					newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
+					packedLight, packedOverlay);
+		}
+	}
 
 	default void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
 						Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {

@@ -57,7 +57,6 @@ public class Bone {
 		return mirrorMatrix(localTransform);
     }
 
-
 	public void setLocalTransform(Matrix4f localTransform) {
 		if (!this.localTransform.equals(localTransform))
 			this.armature.updateBone(this);
@@ -120,24 +119,42 @@ public class Bone {
 
 	public Matrix4f mirrorMatrix(Matrix4f matrix) {
 		Vector3f translation = matrix.getTranslation(new Vector3f());
-		Vector3f rotation = matrix.getEulerAnglesXYZ(new Vector3f());
+		Quaternionf rotation = matrix.getNormalizedRotation(new Quaternionf());
 		Vector3f scale = matrix.getScale(new Vector3f());
-		return new Matrix4f().translationRotateScale(
-				new Vector3f(
-						translation.x * (armature.mirrorXTranslation ? -1 : 1),
-						translation.y * (armature.mirrorYTranslation ? -1 : 1),
-						translation.z * (armature.mirrorZTranslation ? -1 : 1)
-				),
-				new Quaternionf().identity().rotateZYX(
-						rotation.z * (armature.mirrorZRotation ? -1 : 1),
-						rotation.y * (armature.mirrorYRotation ? -1 : 1),
-						rotation.x * (armature.mirrorXRotation ? -1 : 1)
-				),
-				new Vector3f(
-						scale.x * (armature.mirrorXScale ? -1 : 1),
-						scale.y * (armature.mirrorYScale ? -1 : 1),
-						scale.z * (armature.mirrorZScale ? -1 : 1)
-				)
+
+		float mirrorXTranslationFactor = armature.mirrorXTranslation ? -1 : 1;
+		float mirrorYTranslationFactor = armature.mirrorYTranslation ? -1 : 1;
+		float mirrorZTranslationFactor = armature.mirrorZTranslation ? -1 : 1;
+
+		float mirrorZRotationFactor = armature.mirrorZRotation ? -1 : 1;
+		float mirrorYRotationFactor = armature.mirrorYRotation ? -1 : 1;
+		float mirrorXRotationFactor = armature.mirrorXRotation ? -1 : 1;
+
+		float mirrorXScaleFactor = armature.mirrorXScale ? -1 : 1;
+		float mirrorYScaleFactor = armature.mirrorYScale ? -1 : 1;
+		float mirrorZScaleFactor = armature.mirrorZScale ? -1 : 1;
+
+		Matrix4f translationMatrix = new Matrix4f().translation(
+				translation.x * mirrorXTranslationFactor,
+				translation.y * mirrorYTranslationFactor,
+				translation.z * mirrorZTranslationFactor
 		);
+
+		Quaternionf mirroredRotation = new Quaternionf(
+				rotation.x * mirrorXRotationFactor,
+				rotation.y * mirrorYRotationFactor,
+				rotation.z * mirrorZRotationFactor,
+				rotation.w
+		);
+		mirroredRotation.normalize();
+		Matrix4f rotationMatrix = new Matrix4f().rotation(mirroredRotation);
+
+		Matrix4f scalingMatrix = new Matrix4f().scaling(
+				scale.x * mirrorXScaleFactor,
+				scale.y * mirrorYScaleFactor,
+				scale.z * mirrorZScaleFactor
+		);
+
+		return new Matrix4f(translationMatrix).mul(rotationMatrix).mul(scalingMatrix);
 	}
 }

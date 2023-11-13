@@ -22,7 +22,9 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 	private float previousAnimationTime = 0;
 	private float animationTime = 0;
 	private float transitionTime = 0;
+
 	private float transitionLength = 0;
+	private float animationSpeed = 1;
 	private boolean skipAnimation = false;
 
 	public AnimationController(T base) {
@@ -84,7 +86,7 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 
 			this.transitionTime = Math.min(this.transitionTime + (deltaSeconds / this.transitionLength), 1);
 			if (transitionTime >= 1)
-				this.animationTime += deltaSeconds;
+				this.animationTime += deltaSeconds * this.animationSpeed;
 			if (this.currentAnimation.playType().equals(PlayType.LOOP) && this.animationTime >= this.currentAnimation.rawAnimation().animation_length()) {
 				this.animationTime -= this.currentAnimation.rawAnimation().animation_length();
 			}
@@ -107,6 +109,10 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 
 	public void setTransitionLength(float transitionLength) {
 		this.transitionLength = transitionLength;
+	}
+
+	public void setAnimationSpeed(float speed) {
+		this.animationSpeed = speed;
 	}
 
 	public enum ApplyMethod {

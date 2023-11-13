@@ -38,7 +38,6 @@ public class AnimatedEnderChestRenderer extends ChestRenderer<EnderChestBlockEnt
 		if (ExtraDetails.getConfig().blockSettings.chest.enabled) {
 			poseStack.pushPose();
 			translateBlock(blockEntity.getBlockState(), poseStack);
-//			this.renderMesh(blockEntity, model, poseStack, buffer, packedLight, packedOverlay);
 			this.renderRig(blockEntity, model, poseStack, buffer, packedLight, packedOverlay, true);
 			poseStack.popPose();
 		} else {

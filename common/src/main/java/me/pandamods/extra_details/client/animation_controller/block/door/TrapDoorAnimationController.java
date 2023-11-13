@@ -18,6 +18,7 @@ public class TrapDoorAnimationController extends AnimationController<TrapDoorCli
 		super(base);
 		this.skipAnimation();
 		this.setTransitionLength(0.1f);
+		this.setAnimationSpeed(ExtraDetails.getConfig().blockSettings.trapdoor.animationSpeed);
 	}
 
 	private final Animation lowerOpen = Animation.of(
