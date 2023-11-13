@@ -13,6 +13,7 @@
     * Increased performance a tiny bit.
     * Fixed animation speed being uneven when fps is unstable.
     * Fixed breaking texture not applying.
+    * Fixed Top and bottom door block not being synced
   * **Whats been added:**
 	  * Added support for Embeddium.
       * Created a new Animation System.
