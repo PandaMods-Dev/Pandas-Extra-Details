@@ -13,7 +13,7 @@ import me.pandamods.extra_details.client.renderer.block.redstone.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.SwingingHangingSignRenderer;
 import me.pandamods.extra_details.client.renderer.block.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.ModConfig;
-import me.pandamods.extra_details.registries.BlockEntityRegistry;
+import me.pandamods.extra_details.registries.ClientBlockRegistry;
 import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -47,12 +47,12 @@ public class ExtraDetails {
 		BlockEntityRendererRegistry.register(BlockEntityType.CHEST, AnimatedChestRenderer::new);
 		BlockEntityRendererRegistry.register(BlockEntityType.TRAPPED_CHEST, AnimatedChestRenderer::new);
 
-		BlockEntityRegistry.init();
-		BlockRendererRegistry.register(BlockEntityRegistry.DOOR, new DoorRenderer());
-		BlockRendererRegistry.register(BlockEntityRegistry.TRAP_DOOR, new TrapDoorRenderer());
-		BlockRendererRegistry.register(BlockEntityRegistry.FENCE_GATE, new FenceGateRenderer());
-		BlockRendererRegistry.register(BlockEntityRegistry.LEVER, new LeverRenderer());
-		BlockRendererRegistry.register(BlockEntityRegistry.HANGING_SIGN, new SwingingHangingSignRenderer());
+		ClientBlockRegistry.init();
+		BlockRendererRegistry.register(ClientBlockRegistry.DOOR, new DoorRenderer());
+		BlockRendererRegistry.register(ClientBlockRegistry.TRAP_DOOR, new TrapDoorRenderer());
+		BlockRendererRegistry.register(ClientBlockRegistry.FENCE_GATE, new FenceGateRenderer());
+		BlockRendererRegistry.register(ClientBlockRegistry.LEVER, new LeverRenderer());
+		BlockRendererRegistry.register(ClientBlockRegistry.HANGING_SIGN, new SwingingHangingSignRenderer());
 	}
 
 	public static ModConfig getConfig() {

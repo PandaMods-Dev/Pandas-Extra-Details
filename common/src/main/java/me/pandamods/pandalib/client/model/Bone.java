@@ -53,11 +53,11 @@ public class Bone {
 	}
 
 	public Matrix4f getOffsetTransform() {
-		return mirrorMatrix(offsetTransform);
+		return new Matrix4f(offsetTransform);
 	}
 
 	public Matrix4f getLocalTransform() {
-		return mirrorMatrix(localTransform);
+		return new Matrix4f(localTransform);
     }
 
 	public void setLocalTransform(Matrix4f localTransform) {
@@ -79,20 +79,20 @@ public class Bone {
 	}
 
 	public Matrix4f getWorldTransform() {
-		Matrix4f offsetTransform = this.getOffsetTransform();
-		Matrix4f offsetInverse = new Matrix4f(offsetTransform).invert();
+		Matrix4f offsetTransform = mirrorMatrix(this.getOffsetTransform());
+		Matrix4f offsetInverse = offsetTransform.invert(new Matrix4f());
 
         if (getParent().isPresent()) {
             Matrix4f parentWorldTransform = getParent().get().getWorldTransform();
 
             Matrix4f worldTransform = new Matrix4f(parentWorldTransform);
-			Matrix4f finalTransform = new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
+			Matrix4f finalTransform = new Matrix4f(offsetTransform).mul(mirrorMatrix(getLocalTransform())).mul(offsetInverse);
 
             worldTransform.mul(finalTransform);
 
 			return worldTransform;
         } else {
-			return new Matrix4f(offsetTransform).mul(getLocalTransform()).mul(offsetInverse);
+			return new Matrix4f(offsetTransform).mul(mirrorMatrix(getLocalTransform())).mul(offsetInverse);
         }
     }
 
@@ -113,10 +113,10 @@ public class Bone {
 
 	public void applyToPoseStack(PoseStack poseStack) {
 		poseStack.translate(0.5, 0, 0.5);
-		Vector3f offset = this.getOffsetTransform().getTranslation(new Vector3f());
+		Vector3f offset = mirrorMatrix(this.getOffsetTransform()).getTranslation(new Vector3f());
 		poseStack.translate(offset.x, offset.y, offset.z);
 
-		Matrix4f matrix = this.getLocalTransform();
+		Matrix4f matrix = mirrorMatrix(this.getLocalTransform());
 		Vector3f translation = matrix.getTranslation(new Vector3f());
 		Quaternionf rotation = matrix.getNormalizedRotation(new Quaternionf());
 		Vector3f scale = matrix.getScale(new Vector3f());

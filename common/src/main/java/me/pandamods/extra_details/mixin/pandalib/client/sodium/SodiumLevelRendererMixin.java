@@ -77,6 +77,7 @@ public abstract class SodiumLevelRendererMixin {
 					if (clientBlocks.isEmpty()) continue;
 					for (BlockPos blockPos : clientBlocks) {
 						ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
+						if (clientBlock == null) continue;
 
 						poseStack.pushPose();
 						poseStack.translate(
