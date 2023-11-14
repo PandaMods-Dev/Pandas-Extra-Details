@@ -9,24 +9,28 @@ import org.joml.Quaterniond;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class Bone {
 	private final String name;
-	private final Matrix4f offsetTransform;
+	private Matrix4f offsetTransform;
 	private Matrix4f localTransform = new Matrix4f();
 	private final Bone defaultParent;
-	private Bone parent;
+	private Bone parent = null;
+	private Set<Bone> children = new HashSet<>();
 	private final Armature armature;
 
 	public Bone(Armature armature, String name, Matrix4f offsetMatrix, Bone parent) {
+		this.armature = armature;
 		this.name = name;
 		this.offsetTransform = offsetMatrix;
-		this.parent = parent;
 		this.defaultParent = parent;
-		this.armature = armature;
+		this.resetParent();
 	}
 
 	public Bone(Armature armature, String name, Mesh.Bone bone) {
@@ -40,59 +44,72 @@ public class Bone {
 		);
 	}
 
+	public Armature getArmature() {
+		return armature;
+	}
+
+	public void updateBone() {
+		this.armature.updateBone(this);
+	}
+
 	public Optional<Bone> getParent() {
 		return Optional.ofNullable(parent);
 	}
 	public void setParent(Bone bone) {
 		if (!Objects.equals(this.parent, bone))
 			this.armature.updateBone(this);
+
+		if (this.parent != null)
+			this.parent.children.remove(this);
 		this.parent = bone;
+		if (this.parent != null)
+			this.parent.children.add(this);
 	}
 	public void resetParent() {
-		this.parent = this.defaultParent;
+		this.setParent(this.defaultParent);
 	}
 
-	public Matrix4f getOffsetTransform() {
-		return new Matrix4f(offsetTransform);
+	public Set<Bone> getChildren() {
+		return new HashSet<>(children);
 	}
 
-	public Matrix4f getLocalTransform() {
-		return new Matrix4f(localTransform);
-    }
+	public Matrix4f offsetTransform() {
+		return new Matrix4f(this.offsetTransform);
+	}
 
-	public void setLocalTransform(Matrix4f localTransform) {
-		if (!this.localTransform.equals(localTransform))
+	public Matrix4f offsetTransform(Function<Matrix4f, Matrix4f> matrixFunction) {
+		Matrix4f matrix = matrixFunction.apply(new Matrix4f(this.offsetTransform));
+		if (!this.offsetTransform.equals(matrix))
 			this.armature.updateBone(this);
-		this.localTransform = localTransform;
+		return new Matrix4f(this.offsetTransform = matrix);
 	}
 
-	public void setTranslation(float x, float y, float z) {
-		setLocalTransform(this.getLocalTransform().setTranslation(x, y, z));
+	public Matrix4f localTransform() {
+		return new Matrix4f(this.localTransform);
 	}
 
-	public void setRotation(float x, float y, float z) {
-		setLocalTransform(this.getLocalTransform().setRotationZYX(z, y, x));
-	}
-
-	public Vector3f getRotation() {
-		return this.getLocalTransform().getEulerAnglesXYZ(new Vector3f());
+	public Matrix4f localTransform(Function<Matrix4f, Matrix4f> matrixFunction) {
+		Matrix4f matrix = matrixFunction.apply(new Matrix4f(this.localTransform));
+		if (!this.localTransform.equals(matrix))
+			this.armature.updateBone(this);
+		return new Matrix4f(this.localTransform = matrix);
 	}
 
 	public Matrix4f getWorldTransform() {
-		Matrix4f offsetTransform = mirrorMatrix(this.getOffsetTransform());
+		Matrix4f offsetTransform = mirrorMatrix(this.offsetTransform());
 		Matrix4f offsetInverse = offsetTransform.invert(new Matrix4f());
 
         if (getParent().isPresent()) {
             Matrix4f parentWorldTransform = getParent().get().getWorldTransform();
 
             Matrix4f worldTransform = new Matrix4f(parentWorldTransform);
-			Matrix4f finalTransform = new Matrix4f(offsetTransform).mul(mirrorMatrix(getLocalTransform())).mul(offsetInverse);
+			Matrix4f finalTransform = new Matrix4f(offsetTransform).mul(mirrorMatrix(localTransform())).mul(offsetInverse);
 
             worldTransform.mul(finalTransform);
 
 			return worldTransform;
         } else {
-			return new Matrix4f(offsetTransform).mul(mirrorMatrix(getLocalTransform())).mul(offsetInverse);
+			return new Matrix4f(offsetTransform).mul(mirrorMatrix(localTransform())).mul(offsetInverse);
         }
     }
 
@@ -105,18 +122,18 @@ public class Bone {
 		return "Bone{" +
 				"name=" + name +
 				", parent=" + (parent != null ? parent.name : "None") +
-				", offsetMatrix=" + offsetTransform +
-				", localTransform=" + getLocalTransform() +
+				", offsetMatrix=" + offsetTransform() +
+				", localTransform=" + localTransform() +
 				", worldTransform=" + getWorldTransform() +
 				'}';
 	}
 
 	public void applyToPoseStack(PoseStack poseStack) {
 		poseStack.translate(0.5, 0, 0.5);
-		Vector3f offset = mirrorMatrix(this.getOffsetTransform()).getTranslation(new Vector3f());
+		Vector3f offset = mirrorMatrix(this.offsetTransform()).getTranslation(new Vector3f());
 		poseStack.translate(offset.x, offset.y, offset.z);
 
-		Matrix4f matrix = mirrorMatrix(this.getLocalTransform());
+		Matrix4f matrix = mirrorMatrix(this.localTransform());
 		Vector3f translation = matrix.getTranslation(new Vector3f());
 		Quaternionf rotation = matrix.getNormalizedRotation(new Quaternionf());
 		Vector3f scale = matrix.getScale(new Vector3f());

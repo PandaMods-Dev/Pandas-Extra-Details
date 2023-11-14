@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import org.joml.Math;
+import org.joml.Quaternionf;
 
 import java.util.List;
 
@@ -40,8 +41,30 @@ public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	@Override
 	public void setupAnim(FenceGateClientBlock base, Armature armature, float deltaSeconds) {
 		armature.getBone("right.door").ifPresent(bone ->
-				bone.setRotation(bone.getRotation().x, -bone.getRotation().y, bone.getRotation().z));
+				bone.localTransform(matrix -> {
+					Quaternionf quaternion = matrix.getNormalizedRotation(new Quaternionf());
+					Quaternionf newQuaternion = new Quaternionf(
+							quaternion.x ,
+							-quaternion.y,
+							quaternion.z ,
+							quaternion.w
+					);
+					newQuaternion.normalize();
+					return matrix.rotation(newQuaternion);
+				})
+		);
 		armature.getBone("left.door").ifPresent(bone ->
-				bone.setRotation(bone.getRotation().x, -bone.getRotation().y, bone.getRotation().z));
+				bone.localTransform(matrix -> {
+					Quaternionf quaternion = matrix.getNormalizedRotation(new Quaternionf());
+					Quaternionf newQuaternion = new Quaternionf(
+							quaternion.x ,
+							-quaternion.y,
+							quaternion.z ,
+							quaternion.w
+					);
+					newQuaternion.normalize();
+					return matrix.rotation(newQuaternion);
+				})
+		);
 	}
 }

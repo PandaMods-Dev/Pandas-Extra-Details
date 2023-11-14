@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.pandamods.pandalib.PandaLib;
+import me.pandamods.pandalib.utils.gsonadapter.QuaternionfTypeAdapter;
 import me.pandamods.pandalib.utils.gsonadapter.Vector3fTypeAdapter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +15,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.io.FileNotFoundException;
@@ -31,6 +33,7 @@ public class Resources {
 
 	public static final Gson GSON = new GsonBuilder()
 			.registerTypeAdapter(Vector3f.class, new Vector3fTypeAdapter())
+			.registerTypeAdapter(Quaternionf.class, new QuaternionfTypeAdapter())
 			.create();
 
 	public static Map<ResourceLocation, Mesh> MESHES = new HashMap<>();

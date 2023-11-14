@@ -33,14 +33,11 @@ public record Animation(RawAnimation rawAnimation, PlayType playType) {
 		}
 
 		Vector3f position = interpolateKeyframes(bone.position(), time, new Vector3f(0));
-		Vector3f rotation = interpolateKeyframes(bone.rotation(), time, new Vector3f(0));
+		Quaternionf rotation = interpolateKeyframes(bone.rotation(), time, new Quaternionf().identity());
 		Vector3f scale = interpolateKeyframes(bone.scale(), time, new Vector3f(1));
 
-		Quaternionf rotationQuaternion = new Quaternionf().identity();
-		rotationQuaternion.rotationXYZ(rotation.x(), rotation.y(), rotation.z());
-
 		Matrix4f translationMatrix = new Matrix4f().translation(position);
-		Matrix4f rotationMatrix = new Matrix4f().rotation(rotationQuaternion);
+		Matrix4f rotationMatrix = new Matrix4f().rotation(rotation);
 		Matrix4f scaleMatrix = new Matrix4f().scaling(scale);
 
 		return new Matrix4f(translationMatrix).mul(rotationMatrix).mul(scaleMatrix);
@@ -66,7 +63,7 @@ public record Animation(RawAnimation rawAnimation, PlayType playType) {
 
 			if (currentTime >= time) {
 				float alpha = (time - prevTime) / (currentTime - prevTime);
-				return lerp(prevValue, currentValue, alpha);
+				return prevValue.lerp(currentValue, alpha, new Vector3f());
 			}
 
 			prevTime = currentTime;
@@ -76,11 +73,33 @@ public record Animation(RawAnimation rawAnimation, PlayType playType) {
 		return prevValue;
 	}
 
-	private static Vector3f lerp(Vector3f a, Vector3f b, float alpha) {
-		return new Vector3f(
-				a.x() + alpha * (b.x() - a.x()),
-				a.y() + alpha * (b.y() - a.y()),
-				a.z() + alpha * (b.z() - a.z())
-		);
+	private static Quaternionf interpolateKeyframes(Map<Float, Quaternionf> keyframes, float time, Quaternionf defaultQuaternion) {
+		if (keyframes.isEmpty()) {
+			return defaultQuaternion;
+		}
+
+		Map.Entry<Float, Quaternionf> firstEntry = keyframes.entrySet().iterator().next();
+
+		if (time <= firstEntry.getKey()) {
+			return firstEntry.getValue();
+		}
+
+		float prevTime = firstEntry.getKey();
+		Quaternionf prevValue = firstEntry.getValue();
+
+		for (Map.Entry<Float, Quaternionf> entry : keyframes.entrySet()) {
+			float currentTime = entry.getKey();
+			Quaternionf currentValue = entry.getValue();
+
+			if (currentTime >= time) {
+				float alpha = (time - prevTime) / (currentTime - prevTime);
+				return prevValue.slerp(currentValue, alpha, new Quaternionf());
+			}
+
+			prevTime = currentTime;
+			prevValue = currentValue;
+		}
+
+		return prevValue;
 	}
 }

@@ -42,11 +42,13 @@ public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 		if (!(stateBelow.is(BlockTags.ALL_HANGING_SIGNS) &&
 				stateBelow.hasProperty(CeilingHangingSignBlock.ATTACHED) && stateBelow.getValue(CeilingHangingSignBlock.ATTACHED))) {
 			armature.getBone("chains").ifPresent(bone -> {
-				bone.setRotation(
-						Math.toRadians(Math.cos((base.animTime += deltaSeconds) + RandomUtils.randomFloatFromBlockPos(base.getBlockPos())) * 5),
+				bone.localTransform(matrix -> matrix.setRotationXYZ(
+						Math.toRadians(
+								Math.cos((base.animTime += deltaSeconds) + RandomUtils.randomFloatFromBlockPos(base.getBlockPos())) * 5
+						),
 						0,
 						0
-				);
+				));
 			});
 		} else {
 			base.animTime = 0;

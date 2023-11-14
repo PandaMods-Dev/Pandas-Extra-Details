@@ -68,7 +68,7 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 				getArmature().getBone(boneName).ifPresent(bone -> {
 					Matrix4f transform = this.currentAnimation.getBoneTransform(boneName, this.animationTime);
 					if (this.applyMethod.equals(ApplyMethod.ADD)) {
-						transform.mul(bone.getLocalTransform());
+						transform.mul(bone.localTransform());
 					}
 
 					if (this.previousAnimation != null) {
@@ -76,7 +76,8 @@ public abstract class AnimationController<T extends MeshAnimatable> {
 						transform = MatrixUtils.lerpMatrix(previousTransform, transform, this.transitionTime);
 					}
 
-					bone.setLocalTransform(transform);
+					Matrix4f finalTransform = transform;
+					bone.localTransform(matrix4f -> finalTransform);
 				});
 			}
 

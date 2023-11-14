@@ -5,11 +5,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class Armature {
-	private final Map<String, Bone> bones = new HashMap<>();
-	private final Set<String> updatedBones = new HashSet<>();
+	private final Set<Bone> bones = new HashSet<>();
+	private final Set<Bone> updatedBones = new HashSet<>();
 	private final Set<String> hiddenObjects = new HashSet<>();
 
 	protected boolean mirrorXTranslation = false;
@@ -25,33 +27,38 @@ public class Armature {
 	protected boolean mirrorZScale = false;
 
 	public Armature(Mesh mesh) {
-		mesh.bone().forEach((s, bone) -> bones.put(s, new Bone(this, s, bone)));
-		updatedBones.addAll(bones.keySet());
+		mesh.bone().forEach((s, bone) -> bones.add(new Bone(this, s, bone)));
+		updatedBones.addAll(bones);
 	}
 
 	public Optional<Bone> getBone(String name) {
-		return Optional.ofNullable(bones.getOrDefault(name, null));
+		return Optional.ofNullable(getBones().getOrDefault(name, null));
 	}
 
 	public void updateBone(Bone bone) {
-		if (!updatedBones.contains(bone.getName())) {
-			updatedBones.add(bone.getName());
-			for (Map.Entry<String, Bone> entry : bones.entrySet()) {
-				Optional<Bone> childBonesParent = entry.getValue().getParent();
-				if (childBonesParent.isPresent() && childBonesParent.get().getName().equals(bone.getName())) {
-					updateBone(entry.getValue());
-				}
-			}
+//		if (!updatedBones.contains(bone.getName())) {
+//			updatedBones.add(bone.getName());
+//			for (Map.Entry<String, Bone> entry : bones.entrySet()) {
+//				Optional<Bone> childBonesParent = entry.getValue().getParent();
+//				if (childBonesParent.isPresent() && childBonesParent.get().getName().equals(bone.getName())) {
+//					updateBone(entry.getValue());
+//				}
+//			}
+//		}
+
+		updatedBones.add(bone);
+		for (Bone child : bone.getChildren()) {
+			child.updateBone();
 		}
 	}
 
 
 	public boolean isUpdated(Bone bone) {
-		return isUpdated(bone.getName());
+		return this.updatedBones.contains(bone);
 	}
 
 	public boolean isUpdated(String name) {
-		return updatedBones.contains(name);
+		return updatedBones.stream().anyMatch(bone -> bone.getName().equals(name));
 	}
 
 	public void clearUpdatedBones() {
@@ -59,7 +66,7 @@ public class Armature {
 	}
 
 	public Map<String, Bone> getBones() {
-		return new HashMap<>(bones);
+		return bones.stream().collect(Collectors.toMap(Bone::getName, bone -> bone));
 	}
 
 	public void setHidden(String... objectNames) {
