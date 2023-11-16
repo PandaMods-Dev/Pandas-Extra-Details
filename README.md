@@ -7,7 +7,6 @@
 
 [![Architecury API](https://img.shields.io/badge/Architectury%20API-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 [![Cloth Config](https://img.shields.io/badge/Cloth%20Config-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
-[![GeckoLib](https://img.shields.io/badge/GeckoLib-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/geckolib)
 [![Fabric API](https://img.shields.io/badge/Fabric%20API-REQUIRED%20for%20Fabric-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
 ## About:
