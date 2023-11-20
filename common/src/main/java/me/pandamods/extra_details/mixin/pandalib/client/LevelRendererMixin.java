@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.mixin.pandalib.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
@@ -42,11 +44,9 @@ public abstract class LevelRendererMixin {
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		ProfilerFiller profilerfiller = this.level.getProfiler();
 		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
 		Vec3 cameraPosition = camera.getPosition();
 
-		profilerfiller.popPush("clientblocks");
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
 				Set<BlockPos> clientBlocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks();
@@ -61,18 +61,11 @@ public abstract class LevelRendererMixin {
 							blockPos.getY() - cameraPosition.y,
 							blockPos.getZ() - cameraPosition.z
 					);
+
 					ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
 					poseStack.popPose();
 				}
 			}
 		}
-
-		this.checkPoseStack(poseStack);
-		buffersource.endBatch(RenderType.solid());
-		buffersource.endBatch(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entitySmoothCutout(TextureAtlas.LOCATION_BLOCKS));
-		this.renderBuffers.outlineBufferSource().endOutlineBatch();
 	}
 }

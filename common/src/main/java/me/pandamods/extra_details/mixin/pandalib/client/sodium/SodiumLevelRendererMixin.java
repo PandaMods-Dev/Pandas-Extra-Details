@@ -50,11 +50,9 @@ public abstract class SodiumLevelRendererMixin {
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		ProfilerFiller profilerfiller = this.level.getProfiler();
 		MultiBufferSource.BufferSource buffersource = this.renderBuffers.bufferSource();
 		Vec3 cameraPosition = camera.getPosition();
 
-		profilerfiller.popPush("clientblocks");
 		if (this.level != null) {
 			SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) sodiumWorld).getRenderSectionManager();
@@ -91,13 +89,5 @@ public abstract class SodiumLevelRendererMixin {
 				}
 			}
 		}
-
-		this.checkPoseStack(poseStack);
-		buffersource.endBatch(RenderType.solid());
-		buffersource.endBatch(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS));
-		buffersource.endBatch(RenderType.entitySmoothCutout(TextureAtlas.LOCATION_BLOCKS));
-		this.renderBuffers.outlineBufferSource().endOutlineBatch();
 	}
 }
