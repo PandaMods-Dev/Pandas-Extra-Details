@@ -29,7 +29,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modApi("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
-    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
+//    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
 //    modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

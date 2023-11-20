@@ -56,11 +56,17 @@ public class ChunkBuilderMeshingTaskMixin {
 						BlockRenderContext context, int y, int z, int x, BlockState blockState, FluidState fluidState) {
 		Level level = Minecraft.getInstance().level;
 		ClientBlockProvider blockProvider = ClientBlockRegistry.get(blockState.getBlock());
+
+		if ((!ClientBlockRenderDispatcher.CLIENT_BLOCKS.containsKey(blockPos.immutable()) ||
+				!ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos.immutable()).getBlockState().is(blockState.getBlock())
+		) && blockProvider != null && level != null)
+			ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());
+
 		if (blockProvider != null && level != null) {
 			Optional<BlockPos> compiledBlockPos = ((CompileResultsExtension) this.render).getBlocks().stream().filter(
 					clientBlockPos -> clientBlockPos.equals(blockPos.immutable()) && level.getBlockState(clientBlockPos).is(blockState.getBlock())
 			).findFirst();
-			if (compiledBlockPos.isEmpty()) {
+			if (!ClientBlockRenderDispatcher.CLIENT_BLOCKS.containsKey(blockPos.immutable()) || compiledBlockPos.isEmpty()) {
 				ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(blockPos.immutable(),
 						blockProvider.create(blockPos.immutable(), blockState, Minecraft.getInstance().level));
 				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
@@ -69,8 +75,6 @@ public class ChunkBuilderMeshingTaskMixin {
 				block.setBlockState(blockState);
 				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
 			}
-		} else {
-			ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());
 		}
 	}
 }
