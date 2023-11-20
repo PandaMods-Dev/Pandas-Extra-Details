@@ -32,8 +32,6 @@ public abstract class LevelRendererMixin {
 
 	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
 
-	@Shadow public abstract void clear();
-
 	@Inject(
 			method = "renderLevel",
 			at = @At(

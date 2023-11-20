@@ -12,15 +12,15 @@ public class PandaLibMixinPluginCommon {
 
 	public static Map<String, Supplier<Boolean>> getConditions(Function<String, Boolean> condition) {
 		return ImmutableMap.of(
-            "me.pandamods.extra_details.mixin.pandalib.sodium.BuiltSectionInfoAccessor", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.BuiltSectionInfoBuilderMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.BuiltSectionInfoMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.ChunkBuilderMeshingTaskMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.ChunkRenderListMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.RenderSectionMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.SodiumWorldRendererAccessor", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
-            "me.pandamods.extra_details.mixin.pandalib.client.LevelRendererMixin", () -> !(condition.apply(sodiumID) || condition.apply(embeddiumID)),
-            "me.pandamods.extra_details.mixin.pandalib.sodium.SodiumLevelRendererMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID)
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.BuiltSectionInfoAccessor", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.BuiltSectionInfoBuilderMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.BuiltSectionInfoMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.ChunkBuilderMeshingTaskMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.ChunkRenderListMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.RenderSectionMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.SodiumWorldRendererAccessor", () -> condition.apply(sodiumID) || condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.LevelRendererMixin", () -> !condition.apply(sodiumID) && !condition.apply(embeddiumID),
+            "me.pandamods.extra_details.mixin.pandalib.client.sodium.SodiumLevelRendererMixin", () -> condition.apply(sodiumID) || condition.apply(embeddiumID)
 		);
 	}
 }
