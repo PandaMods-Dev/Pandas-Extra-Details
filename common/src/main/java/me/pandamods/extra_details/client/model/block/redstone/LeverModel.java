@@ -13,15 +13,17 @@ import java.util.List;
 public class LeverModel implements MeshModel<LeverClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(LeverClientBlock base) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
+//		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/suzanne.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(String textureName, LeverClientBlock base) {
-		return switch (textureName) {
-			case "lever" -> getTextureResource(base, true);
-			default -> getTextureResource(base, false);
-		};
+//		return switch (textureName) {
+//			case "lever" -> getTextureResource(base, true);
+//			default -> getTextureResource(base, false);
+//		};
+		return new ResourceLocation(ExtraDetails.MOD_ID, "textures/suzanne.png");
 	}
 
 	public ResourceLocation getTextureResource(LeverClientBlock animatable, boolean bl) {
@@ -34,6 +36,7 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 
 	@Override
 	public AnimationControllerProvider<LeverClientBlock> createAnimationController() {
-		return LeverAnimationController::new;
+//		return LeverAnimationController::new;
+		return null;
 	}
 }
