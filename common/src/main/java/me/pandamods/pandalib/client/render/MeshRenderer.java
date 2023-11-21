@@ -1,13 +1,13 @@
 package me.pandamods.pandalib.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.cache.MeshCache;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.Bone;
+import me.pandamods.pandalib.client.model.CompiledVertices;
 import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
@@ -15,13 +15,11 @@ import me.pandamods.pandalib.resources.Resources;
 import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -118,16 +116,17 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 
 	default void renderFace(Mesh.Object object, Mesh.Object.Face face, T base, PoseStack stack, VertexConsumer consumer,
 							int packedLight, int packedOverlay, Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
+		Matrix4f poseMatrix = stack.last().pose();
+		Matrix3f normalMatrix = stack.last().normal();
+
+		List<CompiledVertices> compiledVertices = new ArrayList<>();
+
 		for (Map.Entry<Integer, Mesh.Object.Face.Vertex> vertexEntry : face.vertices().entrySet()) {
 			base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
 			Mesh.Object.Face.Vertex vertex = vertexEntry.getValue();
-			Matrix4f poseMatrix = stack.last().pose();
-			Matrix3f normalMatrix = stack.last().normal();
 
 			float maxWeight = (float) Arrays.stream(vertex.weights()).mapToDouble(Mesh.Object.Face.Vertex.Weight::weight).sum();
 			Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
-			Vector3f newVertexPos = new Vector3f();
-			Vector3f newVertexNormal = new Vector3f();
 
 			if (vertex.weights().length > 0) {
 				for (Mesh.Object.Face.Vertex.Weight weight : vertex.weights()) {
@@ -144,14 +143,14 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 							boneTransform.transform(transformedPosition);
 
 							Vector3f position = new Vector3f(transformedPosition.x, transformedPosition.y, transformedPosition.z).mul(weightPercent);
-							newVertexPos.add(position);
 
 							Matrix3f rotationMatrix = new Matrix3f(boneTransform);
 							Vector3f transformedNormal = new Vector3f(face.normal());
 							rotationMatrix.transform(transformedNormal);
 
 							Vector3f normal = transformedNormal.mul(weightPercent);
-							newVertexNormal.add(normal);
+
+							compiledVertices.add(new CompiledVertices(position, normal, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1])));
 
 							if (!vertices.containsKey(vertexEntry.getKey()))
 								base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
@@ -161,8 +160,8 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 						MeshCache.vertexVectors vertexVectors = vertices.get(vertexEntry.getKey()).getOrDefault(weight.name(),
 								new MeshCache.vertexVectors(new Vector3f(), new Vector3f()));
 
-						newVertexPos.add(vertexVectors.position());
-						newVertexNormal.add(vertexVectors.normal());
+						compiledVertices.add(new CompiledVertices(vertexVectors.position(), vertexVectors.normal(),
+								new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1])));
 
 						if (!vertices.containsKey(vertexEntry.getKey()))
 							base.getCache().vertices.put(vertexEntry.getKey(), new HashMap<>());
@@ -170,12 +169,14 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 					}
 				}
 			} else {
-				newVertexPos.set(vertexPos);
-				newVertexNormal.set(face.normal());
+				compiledVertices.add(new CompiledVertices(vertexPos, face.normal(),
+						new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1])));
 			}
+		}
 
+		for (CompiledVertices compiledVertex : compiledVertices) {
 			vertex(poseMatrix, normalMatrix, consumer, color,
-					newVertexPos, new Vector2f(vertex.uv()[0],  1 - vertex.uv()[1]), newVertexNormal,
+					compiledVertex.position(), compiledVertex.uv(), compiledVertex.normal(),
 					packedLight, packedOverlay);
 		}
 	}

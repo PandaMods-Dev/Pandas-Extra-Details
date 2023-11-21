@@ -70,8 +70,10 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
 					} else {
 						ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(pos.immutable());
-						block.setBlockState(state);
-						((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
+						if (block != null) {
+							block.setBlockState(state);
+							((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
+						}
 					}
 				} else {
 					ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());

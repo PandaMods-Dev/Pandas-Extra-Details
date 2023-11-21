@@ -72,8 +72,10 @@ public class ChunkBuilderMeshingTaskMixin {
 				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
 			} else {
 				ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos.immutable());
-				block.setBlockState(blockState);
-				((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
+				if (block != null) {
+					block.setBlockState(blockState);
+					((CompileResultsExtension) renderData).getBlocks().add(blockPos.immutable());
+				}
 			}
 		}
 	}
