@@ -13,6 +13,7 @@ import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
 import me.pandamods.pandalib.resources.Resources;
 import me.pandamods.pandalib.utils.RenderUtils;
+import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
@@ -29,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
 import java.awt.*;
+import java.lang.Math;
 import java.util.*;
 import java.util.List;
 
@@ -179,6 +181,19 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 					compiledVertex.position(), compiledVertex.uv(), compiledVertex.normal(),
 					packedLight, packedOverlay);
 		}
+	}
+
+	static boolean shouldRenderFace(PoseStack poseStack) {
+		Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
+		Vector3f cameraPosition = camera.getPosition().toVector3f();
+
+		Vector3f objectPosition = poseStack.last().pose().rotateX((float) Math.toRadians(90), new Matrix4f()).getTranslation(new Vector3f());
+
+		Vector3f relativeCamPosition = objectPosition.add(cameraPosition);
+
+//		System.out.println(VectorUtils.betterPrint(relativeCamPosition) + VectorUtils.betterPrint(objectPosition) + VectorUtils.betterPrint(cameraPosition));
+		System.out.println(Math.toDegrees(poseStack.last().pose().getEulerAnglesXYZ(new Vector3f()).x));
+		return true;
 	}
 
 	static void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
