@@ -186,13 +186,14 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 	static boolean shouldRenderFace(PoseStack poseStack) {
 		Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
 		Vector3f cameraPosition = camera.getPosition().toVector3f();
+		Quaternionf cameraRotation = new Quaternionf().identity().setFromUnnormalized(new Matrix4f().translate(camera.getLookVector()));
+		cameraRotation.normalize();
 
-		Vector3f objectPosition = poseStack.last().pose().rotateX((float) Math.toRadians(90), new Matrix4f()).getTranslation(new Vector3f());
+		Vector3f objectPosition = poseStack.last().pose().getTranslation(new Vector3f());
 
-		Vector3f relativeCamPosition = objectPosition.add(cameraPosition);
+		Vector3f relativeCamPosition = objectPosition.rotate(cameraRotation);
 
-//		System.out.println(VectorUtils.betterPrint(relativeCamPosition) + VectorUtils.betterPrint(objectPosition) + VectorUtils.betterPrint(cameraPosition));
-		System.out.println(Math.toDegrees(poseStack.last().pose().getEulerAnglesXYZ(new Vector3f()).x));
+		System.out.println(VectorUtils.betterPrint(relativeCamPosition));
 		return true;
 	}
 

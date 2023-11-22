@@ -36,6 +36,14 @@ public class VectorUtils {
 		return "(" + decimalFormat.format(vector.x) + " " + decimalFormat.format(vector.y) + " " + decimalFormat.format(vector.z) + ")";
 	}
 
+	public static String betterPrintEuler(Vector3f vector) {
+		DecimalFormat decimalFormat = new DecimalFormat("#.###");
+		return "(" +
+				decimalFormat.format(Math.toDegrees(vector.x)) + " " +
+				decimalFormat.format(Math.toDegrees(vector.y)) + " " +
+				decimalFormat.format(Math.toDegrees(vector.z)) + ")";
+	}
+
 	public static Vector3f toRadians(Vector3f vector) {
 		vector = new Vector3f(vector);
 		vector.x = Math.toRadians(vector.x);
