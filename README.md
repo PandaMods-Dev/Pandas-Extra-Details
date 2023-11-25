@@ -17,6 +17,10 @@ This mod aims to add small animations and details to blocks that originally didn
 ![Trap Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_trap_door_animation.gif?raw=true)
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
+## Incompatibilities
+* Enhanced Block entities
+* Nvidium
+
 ## FAQ:
 * [Q] Is this mod Client side.
   * [A] Yes this mod is a 100% client side.

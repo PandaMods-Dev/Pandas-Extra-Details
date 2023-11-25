@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.redstone.LeverModel;
 import me.pandamods.extra_details.entity.block.LeverClientBlock;
-import me.pandamods.pandalib.client.render.MeshRenderer;
 import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.level.block.RenderShape;
@@ -27,9 +26,6 @@ public class LeverRenderer extends MeshClientBlockRenderer<LeverClientBlock, Lev
 
 	@Override
 	public void render(LeverClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
-		MeshRenderer.shouldRenderFace(poseStack);
-		poseStack.translate(0, 2, 0);
-
 		super.render(block, poseStack, buffer, lightColor, overlay, partialTick);
 	}
 }

@@ -13,11 +13,8 @@ import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.Mesh;
 import me.pandamods.pandalib.resources.Resources;
 import me.pandamods.pandalib.utils.RenderUtils;
-import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -30,9 +27,8 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
 import java.awt.*;
-import java.lang.Math;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
@@ -45,9 +41,20 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		return bufferSource.getBuffer(getRenderType(location, base));
 	}
 
-	default void renderRig(T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean shouldRenderMesh) {
+	default void renderRig(T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,
+						   boolean shouldRenderMesh) {
+		fullRenderRig(base, model, poseStack, buffer, packedLight, packedOverlay, shouldRenderMesh);
+	}
+
+	default void renderRig(T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
+						   boolean shouldRenderMesh) {
+		fullRenderRig(base, model, poseStack, vertexConsumer, packedLight, packedOverlay, shouldRenderMesh);
+	}
+
+	private void fullRenderRig(T base, M model, PoseStack poseStack, Object buffer, int packedLight, int packedOverlay,
+						   boolean shouldRenderMesh) {
 		if (base.getCache() != null) {
-			stack.pushPose();
+			poseStack.pushPose();
 
 			ResourceLocation location = model.getMeshLocation(base);
 			if (base.getCache().mesh == null || !base.getCache().meshLocation.equals(location)) {
@@ -57,16 +64,24 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 					base.getCache().armature = new Armature(base.getCache().mesh);
 					model.setPropertiesOnCreation(base, base.getCache().armature);
 				} else {
-					PandaLib.LOGGER.error("Cant find mesh at " + model.getMeshLocation(base).toString());
+					PandaLib.LOGGER.error("Can't find mesh at " + model.getMeshLocation(base).toString());
 				}
 			}
+
 			Mesh mesh = base.getCache().mesh;
 			Armature armature = base.getCache().armature;
 			if (armature != null)
 				animateArmature(base, model, armature);
-			if (shouldRenderMesh && mesh != null)
-				renderMesh(base, model, armature, mesh, stack, buffer, packedLight, packedOverlay);
-			stack.popPose();
+
+			if (shouldRenderMesh && mesh != null) {
+				if (buffer instanceof MultiBufferSource) {
+					renderMesh(base, model, armature, mesh, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay);
+				} else if (buffer instanceof VertexConsumer) {
+					renderMesh(base, model, armature, mesh, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay);
+				}
+			}
+
+			poseStack.popPose();
 		}
 	}
 
@@ -84,14 +99,28 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		model.setupAnim(base, armature, deltaSeconds);
 	}
 
-	default void renderMesh(T base, M model, @Nullable Armature armature, Mesh mesh, PoseStack stack,
+	default void renderMesh(T base, M model, @Nullable Armature armature, Mesh mesh, PoseStack poseStack,
 							MultiBufferSource buffer, int packedLight, int packedOverlay) {
+		fullRenderMesh(base, model, armature, mesh, poseStack, buffer, packedLight, packedOverlay);
+	}
+
+	default void renderMesh(T base, M model, @Nullable Armature armature, Mesh mesh, PoseStack poseStack,
+							VertexConsumer vertexConsumer, int packedLight, int packedOverlay) {
+		fullRenderMesh(base, model, armature, mesh, poseStack, vertexConsumer, packedLight, packedOverlay);
+	}
+
+	private void fullRenderMesh(T base, M model, @Nullable Armature armature, Mesh mesh, PoseStack poseStack,
+							Object buffer, int packedLight, int packedOverlay) {
 		Map<Integer, Map<String, MeshCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
 		base.getCache().vertices.clear();
 
 		for (Map.Entry<String, Mesh.Object> meshEntry : mesh.objects().entrySet()) {
 			if (armature == null || !armature.getVisibility(meshEntry.getKey()))
-				renderObject(meshEntry.getValue(), base, model, stack, buffer, packedLight, packedOverlay, Color.WHITE, vertices);
+				if (buffer instanceof MultiBufferSource) {
+					renderObject(meshEntry.getValue(), base, model, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay, Color.WHITE, vertices);
+				} else if (buffer instanceof VertexConsumer) {
+					renderObject(meshEntry.getValue(), base, model, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay, Color.WHITE, vertices);
+				}
 		}
 
 		if (armature != null) {
@@ -99,27 +128,27 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 		}
 	}
 
-	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
+	default void renderObject(Mesh.Object object, T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,
 							  Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
 		for (Mesh.Object.Face face : object.faces()) {
 			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
 			VertexConsumer consumer = getVertexConsumer(buffer, textureLocation, base);
 
-			renderFace(object, face, base, stack, consumer, packedLight, packedOverlay, color, vertices);
+			renderFace(object, face, base, poseStack, consumer, packedLight, packedOverlay, color, vertices);
 		}
 	}
 
-	default void renderObject(Mesh.Object object, T base, M model, PoseStack stack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
+	default void renderObject(Mesh.Object object, T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
 							  Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
 		for (Mesh.Object.Face face : object.faces()) {
-			renderFace(object, face, base, stack, vertexConsumer, packedLight, packedOverlay, color, vertices);
+			renderFace(object, face, base, poseStack, vertexConsumer, packedLight, packedOverlay, color, vertices);
 		}
 	}
 
-	default void renderFace(Mesh.Object object, Mesh.Object.Face face, T base, PoseStack stack, VertexConsumer consumer,
+	default void renderFace(Mesh.Object object, Mesh.Object.Face face, T base, PoseStack poseStack, VertexConsumer consumer,
 							int packedLight, int packedOverlay, Color color, Map<Integer, Map<String, MeshCache.vertexVectors>> vertices) {
-		Matrix4f poseMatrix = stack.last().pose();
-		Matrix3f normalMatrix = stack.last().normal();
+		Matrix4f poseMatrix = poseStack.last().pose();
+		Matrix3f normalMatrix = poseStack.last().normal();
 
 		List<CompiledVertices> compiledVertices = new ArrayList<>();
 
@@ -181,20 +210,6 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 					compiledVertex.position(), compiledVertex.uv(), compiledVertex.normal(),
 					packedLight, packedOverlay);
 		}
-	}
-
-	static boolean shouldRenderFace(PoseStack poseStack) {
-		Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
-		Vector3f cameraPosition = camera.getPosition().toVector3f();
-		Quaternionf cameraRotation = new Quaternionf().identity().setFromUnnormalized(new Matrix4f().translate(camera.getLookVector()));
-		cameraRotation.normalize();
-
-		Vector3f objectPosition = poseStack.last().pose().getTranslation(new Vector3f());
-
-		Vector3f relativeCamPosition = objectPosition.rotate(cameraRotation);
-
-		System.out.println(VectorUtils.betterPrint(relativeCamPosition));
-		return true;
 	}
 
 	static void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
