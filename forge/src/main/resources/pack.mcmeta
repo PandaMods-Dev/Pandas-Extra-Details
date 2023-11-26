@@ -1,7 +1,6 @@
 {
-	"pack": {
-		"description": "Panda's Extra Details Resources",
-		"pack_format": 15,
-		"forge:server_data_pack_format": 12
-	}
+  "pack": {
+    "description": "Panda's Extra Details",
+    "pack_format": 15
+  }
 }

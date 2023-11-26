@@ -14,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public class ExtraDetailsFabric implements ModInitializer {
-    @Override
-    public void onInitialize() {
+	@Override
+	public void onInitialize() {
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
 			@Override
 			public ResourceLocation getFabricId() {
@@ -23,12 +23,14 @@ public class ExtraDetailsFabric implements ModInitializer {
 			}
 
 			@Override
-			public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller preparationsProfiler,
-												  ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
-				return Resources.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor);
+			public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
+												  ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
+												  Executor backgroundExecutor, Executor gameExecutor) {
+				return Resources.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+						backgroundExecutor, gameExecutor);
 			}
 		});
 
-        ExtraDetails.init();
-    }
+		ExtraDetails.init();
+	}
 }

@@ -1,3 +1,11 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/extra_details.accesswidener")
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -8,14 +16,6 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
     modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
     modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/extra_details.accesswidener")
-}
-
-architectury {
-    common()
 }
 
 publishing {
