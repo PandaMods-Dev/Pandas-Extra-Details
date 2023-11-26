@@ -1,45 +1,49 @@
-modLoader="javafml"
-loaderVersion="[47,)"
-license="MIT"
-issueTrackerURL="https://github.com/PandaDap2006/Pandas-Extra-Details/issues"
-displayURL="https://modrinth.com/mod/pandas-extra-details"
-showAsResourcePack=false
+modLoader = "javafml"
+loaderVersion = "[47,)"
+issueTrackerURL = "https://github.com/PandaDap2006/Pandas-Extra-Details/issues"
+displayURL = "https://modrinth.com/mod/pandas-extra-details"
+license = "MIT"
+showAsResourcePack = false
 
 [[mods]]
-modId="extra_details"
-version="${version}"
-displayName="Panda's Extra Detail's"
-logoFile="icon.png"
-authors="Panda Mods/The Panda Oliver"
-description="A mod that adds extra Details to Minecraft for both Forge and Fabric"
+	modId = "extra_details"
+	version = "${version}"
+	displayName = "Panda's Extra Detail's"
+	authors = "Panda Mods/The Panda Oliver"
+	description = "A mod that adds small details and animations to Minecraft"
+	logoFile = "icon.png"
 
 [[dependencies.extra_details]]
-   modId="forge"
-   mandatory=true
-   versionRange="[47,)"
-   ordering="NONE"
-   side="CLIENT"
+	modId = "forge"
+	mandatory = true
+	versionRange = "[47,)"
+	ordering = "NONE"
+	side = "CLIENT"
+
 [[dependencies.extra_details]]
-   modId="minecraft"
-   mandatory=true
-   versionRange="[1.20.1,1.21)"
-   ordering="NONE"
-   side="CLIENT"
+	modId = "minecraft"
+	mandatory = true
+	versionRange = "[1.20.1,)"
+	ordering = "NONE"
+	side = "CLIENT"
+
 [[dependencies.extra_details]]
-   modId="cloth_config"
-   mandatory=true
-   versionRange="[11.1.106,)"
-   ordering="NONE"
-   side="CLIENT"
+	modId = "architectury"
+	mandatory = true
+	versionRange = "[9.1.12,)"
+	ordering = "AFTER"
+	side = "CLIENT"
+
 [[dependencies.extra_details]]
-   modId="architectury"
-   mandatory=true
-   versionRange="[9.1.12,)"
-   ordering="NONE"
-   side="CLIENT"
+	modId = "cloth_config"
+	mandatory = true
+	versionRange = "[11.1.106,)"
+	ordering = "AFTER"
+	side = "CLIENT"
+
 [[dependencies.extra_details]]
-   modId="rubidium"
-   mandatory=false
-   versionRange="[0.7.1,)"
-   ordering="NONE"
-   side="CLIENT"
+	modId = "rubidium"
+	mandatory = false
+	versionRange = "[0.7.1,)"
+	ordering = "AFTER"
+	side = "CLIENT"

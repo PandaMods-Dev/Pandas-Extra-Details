@@ -2,36 +2,35 @@
   "schemaVersion": 1,
   "id": "extra_details",
   "version": "${version}",
-
-  "name": "Panda's Extra Details",
-  "description": "A mod that adds extra Details to Minecraft for both Forge and Fabric",
-  "authors": ["PandaMods/The Panda Oliver"],
+  "name": "Panda's Extra Detail's",
+  "description": "A mod that adds small details and animations to Minecraft",
+  "authors": [
+		"Panda Mods/The Panda Oliver"
+  ],
   "contact": {
 		"sources": "https://github.com/PandaDap2006/Pandas-Extra-Details",
 		"issues": "https://github.com/PandaDap2006/Pandas-Extra-Details/issues",
 		"homepage": "https://modrinth.com/mod/pandas-extra-details"
-	},
-
+  },
   "license": "MIT",
   "icon": "icon.png",
-
   "environment": "client",
   "entrypoints": {
-		"main": [
+    "main": [
 			"me.pandamods.extra_details.fabric.ExtraDetailsFabric"
-		],
+    ],
 		"modmenu": [
-        "me.pandamods.extra_details.fabric.ModMenuIntegration"
-    ]
-	},
+			"me.pandamods.extra_details.fabric.ModMenuIntegration"
+		]
+  },
   "mixins": [
-    "extra_details.mixins.json",
+		"extra_details.mixins.json",
     "extra_details-common.mixins.json"
   ],
   "depends": {
-		"fabricloader": ">=0.14.23",
-		"minecraft": ">=1.20.1",
-		"fabric-api": ">=0.90.0",
+    "fabric": "*",
+    "minecraft": ">=1.20.1",
+		"fabric-api": "*",
 		"cloth-config": ">=11.1.106",
 		"architectury": ">=9.1.12"
   },

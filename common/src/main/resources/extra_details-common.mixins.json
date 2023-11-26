@@ -1,11 +1,9 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "me.pandamods.extra_details.mixin",
-	"compatibilityLevel": "JAVA_17",
+  "required": true,
+  "package": "me.pandamods.extra_details.mixin",
 	"plugin": "me.pandamods.extra_details.common.PandaLibMixinPlugin",
-	"mixins": [
-	],
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
 	"client": [
 		"blockentity.ChestBlockEntityMixin",
 		"blockentity.EnderChestBlockEntityMixin",
@@ -24,7 +22,9 @@
 		"pandalib.client.sodium.SodiumLevelRendererMixin",
 		"pandalib.client.sodium.SodiumWorldRendererAccessor"
 	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+	"mixins": [
+	],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
