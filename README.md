@@ -18,6 +18,7 @@ This mod aims to add small animations and details to blocks that originally didn
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
 ## Incompatibilities
+* Optifine (I will not make support)
 * Enhanced Block entities
 * Nvidium
 
