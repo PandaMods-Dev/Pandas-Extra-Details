@@ -43,12 +43,13 @@ public class RenderUtils {
 	private static void render(PoseStack poseStack, BlockState blockState, BlockPos blockPos,
 								   Level level, VertexConsumer vertexConsumer, int lightColor, int overlay) {
 		BakedModel bakedModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
-		int i = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
-		float f = (float)(i >> 16 & 0xFF) / 255.0f;
-		float g = (float)(i >> 8 & 0xFF) / 255.0f;
-		float h = (float)(i & 0xFF) / 255.0f;
+		int color = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
+		float red = (float)(color >> 16 & 0xFF) / 255.0f;
+		float green = (float)(color >> 8 & 0xFF) / 255.0f;
+		float blue = (float)(color & 0xFF) / 255.0f;
+
 		Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(poseStack.last(),
-				vertexConsumer, blockState, bakedModel, f, g, h, lightColor, overlay);
+				vertexConsumer, blockState, bakedModel, red, green, blue, lightColor, overlay);
 	}
 
 	public static float getDeltaSeconds() {
