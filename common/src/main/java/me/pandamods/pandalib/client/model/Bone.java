@@ -122,7 +122,7 @@ public class Bone {
 		return "Bone{" +
 				"name=" + name +
 				", parent=" + (parent != null ? parent.name : "None") +
-				", offsetMatrix=" + offsetTransform() +
+				", offsetTransform=" + offsetTransform() +
 				", localTransform=" + localTransform() +
 				", worldTransform=" + getWorldTransform() +
 				'}';

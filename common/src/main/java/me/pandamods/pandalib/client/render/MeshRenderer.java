@@ -53,36 +53,31 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> 
 
 	private void fullRenderRig(T base, M model, PoseStack poseStack, Object buffer, int packedLight, int packedOverlay,
 						   boolean shouldRenderMesh) {
-		if (base.getCache() != null) {
-			poseStack.pushPose();
+		if (base.getCache() == null) {
+			return;
+		}
 
-			ResourceLocation location = model.getMeshLocation(base);
-			if (base.getCache().mesh == null || !base.getCache().meshLocation.equals(location)) {
-				base.getCache().meshLocation = location;
-				base.getCache().mesh = Resources.MESHES.getOrDefault(location, null);
-				if (base.getCache().mesh != null) {
-					base.getCache().armature = new Armature(base.getCache().mesh);
-					model.setPropertiesOnCreation(base, base.getCache().armature);
-				} else {
-					PandaLib.LOGGER.error("Can't find mesh at " + model.getMeshLocation(base).toString());
-				}
-			}
+		poseStack.pushPose();
+		ResourceLocation location = model.getMeshLocation(base);
+		base.getCache().updateMeshCache(location, model, base);
 
+		if (shouldRenderMesh) {
 			Mesh mesh = base.getCache().mesh;
 			Armature armature = base.getCache().armature;
-			if (armature != null)
-				animateArmature(base, model, armature);
 
-			if (shouldRenderMesh && mesh != null) {
+			if (armature != null) {
+				animateArmature(base, model, armature);
+			}
+
+			if (mesh != null) {
 				if (buffer instanceof MultiBufferSource) {
 					renderMesh(base, model, armature, mesh, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay);
 				} else if (buffer instanceof VertexConsumer) {
 					renderMesh(base, model, armature, mesh, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay);
 				}
 			}
-
-			poseStack.popPose();
 		}
+		poseStack.popPose();
 	}
 
 	default void animateArmature(T base, M model, Armature armature) {
