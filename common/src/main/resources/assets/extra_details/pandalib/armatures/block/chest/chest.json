@@ -1,0 +1,28 @@
+{
+  "format_version": "0.1",
+  "bones": {
+    "base": {
+      "position": [
+        0.0,
+        0.0,
+        -0.0
+      ]
+    },
+    "lid": {
+      "position": [
+        0.0,
+        0.5625,
+        -0.4375
+      ],
+      "parent": "base"
+    },
+    "lock": {
+      "position": [
+        0.0,
+        0.6875,
+        0.4375
+      ],
+      "parent": "lid"
+    }
+  }
+}

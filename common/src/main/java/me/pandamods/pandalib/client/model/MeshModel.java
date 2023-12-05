@@ -5,12 +5,24 @@ import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public interface MeshModel<T extends MeshAnimatable> {
-	ResourceLocation getMeshLocation(T base);
-	ResourceLocation getTextureLocation(String textureName, T base);
-	default AnimationControllerProvider<T> createAnimationController() {
+	@Nullable
+	default ResourceLocation getMeshLocation(T base) {
+		return null;
+	}
+	@Nullable
+	default ResourceLocation getArmatureLocation(T base) {
+		return null;
+	}
+	@Nullable
+	default ResourceLocation getTextureLocation(String textureName, T base) {
+		return null;
+	}
+	@Nullable
+	default AnimationControllerProvider<T> createAnimationController(T base) {
 		return null;
 	}
 

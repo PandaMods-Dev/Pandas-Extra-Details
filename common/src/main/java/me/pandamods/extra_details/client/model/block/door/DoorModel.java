@@ -38,7 +38,7 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	}
 
 	@Override
-	public AnimationControllerProvider<DoorClientBlock> createAnimationController() {
+	public AnimationControllerProvider<DoorClientBlock> createAnimationController(DoorClientBlock base) {
 		return DoorAnimationController::new;
 	}
 

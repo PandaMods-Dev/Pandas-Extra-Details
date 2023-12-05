@@ -32,7 +32,7 @@ public class ChestModel<T extends MeshAnimatable> implements MeshModel<T> {
 	}
 
 	@Override
-	public AnimationControllerProvider<T> createAnimationController() {
+	public AnimationControllerProvider<T> createAnimationController(T base) {
 		return ChestAnimationController::new;
 	}
 }

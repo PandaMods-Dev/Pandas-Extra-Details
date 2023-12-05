@@ -34,7 +34,7 @@ public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	}
 
 	@Override
-	public AnimationControllerProvider<FenceGateClientBlock> createAnimationController() {
+	public AnimationControllerProvider<FenceGateClientBlock> createAnimationController(FenceGateClientBlock base) {
 		return FenceDoorAnimationController::new;
 	}
 

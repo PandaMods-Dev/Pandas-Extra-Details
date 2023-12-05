@@ -26,7 +26,7 @@ public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 	}
 
 	@Override
-	public AnimationControllerProvider<TrapDoorClientBlock> createAnimationController() {
+	public AnimationControllerProvider<TrapDoorClientBlock> createAnimationController(TrapDoorClientBlock base) {
 		return TrapDoorAnimationController::new;
 	}
 }

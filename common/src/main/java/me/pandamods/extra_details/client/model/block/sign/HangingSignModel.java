@@ -23,7 +23,7 @@ import java.util.Optional;
 public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(HangingSignClientBlock base) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/signs/hanging_sign.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/sign/hanging_sign.json");
 	}
 
 	@Override

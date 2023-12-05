@@ -7,6 +7,7 @@ import me.pandamods.pandalib.client.animation_controller.AnimationControllerProv
 import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.utils.RenderUtils;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 	public ResourceLocation getMeshLocation(LeverClientBlock base) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
 //		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/suzanne.json");
+	}
+
+	@Override
+	public @Nullable ResourceLocation getArmatureLocation(LeverClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/redstone/lever.json");
 	}
 
 	@Override
@@ -35,7 +41,7 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 	}
 
 	@Override
-	public AnimationControllerProvider<LeverClientBlock> createAnimationController() {
+	public AnimationControllerProvider<LeverClientBlock> createAnimationController(LeverClientBlock base) {
 		return LeverAnimationController::new;
 //		return null;
 	}

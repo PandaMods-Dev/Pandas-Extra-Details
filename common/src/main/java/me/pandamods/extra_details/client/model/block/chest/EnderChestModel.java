@@ -28,7 +28,7 @@ public class EnderChestModel implements MeshModel<EnderChestBlockEntity> {
 	}
 
 	@Override
-	public AnimationControllerProvider<EnderChestBlockEntity> createAnimationController() {
+	public AnimationControllerProvider<EnderChestBlockEntity> createAnimationController(EnderChestBlockEntity base) {
 		return EnderChestAnimationController::new;
 	}
 }
