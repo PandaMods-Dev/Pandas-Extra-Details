@@ -35,16 +35,6 @@ public class Armature {
 	}
 
 	public void updateBone(Bone bone) {
-//		if (!updatedBones.contains(bone.getName())) {
-//			updatedBones.add(bone.getName());
-//			for (Map.Entry<String, Bone> entry : bones.entrySet()) {
-//				Optional<Bone> childBonesParent = entry.getValue().getParent();
-//				if (childBonesParent.isPresent() && childBonesParent.get().getName().equals(bone.getName())) {
-//					updateBone(entry.getValue());
-//				}
-//			}
-//		}
-
 		updatedBones.add(bone);
 		for (Bone child : bone.getChildren()) {
 			child.updateBone();

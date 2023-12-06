@@ -32,14 +32,17 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimat
 	public void render(T block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
 		poseStack.pushPose();
 		translateBlock(block.getBlockState(), poseStack);
-		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay, true);
+		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay);
 		poseStack.popPose();
 	}
 
 	@Override
 	public void renderObject(MeshRecord.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-							 Color color, Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices) {
-		MeshRenderer.super.renderObject(object, base, model, stack, buffer, packedLight, packedOverlay, color, vertices);
+							 Color color,
+							 Map<Integer, ObjectCache.VertexCache> cachedVertices, Map<Integer, ObjectCache.FaceCache> cachedFaces,
+							 Map<Integer, ObjectCache.VertexCache> newCachedVertices, Map<Integer, ObjectCache.FaceCache> newCachedFaces) {
+		MeshRenderer.super.renderObject(object, base, model, stack, buffer, packedLight, packedOverlay, color,
+				cachedVertices, cachedFaces, newCachedVertices, newCachedFaces);
 
 		BlockPos blockPos = base.getBlockPos();
 		if (blockPos != null) {
@@ -50,7 +53,8 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimat
 				VertexConsumer destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
 						.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
 						stack.last().pose().translate(0.5f, 0f, 0.5f, new Matrix4f()), stack.last().normal(), 1.0f);
-				this.renderObject(object, base, model, stack, destroyConsumer, packedLight, packedOverlay, color, vertices);
+				this.renderObject(object, base, model, stack, destroyConsumer, packedLight, packedOverlay, color,
+						cachedVertices, cachedFaces, newCachedVertices, newCachedFaces);
 			}
 		}
 	}

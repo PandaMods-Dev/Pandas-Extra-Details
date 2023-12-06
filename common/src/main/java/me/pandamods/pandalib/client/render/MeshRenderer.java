@@ -25,7 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
 
 @Environment(EnvType.CLIENT)
@@ -39,18 +38,15 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 		return bufferSource.getBuffer(getRenderType(location, base));
 	}
 
-	default void renderRig(T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-						   boolean shouldRenderMesh) {
-		fullRenderRig(base, model, poseStack, buffer, packedLight, packedOverlay, shouldRenderMesh);
+	default void renderRig(T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+		fullRenderRig(base, model, poseStack, buffer, packedLight, packedOverlay);
 	}
 
-	default void renderRig(T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
-						   boolean shouldRenderMesh) {
-		fullRenderRig(base, model, poseStack, vertexConsumer, packedLight, packedOverlay, shouldRenderMesh);
+	default void renderRig(T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay) {
+		fullRenderRig(base, model, poseStack, vertexConsumer, packedLight, packedOverlay);
 	}
 
-	private void fullRenderRig(T base, M model, PoseStack poseStack, Object buffer, int packedLight, int packedOverlay,
-						   boolean shouldRenderMesh) {
+	private void fullRenderRig(T base, M model, PoseStack poseStack, Object buffer, int packedLight, int packedOverlay) {
 		if (base.getCache() == null) {
 			return;
 		}
@@ -58,20 +54,17 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 		poseStack.pushPose();
 		base.getCache().updateMeshCache(model, base);
 
-		if (shouldRenderMesh) {
-			MeshRecord meshRecord = base.getCache().meshRecord;
-			Armature armature = base.getCache().armature;
+		Armature armature = base.getCache().armature;
+		if (armature != null) {
+			animateArmature(base, model, armature);
+		}
 
-			if (armature != null) {
-				animateArmature(base, model, armature);
-			}
-
-			if (meshRecord != null) {
-				if (buffer instanceof MultiBufferSource) {
-					renderMesh(base, model, armature, meshRecord, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay);
-				} else if (buffer instanceof VertexConsumer) {
-					renderMesh(base, model, armature, meshRecord, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay);
-				}
+		MeshRecord meshRecord = base.getCache().meshRecord;
+		if (meshRecord != null) {
+			if (buffer instanceof MultiBufferSource) {
+				renderMesh(base, model, armature, meshRecord, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay);
+			} else if (buffer instanceof VertexConsumer) {
+				renderMesh(base, model, armature, meshRecord, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay);
 			}
 		}
 		poseStack.popPose();
@@ -104,16 +97,33 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 
 	private void fullRenderMesh(T base, M model, @Nullable Armature armature, MeshRecord mesh, PoseStack poseStack,
 								Object buffer, int packedLight, int packedOverlay) {
-		Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices = new HashMap<>(base.getCache().vertices);
+		Map<String, Map<Integer, ObjectCache.VertexCache>> cacheVertices = new HashMap<>(base.getCache().vertices);
+		Map<String, Map<Integer, ObjectCache.FaceCache>> cacheFaces = new HashMap<>(base.getCache().faces);
+
 		base.getCache().vertices.clear();
+		base.getCache().faces.clear();
 
 		for (Map.Entry<String, MeshRecord.Object> meshEntry : mesh.objects().entrySet()) {
-			if (armature == null || !armature.getVisibility(meshEntry.getKey()))
+			if (armature == null || !armature.getVisibility(meshEntry.getKey())) {
+				base.getCache().vertices.put(meshEntry.getKey(), new HashMap<>());
+				base.getCache().faces.put(meshEntry.getKey(), new HashMap<>());
+
 				if (buffer instanceof MultiBufferSource) {
-					renderObject(meshEntry.getValue(), base, model, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay, Color.WHITE, vertices);
+					renderObject(meshEntry.getValue(), base, model, poseStack, (MultiBufferSource) buffer, packedLight, packedOverlay, Color.WHITE,
+							cacheVertices.getOrDefault(meshEntry.getKey(), new HashMap<>()),
+							cacheFaces.getOrDefault(meshEntry.getKey(), new HashMap<>()),
+							base.getCache().vertices.get(meshEntry.getKey()),
+							base.getCache().faces.get(meshEntry.getKey())
+					);
 				} else if (buffer instanceof VertexConsumer) {
-					renderObject(meshEntry.getValue(), base, model, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay, Color.WHITE, vertices);
+					renderObject(meshEntry.getValue(), base, model, poseStack, (VertexConsumer) buffer, packedLight, packedOverlay, Color.WHITE,
+							cacheVertices.getOrDefault(meshEntry.getKey(), new HashMap<>()),
+							cacheFaces.getOrDefault(meshEntry.getKey(), new HashMap<>()),
+							base.getCache().vertices.get(meshEntry.getKey()),
+							base.getCache().faces.get(meshEntry.getKey())
+					);
 				}
+			}
 		}
 
 		if (armature != null) {
@@ -121,97 +131,139 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 		}
 	}
 
-	default void renderObject(MeshRecord.Object object, T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-							  Color color, Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices) {
-		for (MeshRecord.Object.Face face : object.faces()) {
+	default void renderObject(MeshRecord.Object object, T base, M model, PoseStack poseStack, MultiBufferSource buffer,
+							  int packedLight, int packedOverlay, Color color,
+							  Map<Integer, ObjectCache.VertexCache> cachedVertices, Map<Integer, ObjectCache.FaceCache> cachedFaces,
+							  Map<Integer, ObjectCache.VertexCache> newCachedVertices, Map<Integer, ObjectCache.FaceCache> newCachedFaces) {
+		Map<Integer, CompiledVertex> compiledVertices = compileVertices(object, base, model, poseStack.last(), cachedVertices, newCachedVertices);
+
+		for (int i = 0; i < object.faces().length; i++) {
+			MeshRecord.Object.Face face = object.faces()[i];
+
 			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
-			VertexConsumer consumer = getVertexConsumer(buffer, textureLocation, base);
+			VertexConsumer vertexConsumer = getVertexConsumer(buffer, textureLocation, base);
 
-			renderFace(object, face, base, poseStack, consumer, packedLight, packedOverlay, color, vertices);
+			renderFace(face, i, base, poseStack.last(), vertexConsumer, packedLight, packedOverlay, color,
+					compiledVertices, cachedFaces, newCachedFaces);
 		}
 	}
 
-	default void renderObject(MeshRecord.Object object, T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
-							  Color color, Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices) {
-		for (MeshRecord.Object.Face face : object.faces()) {
-			renderFace(object, face, base, poseStack, vertexConsumer, packedLight, packedOverlay, color, vertices);
+	default void renderObject(MeshRecord.Object object, T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer,
+							  int packedLight, int packedOverlay, Color color,
+							  Map<Integer, ObjectCache.VertexCache> cachedVertices, Map<Integer, ObjectCache.FaceCache> cachedFaces,
+							  Map<Integer, ObjectCache.VertexCache> newCachedVertices, Map<Integer, ObjectCache.FaceCache> newCachedFaces) {
+		Map<Integer, CompiledVertex> compiledVertices = compileVertices(object, base, model, poseStack.last(), cachedVertices, newCachedVertices);
+
+		for (int i = 0; i < object.faces().length; i++) {
+			MeshRecord.Object.Face face = object.faces()[i];
+			renderFace(face, i, base, poseStack.last(), vertexConsumer, packedLight, packedOverlay, color,
+					compiledVertices, cachedFaces, newCachedFaces);
 		}
 	}
 
-	default void renderFace(MeshRecord.Object object, MeshRecord.Object.Face face, T base, PoseStack poseStack, VertexConsumer consumer,
-							int packedLight, int packedOverlay, Color color, Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices) {
-		Matrix4f poseMatrix = poseStack.last().pose();
-		Matrix3f normalMatrix = poseStack.last().normal();
-
-		List<CompiledVertex> compiledVertices = new ArrayList<>();
+	default Map<Integer, CompiledVertex> compileVertices(MeshRecord.Object object, T base, M model, PoseStack.Pose pose,
+														 Map<Integer, ObjectCache.VertexCache> cachedVertices,
+														 Map<Integer, ObjectCache.VertexCache> newCachedVertices) {
+		Map<Integer, CompiledVertex> compiledVertices = new HashMap<>();
 
 		for (MeshRecord.Object.Vertex vertex : object.vertices()) {
-			base.getCache().vertices.put(vertex.index(), new HashMap<>());
-
 			float maxWeight = vertex.max_weight();
 			Vector3f vertexPos = new Vector3f(vertex.position()).add(object.position());
 
-			if (base.getCache().hasArmatureRecord() && vertex.weights().length > 0) {
-				for (MeshRecord.Object.Vertex.Weight weight : vertex.weights()) {
-					if (base.getCache().armature.isUpdated(weight.name())) {
-						Optional<Bone> bone = base.getCache().armature.getBone(weight.name());
+			if (base.getCache().hasArmature() && vertex.weights().length > 0) {
+				Armature armature = base.getCache().armature;
+				if (Arrays.stream(vertex.weights()).anyMatch(weight -> armature.isUpdated(weight.name())) ||
+						!cachedVertices.containsKey(vertex.index())) {
+					for (MeshRecord.Object.Vertex.Weight weight : vertex.weights()) {
+						Optional<Bone> boneOptional = armature.getBone(weight.name());
 						float weightPercent = weight.weight() / maxWeight;
 
-						if (bone.isPresent()) {
-							Bone boneInst = bone.get();
+						if (boneOptional.isPresent()) {
+							Bone bone = boneOptional.get();
+							Matrix4f boneWorldTransform = bone.getWorldTransform();
 
-							Matrix4f boneTransform = boneInst.getWorldTransform();
+							Vector3f originalVertexPos = new Vector3f(vertexPos);
 
-							Vector4f transformedPosition = new Vector4f(vertexPos, 1.0f);
-							boneTransform.transform(transformedPosition);
+							Vector4f vertexPositionHomogeneous = new Vector4f(vertexPos, 1.0f);
+							boneWorldTransform.transform(vertexPositionHomogeneous);
+							vertexPos.set(vertexPositionHomogeneous.x, vertexPositionHomogeneous.y, vertexPositionHomogeneous.z);
 
-							Vector3f position = new Vector3f(transformedPosition.x, transformedPosition.y, transformedPosition.z).mul(weightPercent);
+							Vector3f positionDifference = new Vector3f(vertexPos).sub(originalVertexPos);
 
-							Matrix3f rotationMatrix = new Matrix3f(boneTransform);
-							Vector3f transformedNormal = new Vector3f(face.normal());
-							rotationMatrix.transform(transformedNormal);
+							positionDifference.mul(weightPercent);
 
-							Vector3f normal = transformedNormal.mul(weightPercent);
-
-							compiledVertices.add(new CompiledVertex(position, normal));
-
-							if (!vertices.containsKey(vertex.index()))
-								base.getCache().vertices.put(vertex.index(), new HashMap<>());
-							base.getCache().vertices.get(vertex.index()).put(weight.name(), new ObjectCache.vertexVectors(position, normal));
+							vertexPos.set(originalVertexPos.add(positionDifference));
 						}
-					} else if (vertices.containsKey(vertex.index())) {
-						ObjectCache.vertexVectors vertexVectors = vertices.get(vertex.index()).getOrDefault(weight.name(),
-								new ObjectCache.vertexVectors(new Vector3f(), new Vector3f()));
-
-						compiledVertices.add(new CompiledVertex(vertexVectors.position(), vertexVectors.normal()));
-
-						if (!vertices.containsKey(vertex.index()))
-							base.getCache().vertices.put(vertex.index(), new HashMap<>());
-						base.getCache().vertices.get(vertex.index()).put(weight.name(), vertexVectors);
 					}
+				} else {
+					vertexPos = cachedVertices.get(vertex.index()).position();
 				}
-			} else {
-				compiledVertices.add(new CompiledVertex(vertexPos, face.normal()));
 			}
+
+			compiledVertices.put(vertex.index(), new CompiledVertex(vertexPos, vertex));
+			newCachedVertices.put(vertex.index(), new ObjectCache.VertexCache(vertexPos));
 		}
 
+		return compiledVertices;
+	}
+
+	default void renderFace(MeshRecord.Object.Face face, int faceIndex, T base, PoseStack.Pose pose, VertexConsumer consumer,
+							int packedLight, int packedOverlay, Color color, Map<Integer, CompiledVertex> compiledVertices,
+							Map<Integer, ObjectCache.FaceCache> cachedFaces, Map<Integer, ObjectCache.FaceCache> newCachedFaces) {
 		for (int vertexIndex : face.vertices()) {
 			float[] uv = face.vertex_uvs().get(vertexIndex);
 			CompiledVertex compiledVertex = compiledVertices.get(vertexIndex);
-			vertex(poseMatrix, normalMatrix, consumer, color,
-					compiledVertex.position(), new Vector2f(uv[0], 1 - uv[1]), compiledVertex.normal(),
-					packedLight, packedOverlay);
+			MeshRecord.Object.Vertex vertex = compiledVertex.data();
+
+			float maxWeight = vertex.max_weight();
+			Vector3f normal = new Vector3f(face.normal());
+
+			if (base.getCache().hasArmature() && vertex.weights().length > 0) {
+				Armature armature = base.getCache().armature;
+				if (Arrays.stream(vertex.weights()).anyMatch(weight -> armature.isUpdated(weight.name())) ||
+						!cachedFaces.containsKey(faceIndex)) {
+					for (MeshRecord.Object.Vertex.Weight weight : vertex.weights()) {
+						Optional<Bone> boneOptional = armature.getBone(weight.name());
+						float weightPercent = weight.weight() / maxWeight;
+
+						if (boneOptional.isPresent()) {
+							Bone bone = boneOptional.get();
+							Matrix4f boneWorldTransform = bone.getWorldTransform();
+
+							Vector3f originalNormal = new Vector3f(normal);
+
+							Matrix3f rotationMatrix = new Matrix3f(boneWorldTransform);
+							Vector3f normalHomogeneous = new Vector3f(normal);
+							rotationMatrix.transform(normalHomogeneous);
+							normal.set(normalHomogeneous.x, normalHomogeneous.y, normalHomogeneous.z).normalize();
+
+							Vector3f normalDifference = new Vector3f(normal).sub(originalNormal);
+
+							normalDifference.mul(weightPercent);
+
+							normal.set(originalNormal.add(normalDifference)).normalize();
+						}
+					}
+				} else {
+					normal = cachedFaces.get(faceIndex).normal();
+				}
+			}
+
+			newCachedFaces.put(faceIndex, new ObjectCache.FaceCache(normal));
+
+			vertex(pose, consumer, color, compiledVertex.position(), new Vector2f(uv[0], 1 - uv[1]), normal, packedLight, packedOverlay);
 		}
 	}
 
-	static void vertex(Matrix4f pose, Matrix3f normal, VertexConsumer vertexConsumer, Color color,
+	static void vertex(PoseStack.Pose pose, VertexConsumer vertexConsumer, Color color,
 					   Vector3f pos, Vector2f uv, Vector3f normalVec, int packedLight, int packedOverlay) {
-		vertexConsumer.vertex(pose, pos.x, pos.y, pos.z)
+		vertexConsumer
+				.vertex(pose.pose(), pos.x, pos.y, pos.z)
 				.color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())
 				.uv(uv.x, uv.y)
 				.overlayCoords(packedOverlay)
 				.uv2(packedLight)
-				.normal(normal, normalVec.x, normalVec.y, normalVec.z)
+				.normal(pose.normal(), normalVec.x, normalVec.y, normalVec.z)
 				.endVertex();
 	}
 

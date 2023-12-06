@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -32,7 +33,8 @@ public class ObjectCache {
 	@Nullable
 	public AnimationController<?> animationController;
 
-	public Map<Integer, Map<String, vertexVectors>> vertices = new HashMap<>();
+	public Map<String, Map<Integer, VertexCache>> vertices = new HashMap<>();
+	public Map<String, Map<Integer, FaceCache>> faces = new HashMap<>();
 
 	public <T extends MeshAnimatable> void updateMeshCache(MeshModel<T> model, T base) {
 		ResourceLocation meshLocation = model.getMeshLocation(base);
@@ -71,5 +73,6 @@ public class ObjectCache {
 		return armature != null;
 	}
 
-	public record vertexVectors(Vector3f position, Vector3f normal) {}
+	public record VertexCache(Vector3f position) {}
+	public record FaceCache(Vector3f normal) {}
 }

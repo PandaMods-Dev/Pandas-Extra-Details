@@ -45,7 +45,7 @@ public class DoorRenderer extends MeshClientBlockRenderer<DoorClientBlock, DoorM
 	@Override
 	public void render(DoorClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
 		if (block.getBlockState().getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
-			this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay, false);
+			this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay);
 
 			BlockState blockState = block.getBlockState().setValue(DoorBlock.FACING, Direction.NORTH).setValue(DoorBlock.OPEN, false)
 					.setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER);

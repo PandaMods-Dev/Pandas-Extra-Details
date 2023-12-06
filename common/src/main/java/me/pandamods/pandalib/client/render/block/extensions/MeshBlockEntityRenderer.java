@@ -37,14 +37,17 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimat
 	public void render(T blockEntity, float partialTick, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		stack.pushPose();
 		translateBlock(blockEntity.getBlockState(), stack);
-		this.renderRig(blockEntity, model, stack, buffer, packedLight, packedOverlay, true);
+		this.renderRig(blockEntity, model, stack, buffer, packedLight, packedOverlay);
 		stack.popPose();
 	}
 
 	@Override
 	public void renderObject(MeshRecord.Object object, T base, M model, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay,
-							 Color color, Map<Integer, Map<String, ObjectCache.vertexVectors>> vertices) {
-		MeshRenderer.super.renderObject(object, base, model, stack, buffer, packedLight, packedOverlay, color, vertices);
+							 Color color,
+							 Map<Integer, ObjectCache.VertexCache> cachedVertices, Map<Integer, ObjectCache.FaceCache> cachedFaces,
+							 Map<Integer, ObjectCache.VertexCache> newCachedVertices, Map<Integer, ObjectCache.FaceCache> newCachedFaces) {
+		MeshRenderer.super.renderObject(object, base, model, stack, buffer, packedLight, packedOverlay, color,
+				cachedVertices, cachedFaces, newCachedVertices, newCachedFaces);
 
 		BlockPos blockPos = base.getBlockPos();
 		SortedSet<BlockDestructionProgress> sortedSet = Minecraft.getInstance()
@@ -54,7 +57,8 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & MeshAnimat
 			VertexConsumer destroyConsumer = new SheetedDecalTextureGenerator(Minecraft.getInstance().renderBuffers().crumblingBufferSource()
 					.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)),
 					stack.last().pose().translate(0.5f, 0f, 0.5f, new Matrix4f()), stack.last().normal(), 1.0f);
-			this.renderObject(object, base, model, stack, destroyConsumer, packedLight, packedOverlay, color, vertices);
+			this.renderObject(object, base, model, stack, destroyConsumer, packedLight, packedOverlay, color,
+					cachedVertices, cachedFaces, newCachedVertices, newCachedFaces);
 		}
 	}
 }

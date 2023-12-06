@@ -43,7 +43,7 @@ public class TrapDoorRenderer extends MeshClientBlockRenderer<TrapDoorClientBloc
 
 	@Override
 	public void render(TrapDoorClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
-		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay, false);
+		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay);
 
 		BlockState blockState = block.getBlockState().setValue(TrapDoorBlock.FACING, Direction.NORTH).setValue(TrapDoorBlock.OPEN, false)
 				.setValue(TrapDoorBlock.HALF, Half.BOTTOM);

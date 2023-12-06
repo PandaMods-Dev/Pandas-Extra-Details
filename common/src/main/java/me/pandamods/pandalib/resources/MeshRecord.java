@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Vector3f;
 
+import java.util.List;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
