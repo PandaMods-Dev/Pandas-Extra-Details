@@ -2,6 +2,7 @@ package me.pandamods.extra_details.client.model.block.sign;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
+import me.pandamods.extra_details.entity.block.LeverClientBlock;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.client.render.block.ClientBlock;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import org.joml.Math;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
@@ -27,11 +29,11 @@ public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, HangingSignClientBlock base) {
+	public Map<String, ResourceLocation> getTextureLocations(HangingSignClientBlock base) {
 		BlockState blockState = base.getBlockState();
 		SignBlock signBlock = (SignBlock)blockState.getBlock();
 		WoodType woodType = SignBlock.getWoodType(signBlock);
-		return new ResourceLocation("textures/" + Sheets.getHangingSignMaterial(woodType).texture().getPath() + ".png");
+		return Map.of("", new ResourceLocation("textures/" + Sheets.getHangingSignMaterial(woodType).texture().getPath() + ".png"));
 	}
 
 	@Override

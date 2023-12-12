@@ -1,5 +1,6 @@
 package me.pandamods.extra_details.client.model.block.redstone;
 
+import com.google.common.collect.ImmutableMap;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.redstone.LeverAnimationController;
 import me.pandamods.extra_details.entity.block.LeverClientBlock;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.List;
+import java.util.Map;
 
 public class LeverModel implements MeshModel<LeverClientBlock> {
 	static boolean DEBUG = false;
@@ -29,12 +31,11 @@ public class LeverModel implements MeshModel<LeverClientBlock> {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, LeverClientBlock base) {
-		if (DEBUG) return new ResourceLocation(ExtraDetails.MOD_ID, "textures/white.png");
-		return switch (textureName) {
-			case "lever" -> getTextureResource(base, true);
-			default -> getTextureResource(base, false);
-		};
+	public Map<String, ResourceLocation> getTextureLocations(LeverClientBlock base) {
+		return Map.of(
+				"lever", getTextureResource(base, true),
+				"cobblestone", getTextureResource(base, false)
+		);
 	}
 
 	public ResourceLocation getTextureResource(LeverClientBlock animatable, boolean bl) {

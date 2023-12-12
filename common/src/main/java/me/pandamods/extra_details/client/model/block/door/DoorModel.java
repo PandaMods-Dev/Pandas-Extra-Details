@@ -14,13 +14,16 @@ import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
 import org.joml.Math;
+import org.spongepowered.include.com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 
 public class DoorModel implements MeshModel<DoorClientBlock> {
 	@Override
@@ -29,12 +32,14 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, DoorClientBlock base) {
+	public Map<String, ResourceLocation> getTextureLocations(DoorClientBlock base) {
 		List<ResourceLocation> textures = RenderUtils.getBlockTextures(base.getBlockState());
 		ResourceLocation resourceLocation = textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
-			return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
-		return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath() + ".png");
+			resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
+		else
+			resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath() + ".png");
+		return Map.of("", resourceLocation);
 	}
 
 	@Override

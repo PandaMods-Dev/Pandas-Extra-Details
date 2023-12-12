@@ -9,6 +9,9 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import org.spongepowered.include.com.google.common.collect.ImmutableMap;
+
+import java.util.Map;
 
 public class EnderChestModel implements MeshModel<EnderChestBlockEntity> {
 	@Override
@@ -23,8 +26,8 @@ public class EnderChestModel implements MeshModel<EnderChestBlockEntity> {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, EnderChestBlockEntity base) {
-		return new ResourceLocation("textures/entity/chest/normal.png");
+	public Map<String, ResourceLocation> getTextureLocations(EnderChestBlockEntity base) {
+		return Map.of("", new ResourceLocation("textures/entity/chest/normal.png"));
 	}
 
 	@Override

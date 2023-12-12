@@ -4,8 +4,12 @@ import me.pandamods.pandalib.client.animation_controller.AnimationControllerProv
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public interface MeshModel<T extends MeshAnimatable> {
@@ -17,9 +21,8 @@ public interface MeshModel<T extends MeshAnimatable> {
 	default ResourceLocation getArmatureLocation(T base) {
 		return null;
 	}
-	@Nullable
-	default ResourceLocation getTextureLocation(String textureName, T base) {
-		return null;
+	default Map<String, ResourceLocation> getTextureLocations(T base) {
+		return new HashMap<>();
 	}
 	@Nullable
 	default AnimationControllerProvider<T> createAnimationController(T base) {

@@ -140,7 +140,10 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 		for (int i = 0; i < object.faces().length; i++) {
 			MeshRecord.Object.Face face = object.faces()[i];
 
-			ResourceLocation textureLocation = model.getTextureLocation(face.texture_name(), base);
+			Map<String, ResourceLocation> textureLocations = model.getTextureLocations(base);
+			ResourceLocation textureLocation = textureLocations.getOrDefault(face.texture_name(),
+					textureLocations.getOrDefault("",
+							!textureLocations.isEmpty() ? textureLocations.values().iterator().next() : null));
 			VertexConsumer vertexConsumer = getVertexConsumer(buffer, textureLocation, base);
 
 			renderFace(face, i, base, poseStack.last(), vertexConsumer, packedLight, packedOverlay, color,
