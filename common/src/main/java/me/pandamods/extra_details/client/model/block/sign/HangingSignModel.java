@@ -4,9 +4,6 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
-import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.utils.RandomUtils;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
@@ -16,22 +13,28 @@ import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
-import java.util.Optional;
+import java.util.Map;
 
 public class HangingSignModel implements MeshModel<HangingSignClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(HangingSignClientBlock base) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/signs/hanging_sign.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/sign/hanging_sign.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, HangingSignClientBlock base) {
+	public @Nullable ResourceLocation getArmatureLocation(HangingSignClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/sign/hanging_sign.json");
+	}
+
+	@Override
+	public Map<String, ResourceLocation> getTextureLocations(HangingSignClientBlock base) {
 		BlockState blockState = base.getBlockState();
 		SignBlock signBlock = (SignBlock)blockState.getBlock();
 		WoodType woodType = SignBlock.getWoodType(signBlock);
-		return new ResourceLocation("textures/" + Sheets.getHangingSignMaterial(woodType).texture().getPath() + ".png");
+		return Map.of("", new ResourceLocation("textures/" + Sheets.getHangingSignMaterial(woodType).texture().getPath() + ".png"));
 	}
 
 	@Override

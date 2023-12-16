@@ -1,23 +1,18 @@
 package me.pandamods.extra_details.client.renderer.block.door;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.api.client.render.block.extensions.MeshClientBlockRenderer;
 import me.pandamods.extra_details.client.model.block.door.TrapDoorModel;
 import me.pandamods.extra_details.entity.block.TrapDoorClientBlock;
 import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.utils.VectorUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,7 +38,7 @@ public class TrapDoorRenderer extends MeshClientBlockRenderer<TrapDoorClientBloc
 
 	@Override
 	public void render(TrapDoorClientBlock block, PoseStack poseStack, MultiBufferSource buffer, int lightColor, int overlay, float partialTick) {
-		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay, false);
+		this.renderRig(block, this.model, poseStack, buffer, lightColor, overlay);
 
 		BlockState blockState = block.getBlockState().setValue(TrapDoorBlock.FACING, Direction.NORTH).setValue(TrapDoorBlock.OPEN, false)
 				.setValue(TrapDoorBlock.HALF, Half.BOTTOM);

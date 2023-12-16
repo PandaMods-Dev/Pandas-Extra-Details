@@ -1,5 +1,6 @@
 package me.pandamods.pandalib;
 
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientReloadShadersEvent;

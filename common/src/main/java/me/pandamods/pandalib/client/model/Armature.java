@@ -1,11 +1,10 @@
 package me.pandamods.pandalib.client.model;
 
-import me.pandamods.pandalib.resources.Mesh;
+import me.pandamods.pandalib.resources.ArmatureRecord;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -26,8 +25,8 @@ public class Armature {
 	protected boolean mirrorYScale = false;
 	protected boolean mirrorZScale = false;
 
-	public Armature(Mesh mesh) {
-		mesh.bone().forEach((s, bone) -> bones.add(new Bone(this, s, bone)));
+	public Armature(ArmatureRecord armature) {
+		armature.bones().forEach((s, bone) -> bones.add(new Bone(this, s, bone)));
 		updatedBones.addAll(bones);
 	}
 
@@ -36,16 +35,6 @@ public class Armature {
 	}
 
 	public void updateBone(Bone bone) {
-//		if (!updatedBones.contains(bone.getName())) {
-//			updatedBones.add(bone.getName());
-//			for (Map.Entry<String, Bone> entry : bones.entrySet()) {
-//				Optional<Bone> childBonesParent = entry.getValue().getParent();
-//				if (childBonesParent.isPresent() && childBonesParent.get().getName().equals(bone.getName())) {
-//					updateBone(entry.getValue());
-//				}
-//			}
-//		}
-
 		updatedBones.add(bone);
 		for (Bone child : bone.getChildren()) {
 			child.updateBone();

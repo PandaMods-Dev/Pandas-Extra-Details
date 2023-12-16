@@ -1,0 +1,20 @@
+{
+  "format_version": "0.1",
+  "bones": {
+    "bone1": {
+      "position": [
+        0.0,
+        0.0,
+        -0.0
+      ]
+    },
+    "bone2": {
+      "position": [
+        0.0,
+        1.0,
+        -0.0
+      ],
+      "parent": "bone1"
+    }
+  }
+}

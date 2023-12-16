@@ -3,6 +3,7 @@ package me.pandamods.extra_details.client.model.block.door;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.door.FenceDoorAnimationController;
 import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
+import me.pandamods.extra_details.entity.block.DoorClientBlock;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
 import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
 import me.pandamods.pandalib.utils.RenderUtils;
@@ -13,28 +14,38 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 import org.joml.Quaternionf;
+import org.spongepowered.include.com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 
 public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(FenceGateClientBlock base) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/fence_gate.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/fence_gates/fence_gate.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(String textureName, FenceGateClientBlock base) {
+	public @Nullable ResourceLocation getArmatureLocation(FenceGateClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/door/fence_gate.json");
+	}
+
+	@Override
+	public Map<String, ResourceLocation> getTextureLocations(FenceGateClientBlock base) {
 		List<ResourceLocation> textures = RenderUtils.getBlockTextures(base.getBlockState());
 		ResourceLocation resourceLocation = textures.get(0);
 		if (resourceLocation.getPath().endsWith(".png"))
-			return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
-		return new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath() + ".png");
+			resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath());
+		else
+			resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "textures/" + resourceLocation.getPath() + ".png");
+		return Map.of("", resourceLocation);
 	}
 
 	@Override
-	public AnimationControllerProvider<FenceGateClientBlock> createAnimationController() {
+	public AnimationControllerProvider<FenceGateClientBlock> createAnimationController(FenceGateClientBlock base) {
 		return FenceDoorAnimationController::new;
 	}
 

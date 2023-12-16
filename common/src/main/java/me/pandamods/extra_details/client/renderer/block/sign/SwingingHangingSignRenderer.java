@@ -2,15 +2,13 @@ package me.pandamods.extra_details.client.renderer.block.sign;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.api.client.render.block.extensions.MeshClientBlockRenderer;
 import me.pandamods.extra_details.client.model.block.sign.HangingSignModel;
 import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
 import me.pandamods.pandalib.client.model.Bone;
-import me.pandamods.pandalib.client.render.block.extensions.MeshClientBlockRenderer;
 import me.pandamods.pandalib.utils.VectorUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.core.BlockPos;
@@ -18,7 +16,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.HangingSignBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import org.joml.Vector3f;
 
 public class SwingingHangingSignRenderer extends MeshClientBlockRenderer<HangingSignClientBlock, HangingSignModel> {
