@@ -1,4 +1,4 @@
-package me.pandamods.pandalib;
+package me.pandamods.extra_details;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class PandaLibMixinPluginCommon {
+public class ExtraDetailsMixinPluginCommon {
 	private static final String sodiumID = "sodium";
 	private static final String embeddiumID = "embeddium";
 

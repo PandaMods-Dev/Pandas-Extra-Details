@@ -2,6 +2,7 @@ package me.pandamods.extra_details.client.model.block.chest;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.chest.ChestAnimationController;
+import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
 import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
 import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.entity.MeshAnimatable;
@@ -29,6 +30,11 @@ public class ChestModel<T extends MeshAnimatable> implements MeshModel<T> {
 			};
 		}
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/chest/chest.json");
+	}
+
+	@Override
+	public @Nullable ResourceLocation getArmatureLocation(T base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/chest/chest.json");
 	}
 
 	@Override

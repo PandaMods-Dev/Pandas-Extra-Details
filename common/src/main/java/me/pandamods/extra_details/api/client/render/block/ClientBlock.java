@@ -1,22 +1,23 @@
-package me.pandamods.pandalib.client.render.block;
+package me.pandamods.extra_details.api.client.render.block;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class ClientBlock {
 	private final BlockPos blockPos;
 	private BlockState blockState;
-	private final ClientLevel level;
+	@Nullable
+	private ClientLevel level;
+	private final ClientBlockType<?> type;
 
-	public ClientBlock(BlockPos blockPos, BlockState blockState, ClientLevel level) {
+	public ClientBlock(ClientBlockType<?> type, BlockPos blockPos, BlockState blockState, @Nullable ClientLevel level) {
 		this.blockPos = blockPos;
 		this.blockState = blockState;
 		this.level = level;
+		this.type = type;
 	}
 
 	public BlockPos getBlockPos() {
@@ -30,13 +31,23 @@ public abstract class ClientBlock {
 		this.blockState = blockState;
 	}
 
+	@Nullable
 	public ClientLevel getLevel() {
 		return level;
 	}
+	public void setLevel(@Nullable ClientLevel level) {
+		this.level = level;
+	}
+	public boolean hasLevel() {
+		return level != null;
+	}
+
+	public <T extends ClientBlock> ClientBlockType<T> getType() {
+		return (ClientBlockType<T>) type;
+	}
 
 	public void fillCrashReportCategory(CrashReportCategory reportCategory) {
-		reportCategory.setDetail("Name", () ->
-				ClientBlockRegistry.getType(this.blockState.getBlock()).name + "//" + this.getClass().getCanonicalName());
+		reportCategory.setDetail("Name", () -> type.name + "//" + this.getClass().getCanonicalName());
 		if (this.level == null) {
 			return;
 		}

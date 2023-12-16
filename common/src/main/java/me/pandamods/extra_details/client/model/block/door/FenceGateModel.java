@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.spongepowered.include.com.google.common.collect.ImmutableMap;
@@ -24,7 +25,12 @@ import java.util.Map;
 public class FenceGateModel implements MeshModel<FenceGateClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(FenceGateClientBlock base) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/fence_gate.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/fence_gates/fence_gate.json");
+	}
+
+	@Override
+	public @Nullable ResourceLocation getArmatureLocation(FenceGateClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/door/fence_gate.json");
 	}
 
 	@Override

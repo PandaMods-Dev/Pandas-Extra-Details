@@ -8,6 +8,7 @@ import me.pandamods.pandalib.client.animation_controller.AnimationControllerProv
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.Bone;
 import me.pandamods.pandalib.client.model.CompiledVertex;
+import me.pandamods.pandalib.client.model.MeshModel;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.MeshRecord;
 import me.pandamods.pandalib.utils.RenderUtils;
@@ -15,6 +16,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -28,7 +31,7 @@ import java.awt.*;
 import java.util.*;
 
 @Environment(EnvType.CLIENT)
-public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.pandalib.client.model.MeshModel<T>> {
+public interface MeshRenderer<T extends MeshAnimatable, M extends MeshModel<T>> {
 
 	default RenderType getRenderType(ResourceLocation location, T base) {
 		return RenderType.entityCutout(location);
@@ -40,6 +43,25 @@ public interface MeshRenderer<T extends MeshAnimatable, M extends me.pandamods.p
 
 	default void renderRig(T base, M model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		fullRenderRig(base, model, poseStack, buffer, packedLight, packedOverlay);
+
+//		VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutout(new ResourceLocation("")));
+//
+//		poseStack.pushPose();
+//		for (int i = 0; i < 2; i++) {
+//			poseStack.translate(0, 1, 0);
+//
+//			for (Direction direction : Direction.values()) {
+//				poseStack.pushPose();
+//				poseStack.mulPose(direction.getRotation());
+//				Vector3f normal = new Vector3f(direction.getNormal().getX(), direction.getNormal().getY(), direction.getNormal().getZ());
+//				vertex(poseStack.last(), vertexConsumer, Color.WHITE, new Vector3f(-0.4f, 0.4f, 0.4f), new Vector2f(0, 1), normal, packedLight, packedOverlay);
+//				vertex(poseStack.last(), vertexConsumer, Color.WHITE, new Vector3f(0.4f, 0.4f, 0.4f), new Vector2f(1, 1), normal, packedLight, packedOverlay);
+//				vertex(poseStack.last(), vertexConsumer, Color.WHITE, new Vector3f(0.4f, 0.4f, -0.4f), new Vector2f(1, 0), normal, packedLight, packedOverlay);
+//				vertex(poseStack.last(), vertexConsumer, Color.WHITE, new Vector3f(-0.4f, 0.4f, -0.4f), new Vector2f(0, 0), normal, packedLight, packedOverlay);
+//				poseStack.popPose();
+//			}
+//		}
+//		poseStack.popPose();
 	}
 
 	default void renderRig(T base, M model, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay) {

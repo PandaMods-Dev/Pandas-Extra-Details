@@ -1,9 +1,9 @@
-package me.pandamods.pandalib.client.render.block;
+package me.pandamods.extra_details.api.client.render.block;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,10 @@ public class ClientBlockType<T extends ClientBlock> {
 		this.provider = provider;
 		this.blocks = blocks;
 		this.blockTags = blockTags;
+	}
+
+	public boolean isValid(BlockState blockState) {
+		return this.blockTags.stream().anyMatch(blockState::is) || this.blocks.contains(blockState.getBlock());
 	}
 
 	public static class Builder<T extends ClientBlock> {

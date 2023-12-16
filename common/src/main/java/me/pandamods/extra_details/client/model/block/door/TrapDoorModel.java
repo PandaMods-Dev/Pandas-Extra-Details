@@ -8,6 +8,7 @@ import me.pandamods.pandalib.client.animation_controller.AnimationControllerProv
 import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.include.com.google.common.collect.ImmutableMap;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class TrapDoorModel implements MeshModel<TrapDoorClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(TrapDoorClientBlock base) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/trap_door.json");
+	}
+
+	@Override
+	public @Nullable ResourceLocation getArmatureLocation(TrapDoorClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/door/trap_door.json");
 	}
 
 	@Override

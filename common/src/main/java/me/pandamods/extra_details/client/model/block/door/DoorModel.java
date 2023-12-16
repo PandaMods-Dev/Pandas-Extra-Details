@@ -3,24 +3,14 @@ package me.pandamods.extra_details.client.model.block.door;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.door.DoorAnimationController;
 import me.pandamods.extra_details.entity.block.DoorClientBlock;
-import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
 import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
-import me.pandamods.pandalib.utils.RandomUtils;
 import me.pandamods.pandalib.utils.RenderUtils;
 import me.pandamods.pandalib.client.model.Armature;
 import me.pandamods.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.Half;
-import org.joml.Math;
-import org.spongepowered.include.com.google.common.collect.ImmutableMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +19,11 @@ public class DoorModel implements MeshModel<DoorClientBlock> {
 	@Override
 	public ResourceLocation getMeshLocation(DoorClientBlock base) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/door/door.json");
+	}
+
+	@Override
+	public @Nullable ResourceLocation getArmatureLocation(DoorClientBlock base) {
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/door/door.json");
 	}
 
 	@Override

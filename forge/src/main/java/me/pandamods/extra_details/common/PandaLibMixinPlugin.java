@@ -1,6 +1,6 @@
 package me.pandamods.extra_details.common;
 
-import me.pandamods.pandalib.PandaLibMixinPluginCommon;
+import me.pandamods.extra_details.ExtraDetailsMixinPluginCommon;
 import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class PandaLibMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		return PandaLibMixinPluginCommon.getConditions(s -> LoadingModList.get().getModFileById(s) != null)
+		return ExtraDetailsMixinPluginCommon.getConditions(s -> LoadingModList.get().getModFileById(s) != null)
 				.getOrDefault(mixinClassName, () -> true).get();
 	}
 

@@ -1,10 +1,7 @@
-package me.pandamods.extra_details.mixin.pandalib.client;
+package me.pandamods.extra_details.mixin.client;
 
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockProvider;
-import me.pandamods.pandalib.client.render.block.ClientBlockRegistry;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
@@ -24,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
@@ -58,25 +54,9 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 				BlockState state = this.captureRegion.getBlockState(pos.immutable());
 				if (state.isAir())
 					continue;
-				ClientBlockProvider blockProvider = ClientBlockRegistry.get(state.getBlock());
-				if (blockProvider != null) {
-					Optional<BlockPos> compiledBlockPos = ((CompileResultsExtension) this.field_20839.getCompiledChunk()).getBlocks().stream().filter(
-							clientBlockPos -> clientBlockPos.equals(pos.immutable()) && level.getBlockState(clientBlockPos).is(state.getBlock())
-					).findFirst();
-					if (compiledBlockPos.isEmpty()) {
-						ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(pos.immutable(),
-								blockProvider.create(pos.immutable(), state, Minecraft.getInstance().level));
-						((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
-					} else {
-						ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(pos.immutable());
-						if (block != null) {
-							block.setBlockState(state);
-							((CompileResultsExtension) (Object) compileResults).getBlocks().add(pos.immutable());
-						}
-					}
-				} else {
-					ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos.immutable());
-				}
+
+				ClientBlockUtils.compile(Minecraft.getInstance().level, state, pos.immutable(),
+						((CompileResultsExtension) this.field_20839.getCompiledChunk()), ((CompileResultsExtension)  (Object) compileResults));
 			}
 		}
 	}

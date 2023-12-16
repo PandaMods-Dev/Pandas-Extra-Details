@@ -1,4 +1,4 @@
-package me.pandamods.pandalib.client.render.block;
+package me.pandamods.extra_details.api.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.CrashReport;
@@ -17,19 +17,16 @@ import java.util.Map;
 public class ClientBlockRenderDispatcher {
 	public static final Map<BlockPos, ClientBlock> CLIENT_BLOCKS = new HashMap<>();
 
-	public static <T extends ClientBlock> void render(PoseStack poseStack, MultiBufferSource buffer, T clientBlock, float partialTick) {
+	public static <T extends ClientBlock> void render(T clientBlock, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource) {
 		ClientBlockRenderer<T> renderer = BlockRendererRegistry.get(clientBlock.getBlockState().getBlock());
-
-		if (renderer == null || !renderer.enabled(clientBlock.getBlockState())) {
-			return;
+		if (renderer != null && renderer.enabled(clientBlock.getBlockState())) {
+			if (clientBlock.hasLevel() && clientBlock.getType().isValid(clientBlock.getBlockState())) {
+				if (renderer.shouldRender(clientBlock, Minecraft.getInstance().getBlockEntityRenderDispatcher().camera.getPosition())) {
+					ClientBlockRenderDispatcher.tryRender(clientBlock, () ->
+							ClientBlockRenderDispatcher.setupAndRender(renderer, clientBlock, partialTick, poseStack, bufferSource));
+				}
+			}
 		}
-
-		if (!renderer.shouldRender(clientBlock, Minecraft.getInstance().getBlockEntityRenderDispatcher().camera.getPosition())) {
-			return;
-		}
-
-		ClientBlockRenderDispatcher.tryRender(clientBlock, () ->
-				ClientBlockRenderDispatcher.setupAndRender(renderer, clientBlock, partialTick, poseStack, buffer));
 	}
 
 	private static <T extends ClientBlock> void setupAndRender(ClientBlockRenderer<T> renderer, T clientBlock, float partialTick, PoseStack poseStack,

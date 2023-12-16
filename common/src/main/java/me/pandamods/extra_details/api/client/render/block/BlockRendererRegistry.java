@@ -1,9 +1,10 @@
-package me.pandamods.pandalib.client.render.block;
+package me.pandamods.extra_details.api.client.render.block;
 
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class BlockRendererRegistry {
     public static final Map<ClientBlockType<?>, ClientBlockRenderer<?>> RENDERERS = new HashMap<>();
@@ -13,7 +14,8 @@ public class BlockRendererRegistry {
     }
 
 	public static <T extends ClientBlock> ClientBlockRenderer<T> get(Block block) {
-		return get(ClientBlockRegistry.getType(block));
+		Optional<ClientBlockType<?>> type = ClientBlockRegistry.getType(block);
+		return (ClientBlockRenderer<T>) type.map(BlockRendererRegistry::get).orElse(null);
     }
 
 	public static <T extends ClientBlock> ClientBlockRenderer<T> get(ClientBlockType<?> clientBlockType) {

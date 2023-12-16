@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.mixin.pandalib.client.sodium;
+package me.pandamods.extra_details.mixin.client.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
@@ -8,15 +8,11 @@ import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -29,16 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 @Mixin(LevelRenderer.class)
 public abstract class SodiumLevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
 	@Shadow @Nullable private ClientLevel level;
-
-	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
 
 	@Inject(
 			method = "renderLevel",
@@ -71,21 +63,8 @@ public abstract class SodiumLevelRendererMixin {
 					int renderSectionId = renderSectionIterator.nextByteAsInt();
                 	RenderSection renderSection = renderRegion.getSection(renderSectionId);
 
-					Set<BlockPos> clientBlocks = ((CompileResultsExtension) renderSection).getBlocks();
-					if (clientBlocks.isEmpty()) continue;
-					for (BlockPos blockPos : clientBlocks) {
-						ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
-						if (clientBlock == null) continue;
-
-						poseStack.pushPose();
-						poseStack.translate(
-								blockPos.getX() - cameraPosition.x,
-								blockPos.getY() - cameraPosition.y,
-								blockPos.getZ() - cameraPosition.z
-						);
-						ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
-						poseStack.popPose();
-					}
+					ClientBlockUtils.render(poseStack, ((CompileResultsExtension) renderSection), cameraPosition,
+							buffersource, partialTick);
 				}
 			}
 		}

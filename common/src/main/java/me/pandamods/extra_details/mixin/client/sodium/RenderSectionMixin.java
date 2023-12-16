@@ -1,8 +1,7 @@
-package me.pandamods.extra_details.mixin.pandalib.client.sodium;
+package me.pandamods.extra_details.mixin.client.sodium;
 
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,9 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Pseudo

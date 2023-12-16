@@ -1,12 +1,12 @@
-package me.pandamods.pandalib.client.render.block.extensions;
+package me.pandamods.extra_details.api.client.render.block.extensions;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import me.pandamods.extra_details.api.client.render.block.ClientBlock;
+import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderer;
 import me.pandamods.pandalib.cache.ObjectCache;
 import me.pandamods.pandalib.client.render.MeshRenderer;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderer;
 import me.pandamods.pandalib.entity.MeshAnimatable;
 import me.pandamods.pandalib.resources.MeshRecord;
 import net.minecraft.client.Minecraft;

@@ -1,19 +1,13 @@
-package me.pandamods.extra_details.mixin.pandalib.client;
+package me.pandamods.extra_details.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexBuffer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderDispatcher;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
 import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
@@ -22,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.*;
-
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
@@ -31,8 +23,6 @@ public abstract class LevelRendererMixin {
 	@Shadow @Nullable private ClientLevel level;
 
 	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
-
-	@Shadow protected abstract void checkPoseStack(PoseStack poseStack);
 
 	@Inject(
 			method = "renderLevel",
@@ -49,22 +39,8 @@ public abstract class LevelRendererMixin {
 
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				Set<BlockPos> clientBlocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getBlocks();
-				if (clientBlocks.isEmpty()) continue;
-				for (BlockPos blockPos : clientBlocks) {
-					ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
-					if (clientBlock == null) continue;
-
-					poseStack.pushPose();
-					poseStack.translate(
-							blockPos.getX() - cameraPosition.x,
-							blockPos.getY() - cameraPosition.y,
-							blockPos.getZ() - cameraPosition.z
-					);
-
-					ClientBlockRenderDispatcher.render(poseStack, buffersource, clientBlock, partialTick);
-					poseStack.popPose();
-				}
+				ClientBlockUtils.render(poseStack, ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()), cameraPosition,
+						buffersource, partialTick);
 			}
 		}
 	}

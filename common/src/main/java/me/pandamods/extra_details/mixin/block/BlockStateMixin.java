@@ -1,8 +1,8 @@
-package me.pandamods.extra_details.mixin.pandalib.block;
+package me.pandamods.extra_details.mixin.block;
 
-import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderer;
+import me.pandamods.extra_details.api.client.render.block.BlockRendererRegistry;
+import me.pandamods.extra_details.api.client.render.block.ClientBlock;
+import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.level.block.Block;

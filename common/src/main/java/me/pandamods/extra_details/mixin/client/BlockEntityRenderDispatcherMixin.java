@@ -1,15 +1,14 @@
-package me.pandamods.extra_details.mixin.pandalib.client;
+package me.pandamods.extra_details.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import me.pandamods.extra_details.api.client.render.block.BlockRendererRegistry;
+import me.pandamods.extra_details.api.client.render.block.ClientBlock;
+import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderer;
 import me.pandamods.pandalib.client.render.MeshRenderer;
-import me.pandamods.pandalib.client.render.block.BlockRendererRegistry;
-import me.pandamods.pandalib.client.render.block.ClientBlock;
-import me.pandamods.pandalib.client.render.block.ClientBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

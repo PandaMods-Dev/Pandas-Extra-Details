@@ -41,6 +41,8 @@ public class ObjectCache {
 		if (this.meshRecord == null || !Objects.equals(this.meshLocation, meshLocation)) {
 			this.meshLocation = meshLocation;
 			this.meshRecord = Resources.MESHES.getOrDefault(meshLocation, null);
+			this.vertices.clear();
+			this.faces.clear();
 
 			if (this.meshRecord == null && armatureLocation != null) {
 				PandaLib.LOGGER.error("Can't find mesh at " + meshLocation);
@@ -55,6 +57,8 @@ public class ObjectCache {
 			if (this.armatureRecord != null) {
 				this.armature = new Armature(this.armatureRecord);
 				model.setPropertiesOnCreation(base, this.armature);
+				this.vertices.clear();
+				this.faces.clear();
 			} else if (armatureLocation != null) {
 				PandaLib.LOGGER.error("Can't find armature at " + armatureLocation);
 			}

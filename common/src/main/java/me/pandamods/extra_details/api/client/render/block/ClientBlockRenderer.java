@@ -1,9 +1,8 @@
-package me.pandamods.pandalib.client.render.block;
+package me.pandamods.extra_details.api.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
