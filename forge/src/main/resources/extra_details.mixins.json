@@ -1,7 +1,6 @@
 {
   "required": true,
   "package": "me.pandamods.extra_details.mixin",
-	"plugin": "me.pandamods.extra_details.common.PandaLibMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [

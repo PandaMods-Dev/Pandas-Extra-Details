@@ -8,14 +8,11 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ClientBlock {
 	private final BlockPos blockPos;
-	private BlockState blockState;
-	@Nullable
 	private ClientLevel level;
 	private final ClientBlockType<?> type;
 
-	public ClientBlock(ClientBlockType<?> type, BlockPos blockPos, BlockState blockState, @Nullable ClientLevel level) {
+	public ClientBlock(ClientBlockType<?> type, BlockPos blockPos, ClientLevel level) {
 		this.blockPos = blockPos;
-		this.blockState = blockState;
 		this.level = level;
 		this.type = type;
 	}
@@ -25,10 +22,7 @@ public abstract class ClientBlock {
 	}
 
 	public BlockState getBlockState() {
-		return blockState;
-	}
-	public void setBlockState(BlockState blockState) {
-		this.blockState = blockState;
+		return level.getBlockState(blockPos);
 	}
 
 	@Nullable
@@ -42,6 +36,7 @@ public abstract class ClientBlock {
 		return level != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends ClientBlock> ClientBlockType<T> getType() {
 		return (ClientBlockType<T>) type;
 	}

@@ -1,4 +1,4 @@
-package me.pandamods.pandalib.impl;
+package me.pandamods.extra_details.api.impl;
 
 import net.minecraft.core.BlockPos;
 

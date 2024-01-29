@@ -1,29 +1,17 @@
 {
-  "required": true,
-  "package": "me.pandamods.extra_details.mixin",
-	"plugin": "me.pandamods.extra_details.common.PandaLibMixinPlugin",
-  "compatibilityLevel": "JAVA_17",
-  "minVersion": "0.8",
+	"required": true,
+	"package": "me.pandamods.extra_details.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"minVersion": "0.8",
 	"client": [
-		"blockentity.ChestBlockEntityMixin",
-		"blockentity.EnderChestBlockEntityMixin",
-		"block.BlockStateMixin",
-		"client.BlockEntityRenderDispatcherMixin",
 		"client.ChunkRenderDispatcherRenderChunkMixin",
 		"client.CompiledChunkMixin",
 		"client.CompileResultsMixin",
-		"client.LevelRendererMixin",
-		"client.sodium.BuiltSectionInfoBuilderMixin",
-		"client.sodium.BuiltSectionInfoMixin",
-		"client.sodium.ChunkBuilderMeshingTaskMixin",
-		"client.sodium.ChunkRenderListMixin",
-		"client.sodium.RenderSectionMixin",
-		"client.sodium.SodiumLevelRendererMixin",
-		"client.sodium.SodiumWorldRendererAccessor"
+		"client.LevelRendererMixin"
 	],
 	"mixins": [
 	],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

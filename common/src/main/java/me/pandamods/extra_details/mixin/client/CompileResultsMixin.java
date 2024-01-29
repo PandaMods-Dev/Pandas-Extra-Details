@@ -1,6 +1,6 @@
 package me.pandamods.extra_details.mixin.client;
 
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.impl.CompileResultsExtension;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;

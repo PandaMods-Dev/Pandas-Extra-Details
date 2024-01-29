@@ -15,13 +15,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(ExtraDetails.MOD_ID)
 public class ExtraDetailsForge {
     public ExtraDetailsForge() {
-		// Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(ExtraDetails.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> Resources::registerReloadListener);
+//		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> Resources::registerReloadListener);
 		ExtraDetails.init();
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ExtraDetails::client);
 
-		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
-						AutoConfig.getConfigScreen(ModConfig.class, screen).get()));
+//		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+//				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
+//						AutoConfig.getConfigScreen(ModConfig.class, screen).get()));
     }
 }

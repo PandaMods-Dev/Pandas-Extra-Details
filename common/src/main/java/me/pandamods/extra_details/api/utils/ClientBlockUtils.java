@@ -2,7 +2,7 @@ package me.pandamods.extra_details.api.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.api.client.render.block.*;
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.impl.CompileResultsExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
@@ -34,12 +34,11 @@ public class ClientBlockUtils {
 			).findFirst();
 			if (!ClientBlockRenderDispatcher.CLIENT_BLOCKS.containsKey(blockPos) || compiledBlockPos.isEmpty()) {
 				ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(blockPos,
-						blockProvider.create(clientBlockType, blockPos, blockState, Minecraft.getInstance().level));
+						blockProvider.create(clientBlockType, blockPos, Minecraft.getInstance().level));
 				nextCompileResults.getBlocks().add(blockPos);
 			} else {
 				ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
 				if (block != null) {
-					block.setBlockState(blockState);
 					nextCompileResults.getBlocks().add(blockPos);
 				}
 			}

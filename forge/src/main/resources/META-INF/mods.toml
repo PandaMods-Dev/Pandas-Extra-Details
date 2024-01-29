@@ -33,17 +33,3 @@ showAsResourcePack = false
 	versionRange = "[9.1.12,)"
 	ordering = "AFTER"
 	side = "CLIENT"
-
-[[dependencies.extra_details]]
-	modId = "cloth_config"
-	mandatory = true
-	versionRange = "[11.1.106,)"
-	ordering = "AFTER"
-	side = "CLIENT"
-
-[[dependencies.extra_details]]
-	modId = "rubidium"
-	mandatory = false
-	versionRange = "[0.7.1,)"
-	ordering = "AFTER"
-	side = "CLIENT"

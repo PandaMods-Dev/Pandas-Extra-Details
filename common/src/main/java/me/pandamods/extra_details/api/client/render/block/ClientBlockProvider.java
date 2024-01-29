@@ -5,5 +5,5 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface ClientBlockProvider {
-	ClientBlock create(ClientBlockType<?> type, BlockPos blockPos, BlockState blockState, ClientLevel level);
+	ClientBlock create(ClientBlockType<?> type, BlockPos blockPos, ClientLevel level);
 }

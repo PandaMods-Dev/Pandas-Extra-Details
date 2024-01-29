@@ -13,12 +13,14 @@ public class BlockRendererRegistry {
         RENDERERS.put(clientBlockType, clientBlockRenderer);
     }
 
+	@SuppressWarnings("unchecked")
 	public static <T extends ClientBlock> ClientBlockRenderer<T> get(Block block) {
 		Optional<ClientBlockType<?>> type = ClientBlockRegistry.getType(block);
 		return (ClientBlockRenderer<T>) type.map(BlockRendererRegistry::get).orElse(null);
     }
 
-	public static <T extends ClientBlock> ClientBlockRenderer<T> get(ClientBlockType<?> clientBlockType) {
+	@SuppressWarnings("unchecked")
+	public static <T extends ClientBlock> ClientBlockRenderer<T> get(ClientBlockType<T> clientBlockType) {
 		return (ClientBlockRenderer<T>) RENDERERS.get(clientBlockType);
     }
 }
