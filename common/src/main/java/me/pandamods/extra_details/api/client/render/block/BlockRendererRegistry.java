@@ -1,26 +1,32 @@
 package me.pandamods.extra_details.api.client.render.block;
 
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 
 public class BlockRendererRegistry {
-    public static final Map<ClientBlockType<?>, ClientBlockRenderer<?>> RENDERERS = new HashMap<>();
+    public static final Map<Function<BlockState, Boolean>, BlockRendererProvider> RENDERERS = new HashMap<>();
 
-    public static <T extends ClientBlock> void register(ClientBlockType<T> clientBlockType, ClientBlockRenderer<T> clientBlockRenderer) {
-        RENDERERS.put(clientBlockType, clientBlockRenderer);
-    }
+	public static void register(Block block, BlockRendererProvider provider) {
+		register(blockState -> blockState.is(block), provider);
+	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends ClientBlock> ClientBlockRenderer<T> get(Block block) {
-		Optional<ClientBlockType<?>> type = ClientBlockRegistry.getType(block);
-		return (ClientBlockRenderer<T>) type.map(BlockRendererRegistry::get).orElse(null);
-    }
+	public static void register(TagKey<Block> tag, BlockRendererProvider provider) {
+		register(blockState -> blockState.is(tag), provider);
+	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends ClientBlock> ClientBlockRenderer<T> get(ClientBlockType<T> clientBlockType) {
-		return (ClientBlockRenderer<T>) RENDERERS.get(clientBlockType);
-    }
+	public static void register(Function<BlockState, Boolean> prediction, BlockRendererProvider provider) {
+		RENDERERS.put(prediction, provider);
+	}
+
+	public static List<BlockRendererProvider> get(BlockState blockState) {
+		return RENDERERS.entrySet().stream().filter(entry -> entry.getKey().apply(blockState)).map(Map.Entry::getValue).toList();
+	}
+
+	public static Optional<BlockRendererProvider> getFirst(BlockState blockState) {
+		return Optional.ofNullable(get(blockState).get(0));
+	}
 }

@@ -10,49 +10,37 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class ClientBlockUtils {
 	public static void compile(Level level, BlockState blockState, BlockPos blockPos,
 							   CompileResultsExtension prevCompileResults, CompileResultsExtension nextCompileResults) {
-		Optional<ClientBlockType<?>> clientBlockTypeOptional = ClientBlockRegistry.getType(blockState.getBlock());
-		if (clientBlockTypeOptional.isEmpty()) {
-			return;
-		}
-		ClientBlockType<?> clientBlockType = clientBlockTypeOptional.get();
-		ClientBlockProvider blockProvider = clientBlockType.provider;
+		List<BlockRendererProvider> providers = BlockRendererRegistry.get(blockState);
 
-		if ((!ClientBlockRenderDispatcher.CLIENT_BLOCKS.containsKey(blockPos) ||
-				!clientBlockType.isValid(ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos).getBlockState()))
-				&& blockProvider != null && level != null)
-			ClientBlockRenderDispatcher.CLIENT_BLOCKS.remove(blockPos);
+		ClientBlockRenderDispatcher.RENDERERS.removeIf(blockRenderer -> providers.isEmpty() && blockRenderer.getBlockPos().equals(blockPos));
 
-		if (blockProvider != null && level != null) {
+		if (level == null) return;
+		for (BlockRendererProvider provider : providers) {
 			Optional<BlockPos> compiledBlockPos = prevCompileResults.getBlocks().stream().filter(
-					clientBlockPos -> clientBlockPos.equals(blockPos) && clientBlockType.isValid(level.getBlockState(clientBlockPos))
+					pos -> pos.equals(blockPos) && !BlockRendererRegistry.get(level.getBlockState(pos)).isEmpty()
 			).findFirst();
-			if (!ClientBlockRenderDispatcher.CLIENT_BLOCKS.containsKey(blockPos) || compiledBlockPos.isEmpty()) {
-				ClientBlockRenderDispatcher.CLIENT_BLOCKS.put(blockPos,
-						blockProvider.create(clientBlockType, blockPos, Minecraft.getInstance().level));
+			if (ClientBlockRenderDispatcher.RENDERERS.stream().noneMatch(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos)) ||
+					compiledBlockPos.isEmpty()) {
+				ClientBlockRenderDispatcher.RENDERERS.add(provider.create(Minecraft.getInstance().level, blockPos));
 				nextCompileResults.getBlocks().add(blockPos);
-			} else {
-				ClientBlock block = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
-				if (block != null) {
-					nextCompileResults.getBlocks().add(blockPos);
-				}
+			} else if (ClientBlockRenderDispatcher.RENDERERS.stream().anyMatch(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos))) {
+				nextCompileResults.getBlocks().add(blockPos);
 			}
 		}
 	}
 
 	public static void render(PoseStack poseStack, CompileResultsExtension compileResults, Vec3 cameraPosition,
 							  MultiBufferSource multiBufferSource, float partialTick) {
-		Set<BlockPos> clientBlocks = compileResults.getBlocks();
-		if (clientBlocks.isEmpty()) return;
-		for (BlockPos blockPos : clientBlocks) {
-			ClientBlock clientBlock = ClientBlockRenderDispatcher.CLIENT_BLOCKS.get(blockPos);
-			if (clientBlock == null) continue;
-
+		Set<BlockPos> blocks = compileResults.getBlocks();
+		if (blocks.isEmpty()) return;
+		for (BlockPos blockPos : blocks) {
 			poseStack.pushPose();
 			poseStack.translate(
 					blockPos.getX() - cameraPosition.x,
@@ -60,7 +48,9 @@ public class ClientBlockUtils {
 					blockPos.getZ() - cameraPosition.z
 			);
 
-			ClientBlockRenderDispatcher.render(clientBlock, partialTick, poseStack, multiBufferSource);
+			List<BlockRenderer> renderers = ClientBlockRenderDispatcher.RENDERERS.stream()
+					.filter(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos)).toList();
+			ClientBlockRenderDispatcher.render(renderers, partialTick, poseStack, multiBufferSource);
 			poseStack.popPose();
 		}
 	}
