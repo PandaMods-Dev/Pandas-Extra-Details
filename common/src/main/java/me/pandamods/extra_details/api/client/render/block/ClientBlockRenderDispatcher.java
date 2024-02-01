@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientBlockRenderDispatcher {
-//	public static final Map<BlockPos, BlockRenderer> RENDERERS = new HashMap<>();
-	public static final List<BlockRenderer> RENDERERS = new ArrayList<>();
+	public static final Map<BlockPos, BlockRenderer> RENDERERS = new HashMap<>();
 
 	public static void render(List<BlockRenderer> renderers, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource) {
 		for (BlockRenderer renderer : renderers) {

@@ -4,36 +4,48 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.api.client.render.block.*;
 import me.pandamods.extra_details.api.impl.CompileResultsExtension;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
+import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 
 public class ClientBlockUtils {
-	public static void compile(Level level, BlockState blockState, BlockPos blockPos,
-							   CompileResultsExtension prevCompileResults, CompileResultsExtension nextCompileResults) {
-		List<BlockRendererProvider> providers = BlockRendererRegistry.get(blockState);
+	public static void compileChunk(RenderChunkRegion captureRegion, ClientLevel level, BlockPos startPos, BlockPos endPos,
+									ChunkRenderDispatcher.CompiledChunk compiledChunk,
+									ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults) {
+		CompileResultsExtension prevCompileResults = ((CompileResultsExtension) compiledChunk);
+		CompileResultsExtension nextCompileResults = ((CompileResultsExtension) (Object) compileResults);
 
-		ClientBlockRenderDispatcher.RENDERERS.removeIf(blockRenderer -> providers.isEmpty() && blockRenderer.getBlockPos().equals(blockPos));
-
-		if (level == null) return;
-		for (BlockRendererProvider provider : providers) {
-			Optional<BlockPos> compiledBlockPos = prevCompileResults.getBlocks().stream().filter(
-					pos -> pos.equals(blockPos) && !BlockRendererRegistry.get(level.getBlockState(pos)).isEmpty()
-			).findFirst();
-			if (ClientBlockRenderDispatcher.RENDERERS.stream().noneMatch(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos)) ||
-					compiledBlockPos.isEmpty()) {
-				ClientBlockRenderDispatcher.RENDERERS.add(provider.create(Minecraft.getInstance().level, blockPos));
-				nextCompileResults.getBlocks().add(blockPos);
-			} else if (ClientBlockRenderDispatcher.RENDERERS.stream().anyMatch(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos))) {
-				nextCompileResults.getBlocks().add(blockPos);
+		for (BlockPos pos : BlockPos.betweenClosed(startPos, endPos)) {
+			BlockState state = captureRegion.getBlockState(pos.immutable());
+			if (state.isAir()) {
+				ClientBlockRenderDispatcher.RENDERERS.remove(pos);
+				continue;
 			}
+
+			ClientBlockUtils.compileBlock(level, state, pos.immutable(), prevCompileResults, nextCompileResults);
 		}
+	}
+
+	public static void compileBlock(ClientLevel level, BlockState blockState, BlockPos blockPos,
+									CompileResultsExtension prevCompileResults, CompileResultsExtension nextCompileResults) {
+		Map<BlockPos, BlockRenderer> renderers = ClientBlockRenderDispatcher.RENDERERS;
+		BlockRendererProvider provider = BlockRendererRegistry.get(blockState.getBlock());
+
+		if (provider != null) {
+			if (renderers.values().stream().noneMatch(blockRenderer -> blockState.is(blockRenderer.getBlock()))) {
+				renderers.put(blockPos, provider.create(blockState.getBlock(), level, blockPos));
+			}
+			nextCompileResults.getBlocks().add(blockPos);
+		} else renderers.remove(blockPos);
 	}
 
 	public static void render(PoseStack poseStack, CompileResultsExtension compileResults, Vec3 cameraPosition,
@@ -48,9 +60,8 @@ public class ClientBlockUtils {
 					blockPos.getZ() - cameraPosition.z
 			);
 
-			List<BlockRenderer> renderers = ClientBlockRenderDispatcher.RENDERERS.stream()
-					.filter(blockRenderer -> blockRenderer.getBlockPos().equals(blockPos)).toList();
-			ClientBlockRenderDispatcher.render(renderers, partialTick, poseStack, multiBufferSource);
+			BlockRenderer renderer = ClientBlockRenderDispatcher.RENDERERS.get(blockPos);
+			if (renderer != null) renderer.render(poseStack, multiBufferSource);
 			poseStack.popPose();
 		}
 	}

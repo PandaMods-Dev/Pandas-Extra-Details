@@ -1,8 +1,10 @@
 package me.pandamods.extra_details.mixin.client;
 
+import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderDispatcher;
 import me.pandamods.extra_details.api.impl.CompileResultsExtension;
 import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import net.minecraft.client.renderer.chunk.RenderChunkRegion;
@@ -48,16 +50,9 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						CallbackInfoReturnable<ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults> cir,
 						ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults, int i, BlockPos startPos, BlockPos endPos,
 						VisGraph visGraph, RenderChunkRegion renderChunkRegion) {
-		Level level = Minecraft.getInstance().level;
-		if (this.captureRegion != null && level != null) {
-			for (BlockPos pos : BlockPos.betweenClosed(startPos, endPos)) {
-				BlockState state = this.captureRegion.getBlockState(pos.immutable());
-				if (state.isAir())
-					continue;
-
-				ClientBlockUtils.compile(Minecraft.getInstance().level, state, pos.immutable(),
-						((CompileResultsExtension) this.field_20839.getCompiledChunk()), ((CompileResultsExtension) (Object) compileResults));
-			}
+		ClientLevel level = Minecraft.getInstance().level;
+		if (this.captureRegion != null) {
+			ClientBlockUtils.compileChunk(this.captureRegion, level, startPos, endPos, this.field_20839.getCompiledChunk(), compileResults);
 		}
 	}
 

@@ -10,60 +10,23 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
 
 public abstract class BlockRenderer {
+	private final Block block;
 	private final ClientLevel level;
 	private final BlockPos blockPos;
 
-	public BlockRenderer(ClientLevel level, BlockPos blockPos) {
+	public BlockRenderer(Block block, ClientLevel level, BlockPos blockPos) {
+		this.block = block;
 		this.level = level;
 		this.blockPos = blockPos;
 	}
 
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource) {
-		if (true) {
-			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(new ResourceLocation("textures/block/cobblestone.png")));
-			for (int i = 0; i < 64; i++) {
-				for (int j = 0; j < 6; j++) {
-					vertexConsumer
-							.vertex(poseStack.last().pose(), 0, 1, 0)
-							.color(255, 255, 255, 255)
-							.uv(0, 0)
-							.overlayCoords(OverlayTexture.NO_OVERLAY)
-							.uv2(getLightColor())
-							.normal(poseStack.last().normal(), 0, 1, 0)
-							.endVertex();
-					vertexConsumer
-							.vertex(poseStack.last().pose(), 0, 1, 1)
-							.color(255, 255, 255, 255)
-							.uv(0, 1)
-							.overlayCoords(OverlayTexture.NO_OVERLAY)
-							.uv2(getLightColor())
-							.normal(poseStack.last().normal(), 0, 1, 0)
-							.endVertex();
-					vertexConsumer
-							.vertex(poseStack.last().pose(), 1, 1, 1)
-							.color(255, 255, 255, 255)
-							.uv(1, 1)
-							.overlayCoords(OverlayTexture.NO_OVERLAY)
-							.uv2(getLightColor())
-							.normal(poseStack.last().normal(), 0, 1, 0)
-							.endVertex();
-					vertexConsumer
-							.vertex(poseStack.last().pose(), 1, 1, 0)
-							.color(255, 255, 255, 255)
-							.uv(1, 0)
-							.overlayCoords(OverlayTexture.NO_OVERLAY)
-							.uv2(getLightColor())
-							.normal(poseStack.last().normal(), 0, 1, 0)
-							.endVertex();
-				}
-			}
-		}
-	}
+	public abstract void render(PoseStack poseStack, MultiBufferSource bufferSource);
 
 	public BlockPos getBlockPos() {
 		return blockPos;
@@ -75,6 +38,10 @@ public abstract class BlockRenderer {
 
 	public BlockState getBlockstate() {
 		return getLevel().getBlockState(getBlockPos());
+	}
+
+	public Block getBlock() {
+		return block;
 	}
 
 	public int getLightColor() {
