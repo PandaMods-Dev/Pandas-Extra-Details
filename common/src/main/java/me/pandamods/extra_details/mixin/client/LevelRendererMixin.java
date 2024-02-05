@@ -3,7 +3,7 @@ package me.pandamods.extra_details.mixin.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.api.impl.CompileResultsExtension;
-import me.pandamods.extra_details.api.utils.ClientBlockUtils;
+import me.pandamods.extra_details.api.utils.BlockRendererUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
@@ -39,7 +39,7 @@ public abstract class LevelRendererMixin {
 
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				ClientBlockUtils.render(poseStack, ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()), cameraPosition,
+				BlockRendererUtils.render(poseStack, ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()), cameraPosition,
 						buffersource, partialTick);
 			}
 		}
