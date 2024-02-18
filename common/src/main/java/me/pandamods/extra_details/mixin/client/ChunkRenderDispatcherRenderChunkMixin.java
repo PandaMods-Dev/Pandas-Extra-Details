@@ -1,7 +1,8 @@
 package me.pandamods.extra_details.mixin.client;
 
+import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.api.client.render.block.BlockRendererRegistry;
 import me.pandamods.extra_details.api.impl.CompileResultsExtension;
-import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
@@ -28,7 +29,6 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 	@Shadow @Nullable
 	protected RenderChunkRegion region;
 
-	@Shadow @Final private ChunkRenderDispatcher.RenderChunk field_20839;
 	@Unique
 	private RenderChunkRegion captureRegion;
 
@@ -48,15 +48,14 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						CallbackInfoReturnable<ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults> cir,
 						ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults, int i, BlockPos startPos, BlockPos endPos,
 						VisGraph visGraph, RenderChunkRegion renderChunkRegion) {
-		Level level = Minecraft.getInstance().level;
-		if (this.captureRegion != null && level != null) {
+		if (this.captureRegion != null) {
 			for (BlockPos pos : BlockPos.betweenClosed(startPos, endPos)) {
 				BlockState state = this.captureRegion.getBlockState(pos.immutable());
-				if (state.isAir())
-					continue;
+				if (state.isAir()) continue;
 
-				ClientBlockUtils.compile(Minecraft.getInstance().level, state, pos.immutable(),
-						((CompileResultsExtension) this.field_20839.getCompiledChunk()), ((CompileResultsExtension) (Object) compileResults));
+				if (!ExtraDetails.BLOCK_RENDERER_DISPATCHER.isRendererRegistered(this.captureRegion.getBlockState(pos.immutable()).getBlock()))
+					continue;
+				((CompileResultsExtension) (Object) compileResults).getRenderableBlocks().add(pos.immutable());
 			}
 		}
 	}
@@ -70,6 +69,6 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 	public void doTask(ChunkBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<ChunkRenderDispatcher.ChunkTaskResult>> cir,
 					   Vec3 vec3, float f, float g, float h, ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
 					   ChunkRenderDispatcher.CompiledChunk compiledChunk) {
-		((CompileResultsExtension) compiledChunk).getBlocks().addAll(((CompileResultsExtension) (Object) compileResults).getBlocks());
+		((CompileResultsExtension) compiledChunk).getRenderableBlocks().addAll(((CompileResultsExtension) (Object) compileResults).getRenderableBlocks());
 	}
 }

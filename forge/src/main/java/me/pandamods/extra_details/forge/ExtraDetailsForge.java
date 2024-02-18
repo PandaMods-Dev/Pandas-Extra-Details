@@ -2,13 +2,12 @@ package me.pandamods.extra_details.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.config.ModConfig;
-import me.pandamods.pandalib.resources.Resources;
-import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ExtraDetailsForge {
     public ExtraDetailsForge() {
         EventBuses.registerModEventBus(ExtraDetails.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-//		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> Resources::registerReloadListener);
+		MinecraftForge.EVENT_BUS.addListener(this::addReloadListenerEvent);
 		ExtraDetails.init();
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ExtraDetails::client);
 
@@ -24,4 +23,8 @@ public class ExtraDetailsForge {
 //				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
 //						AutoConfig.getConfigScreen(ModConfig.class, screen).get()));
     }
+
+	public void addReloadListenerEvent(AddReloadListenerEvent event) {
+		event.addListener(ExtraDetails.BLOCK_RENDERER_DISPATCHER);
+	}
 }

@@ -15,7 +15,7 @@ public class CompiledChunkMixin implements CompileResultsExtension {
 	private Set<BlockPos> blocks = new HashSet<>();
 
 	@Override
-	public Set<BlockPos> getBlocks() {
+	public Set<BlockPos> getRenderableBlocks() {
 		return blocks;
 	}
 }
