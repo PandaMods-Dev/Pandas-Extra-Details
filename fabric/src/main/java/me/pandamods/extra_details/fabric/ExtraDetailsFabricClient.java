@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.fabric;
 
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.pandalib.resource.Resources;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -19,15 +20,19 @@ public class ExtraDetailsFabricClient implements ClientModInitializer {
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
 			@Override
 			public ResourceLocation getFabricId() {
-				return new ResourceLocation(ExtraDetails.MOD_ID, "renderers");
+				return new ResourceLocation(ExtraDetails.MOD_ID, "general");
 			}
 
 			@Override
 			public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
 												  ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 												  Executor backgroundExecutor, Executor gameExecutor) {
-				return ExtraDetails.BLOCK_RENDERER_DISPATCHER.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
-						backgroundExecutor, gameExecutor);
+				return CompletableFuture.allOf(
+						ExtraDetails.BLOCK_RENDERER_DISPATCHER.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+								backgroundExecutor, gameExecutor),
+						ExtraDetails.RESOURCES.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+								backgroundExecutor, gameExecutor)
+				);
 			}
 		});
 
