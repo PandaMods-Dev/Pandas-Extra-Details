@@ -7,10 +7,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.pandamods.extra_details.ExtraDetails;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
 
@@ -24,21 +21,21 @@ import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 
 public class Resources implements PreparableReloadListener {
-	private static final String SUPPORTED_GEOMETRY_VERSION = "1.12.0";
+	private static final String SUPPORTED_MESHES_VERSION = "0.3";
 
 	public static final Gson GSON = new GsonBuilder().create();
 
-	public Map<ResourceLocation, GeometryData> GEOMETRIES = new HashMap<>();
+	public Map<ResourceLocation, MeshData> meshes = new HashMap<>();
 
 	@Override
 	public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
 										  ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 										  Executor backgroundExecutor, Executor gameExecutor) {
-		Map<ResourceLocation, GeometryData> geometries = new Object2ObjectOpenHashMap<>();
+		Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
 		return CompletableFuture.allOf(
-				load("geometry", SUPPORTED_GEOMETRY_VERSION, GeometryData.class, backgroundExecutor, resourceManager, geometries::put)
+				load("pandalib/meshes", SUPPORTED_MESHES_VERSION, MeshData.class, backgroundExecutor, resourceManager, meshes::put)
 		).thenCompose(preparationBarrier::wait)
-				.thenAcceptAsync(unused -> GEOMETRIES = geometries, gameExecutor);
+				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor);
 	}
 
 	private <C> CompletableFuture<Void> load(String directory, String formatVersion, Class<C> resourceDataClass,
@@ -52,7 +49,8 @@ public class Resources implements PreparableReloadListener {
 			for (ResourceLocation resource : resources.keySet()) {
 				JsonObject json = loadFile(resource, resourceManager);
 				if (!json.has("format_version") || !json.get("format_version").getAsString().equals(formatVersion)) {
-					ExtraDetails.LOGGER.error("format version '" + formatVersion + "' of '" + resource + "' is not supported");
+					ExtraDetails.LOGGER.error("format version '{}' of '{}' is not supported",
+							json.get("format_version").getAsString(), resource);
 					continue;
 				}
 

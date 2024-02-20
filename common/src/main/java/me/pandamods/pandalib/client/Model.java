@@ -2,7 +2,9 @@ package me.pandamods.pandalib.client;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface Model {
-	ResourceLocation modelLocation();
-	ResourceLocation textureLocation();
+import java.util.Map;
+
+public interface Model<T> {
+	ResourceLocation modelLocation(T t);
+	Map<String, ResourceLocation> textureLocation(T t);
 }

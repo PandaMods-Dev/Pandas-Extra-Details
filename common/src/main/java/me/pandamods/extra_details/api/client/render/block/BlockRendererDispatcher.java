@@ -30,7 +30,7 @@ public class BlockRendererDispatcher implements ResourceManagerReloadListener {
 	public void render(BlockPos blockPos, Level level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
 		BlockRenderer renderer = getRenderer(level.getBlockState(blockPos).getBlock());
 		if (renderer == null) return;
-		renderer.render(poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
+		renderer.render(new BlockContext(blockPos, level), poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
 	}
 
 	public static int getLightColor(Level level, BlockPos blockPos) {
