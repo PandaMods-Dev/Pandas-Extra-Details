@@ -13,6 +13,8 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
 
+    modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
+
 //    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
 //    modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 }

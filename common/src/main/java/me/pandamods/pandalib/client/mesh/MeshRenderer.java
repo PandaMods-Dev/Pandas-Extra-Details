@@ -1,9 +1,12 @@
 package me.pandamods.pandalib.client.mesh;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.*;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.Model;
+import me.pandamods.pandalib.client.armature.Armature;
+import me.pandamods.pandalib.client.armature.Bone;
+import me.pandamods.pandalib.client.armature.IAnimatableCache;
+import me.pandamods.pandalib.resource.ArmatureData;
 import me.pandamods.pandalib.resource.MeshData;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,27 +17,31 @@ import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
-public interface MeshRenderer<T> {
-	Model<T> getModel();
+public interface MeshRenderer<T, M extends Model<T>> {
+	M getModel();
 
 	default boolean debug() {
 		return true;
 	}
 
-	default void renderGeometry(T t, PoseStack poseStack, MultiBufferSource bufferSource, int lightColor, int overlayTexture) {
-		Model<T> model = getModel();
+	default void renderGeometry(T t, Armature armature, PoseStack poseStack, MultiBufferSource bufferSource, int lightColor, int overlayTexture) {
+		M model = getModel();
 		MeshData meshData = ExtraDetails.RESOURCES.meshes.get(model.modelLocation(t));
 		Color color = Color.white;
 
 		for (MeshData.Object object : meshData.objects().values()) {
-			float[] objectPosition = object.position();
-			float[] objectRotation = object.position();
+			Vector3f objectPosition = object.position();
+			Vector3f objectRotation = object.position();
 			poseStack.pushPose();
-			poseStack.translate(objectPosition[0], objectPosition[1], objectPosition[2]);
-			poseStack.mulPose(new Quaternionf().identity().rotateZYX(objectRotation[0], objectRotation[1], objectRotation[2]));
+			poseStack.translate(objectPosition.x, objectPosition.y, objectPosition.z);
+			poseStack.mulPose(new Quaternionf().identity().rotateZYX(objectRotation.z, objectRotation.y, objectRotation.x));
 
-			List<Vertex> vertices = object.vertices().stream().map(vertex -> new Vertex(new Vector3f(vertex.position()))).toList();
+			List<Vertex> vertices = object.vertices().stream().map(vertex ->
+					new Vertex(vertex.index(), new Vector3f(vertex.position()))
+			).toList();
 
 			for (MeshData.Face face : object.faces()) {
 				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(getTexture(t, face.texture_name())));
@@ -70,6 +77,6 @@ public interface MeshRenderer<T> {
 	}
 
 	record Vertex(
-			Vector3f position
+			int index, Vector3f position
 	) {}
 }

@@ -28,6 +28,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
+    modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
+
     modApi("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
 //    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")

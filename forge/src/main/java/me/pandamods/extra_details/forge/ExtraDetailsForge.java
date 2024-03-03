@@ -2,9 +2,6 @@ package me.pandamods.extra_details.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.resource.Resources;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -26,7 +23,7 @@ public class ExtraDetailsForge {
     }
 
 	public void addReloadListenerEvent(AddReloadListenerEvent event) {
-		event.addListener(ExtraDetails.BLOCK_RENDERER_DISPATCHER);
+		event.addListener(ExtraDetails.blockRenderDispatcher);
 		event.addListener(ExtraDetails.RESOURCES);
 	}
 }

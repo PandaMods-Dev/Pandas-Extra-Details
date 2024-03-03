@@ -1,5 +1,6 @@
 package me.pandamods.pandalib.client;
 
+import me.pandamods.pandalib.client.armature.Armature;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;

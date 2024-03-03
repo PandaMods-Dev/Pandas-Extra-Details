@@ -1,9 +1,7 @@
 package me.pandamods.extra_details.fabric;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.resource.Resources;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +26,7 @@ public class ExtraDetailsFabricClient implements ClientModInitializer {
 												  ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 												  Executor backgroundExecutor, Executor gameExecutor) {
 				return CompletableFuture.allOf(
-						ExtraDetails.BLOCK_RENDERER_DISPATCHER.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+						ExtraDetails.blockRenderDispatcher.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
 								backgroundExecutor, gameExecutor),
 						ExtraDetails.RESOURCES.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
 								backgroundExecutor, gameExecutor)

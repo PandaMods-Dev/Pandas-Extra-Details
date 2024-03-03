@@ -5,9 +5,13 @@
 	"minVersion": "0.8",
 	"client": [
 		"client.ChunkRenderDispatcherRenderChunkMixin",
+		"client.LevelMixin",
 		"client.CompiledChunkMixin",
 		"client.CompileResultsMixin",
-		"client.LevelRendererMixin"
+		"client.LevelChunkMixin",
+		"client.LevelRendererMixin",
+		"client.RenderChunkMixin",
+		"client.RenderChunkRegionMixin"
 	],
 	"mixins": [
 	],

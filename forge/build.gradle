@@ -35,6 +35,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+    modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
+
 //    modImplementation("maven.modrinth:rubidium:${rootProject.rubidium_version}")
 }
 

@@ -7,15 +7,15 @@ import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.api.client.render.block.BlockRendererDispatcher;
-import me.pandamods.extra_details.api.impl.CompileResultsExtension;
+import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderDispatcher;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -38,7 +38,21 @@ public abstract class LevelRendererMixin {
 
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
 
-	private final BlockRendererDispatcher blockRendererDispatcher = ExtraDetails.BLOCK_RENDERER_DISPATCHER;
+	@Shadow @Final private Minecraft minecraft;
+	private final ClientBlockEntityRenderDispatcher clientBlocEntityRenderDispatcher = ExtraDetails.blockRenderDispatcher;
+
+	@Inject(
+			method = "renderLevel",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;prepare(Lnet/minecraft/world/level/Level;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/HitResult;)V",
+					ordinal = 0
+			)
+	)
+	public void prepareRenderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
+								   GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
+		this.clientBlocEntityRenderDispatcher.prepare(this.level, camera, this.minecraft.hitResult);
+	}
 
 	@Inject(
 			method = "renderLevel",
@@ -58,10 +72,11 @@ public abstract class LevelRendererMixin {
 
 		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
 			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				Set<BlockPos> blocks = ((CompileResultsExtension) renderChunkInfo.chunk.getCompiledChunk()).getRenderableBlocks();
-				if (blocks.isEmpty()) continue;
+				List<ClientBlockEntity> blockEntities = renderChunkInfo.chunk.getCompiledChunk().getClientBlockEntities();
+				if (blockEntities.isEmpty()) continue;
 
-				for (BlockPos blockPos : blocks) {
+				for (ClientBlockEntity blockEntity : blockEntities) {
+					BlockPos blockPos = blockEntity.getBlockPos();
 					poseStack.pushPose();
 					poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
 					MultiBufferSource bufferSource = this.renderBuffers.bufferSource();
@@ -83,7 +98,7 @@ public abstract class LevelRendererMixin {
 						}
 					}
 
-					blockRendererDispatcher.render(blockPos, level, poseStack, bufferSource, partialTick);
+					clientBlocEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
 					poseStack.popPose();
 				}
 			}
