@@ -38,8 +38,6 @@ import java.util.function.Supplier;
 public abstract class LevelChunkMixin implements LevelChunkExtension {
 	@Shadow @Final private Level level;
 
-	@Shadow public abstract void removeBlockEntity(BlockPos pos);
-
 	@Unique
 	private Map<BlockPos, ClientBlockEntity> clientBlockEntities = new HashMap<>();
 
@@ -64,29 +62,4 @@ public abstract class LevelChunkMixin implements LevelChunkExtension {
 	public ClientBlockEntity getClientBlockEntity(BlockPos blockPos) {
 		return getClientBlockEntities().get(blockPos);
 	}
-
-//	@Inject(method = "setBlockState", at = @At(
-//			value = "FIELD", target = "Lnet/minecraft/world/level/chunk/LevelChunk;unsaved:Z",
-//			shift = At.Shift.BEFORE
-//	))
-//	public void setBlockState(BlockPos pos, BlockState state, boolean isMoving, CallbackInfoReturnable<BlockState> cir) {
-//		ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(state);
-//		if (blockEntityType != null) {
-//			ClientBlockEntity blockentity = this.getClientBlockEntity(pos);
-//			if (blockentity == null) {
-//				blockentity = blockEntityType.create(pos, state);
-//				if (blockentity != null) {
-//					this.setClientBlockEntity(blockentity);
-//				}
-//			} else {
-//				blockentity.setBlockState(state);
-//			}
-//		}
-//	}
-//
-//	@Inject(method = "setBlockState", at = @At(value = "RETURN"))
-//	public void setBlockStateReturn(BlockPos pos, BlockState state, boolean isMoving, CallbackInfoReturnable<BlockState> cir) {
-//		if (cir.getReturnValue() == null)
-//			this.removeClientBlockEntity(pos);
-//	}
 }
