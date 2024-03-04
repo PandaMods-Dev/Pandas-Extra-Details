@@ -3,9 +3,10 @@ package me.pandamods.extra_details.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderer;
+import me.pandamods.extra_details.client.animation_controller.LeverAnimationController;
 import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
 import me.pandamods.extra_details.client.model.LeverModel;
-import me.pandamods.pandalib.client.Model;
+import me.pandamods.pandalib.client.armature.ArmatureAnimator;
 import me.pandamods.pandalib.client.mesh.MeshRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -15,15 +16,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class LeverRenderer implements ClientBlockEntityRenderer<LeverBlockEntity>, MeshRenderer<LeverBlockEntity, LeverModel> {
+public class LeverRenderer implements ClientBlockEntityRenderer<LeverBlockEntity>,
+		MeshRenderer<LeverBlockEntity, LeverModel>, ArmatureAnimator<LeverBlockEntity, LeverAnimationController> {
 	public LeverModel model = new LeverModel();
+	public LeverAnimationController animationController = new LeverAnimationController();
 
 	@Override
 	public void render(LeverBlockEntity blockEntity, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
 		poseStack.pushPose();
-		poseStack.translate(0, 1, 0);
+//		poseStack.translate(0, 1, 0);
 		translateBlock(blockEntity.getBlockState(), poseStack);
-		renderGeometry(blockEntity, null, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
+		animateArmature(blockEntity, partialTick);
+		renderGeometry(blockEntity, blockEntity.armatureCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
 		poseStack.popPose();
 	}
 
@@ -60,5 +64,10 @@ public class LeverRenderer implements ClientBlockEntityRenderer<LeverBlockEntity
 			return -blockState.getValue(DirectionalBlock.FACING).toYRot();
 
 		return 0;
+	}
+
+	@Override
+	public LeverAnimationController getController() {
+		return animationController;
 	}
 }

@@ -39,4 +39,8 @@ public class Bone {
 		globalTransform.translate(pivotPoint);
 		children.values().forEach(Bone::updateGlobalTransform);
 	}
+
+	public Vector3f getPivotPoint() {
+		return pivotPoint;
+	}
 }

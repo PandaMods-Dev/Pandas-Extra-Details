@@ -11,9 +11,7 @@ import me.pandamods.pandalib.resource.MeshData;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Quaternionf;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 import java.awt.*;
 import java.util.List;
@@ -36,12 +34,45 @@ public interface MeshRenderer<T, M extends Model<T>> {
 			Vector3f objectPosition = object.position();
 			Vector3f objectRotation = object.position();
 			poseStack.pushPose();
-			poseStack.translate(objectPosition.x, objectPosition.y, objectPosition.z);
-			poseStack.mulPose(new Quaternionf().identity().rotateZYX(objectRotation.z, objectRotation.y, objectRotation.x));
+//			poseStack.translate(objectPosition.x, objectPosition.y, objectPosition.z);
+//			poseStack.mulPose(new Quaternionf().identity().rotateZYX(objectRotation.z, objectRotation.y, objectRotation.x));
 
-			List<Vertex> vertices = object.vertices().stream().map(vertex ->
-					new Vertex(vertex.index(), new Vector3f(vertex.position()))
-			).toList();
+			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
+				Vector3f position = vertex.position().add(object.position(), new Vector3f());
+				if (armature != null && !vertex.weights().isEmpty()) {
+					for (MeshData.Weight weight : vertex.weights()) {
+						Optional<Bone> boneOptional = armature.getBone(weight.name());
+						float weightPercent = weight.weight() / vertex.max_weight();
+
+						if (boneOptional.isPresent()) {
+							Bone bone = boneOptional.get();
+							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform()).translate(bone.getPivotPoint().negate(new Vector3f()));
+
+							// Apply bone transformation to vertex position
+							Vector4f vertexPosition = new Vector4f(position.x - bone.getPivotPoint().x,
+									position.y - bone.getPivotPoint().y,
+									position.z - bone.getPivotPoint().z,
+									1.0f);
+							globalTransform.transform(vertexPosition);
+
+							// Translate back to the original position
+							vertexPosition.add(bone.getPivotPoint().x, bone.getPivotPoint().y, bone.getPivotPoint().z, 1.0f);
+
+							// Apply weight to the transformation
+							vertexPosition.mul(weightPercent);
+
+							// If this is the first bone affecting the vertex, directly set the position
+							if (position.equals(vertex.position())) {
+								position.set(vertexPosition.x, vertexPosition.y, vertexPosition.z);
+							} else {
+								// Otherwise, blend the transformation with the current position
+								position.add(vertexPosition.x, vertexPosition.y, vertexPosition.z);
+							}
+						}
+					}
+				}
+				return new Vertex(vertex.index(), position);
+			}).toList();
 
 			for (MeshData.Face face : object.faces()) {
 				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(getTexture(t, face.texture_name())));

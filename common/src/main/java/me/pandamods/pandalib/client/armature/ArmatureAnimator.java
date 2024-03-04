@@ -5,7 +5,7 @@ import me.pandamods.pandalib.resource.ArmatureData;
 
 import java.util.Objects;
 
-public interface IAnimatable<Cache extends IAnimatableCache, AnimController extends AnimationController<Cache>> {
+public interface ArmatureAnimator<Cache extends IAnimatableCache, AnimController extends AnimationController<Cache>> {
 	AnimController getController();
 
 	default void animateArmature(Cache cache, float partialTick) {
