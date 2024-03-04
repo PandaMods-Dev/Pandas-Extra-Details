@@ -46,28 +46,9 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 						if (boneOptional.isPresent()) {
 							Bone bone = boneOptional.get();
-							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform()).translate(bone.getPivotPoint().negate(new Vector3f()));
+							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
 
-							// Apply bone transformation to vertex position
-							Vector4f vertexPosition = new Vector4f(position.x - bone.getPivotPoint().x,
-									position.y - bone.getPivotPoint().y,
-									position.z - bone.getPivotPoint().z,
-									1.0f);
-							globalTransform.transform(vertexPosition);
-
-							// Translate back to the original position
-							vertexPosition.add(bone.getPivotPoint().x, bone.getPivotPoint().y, bone.getPivotPoint().z, 1.0f);
-
-							// Apply weight to the transformation
-							vertexPosition.mul(weightPercent);
-
-							// If this is the first bone affecting the vertex, directly set the position
-							if (position.equals(vertex.position())) {
-								position.set(vertexPosition.x, vertexPosition.y, vertexPosition.z);
-							} else {
-								// Otherwise, blend the transformation with the current position
-								position.add(vertexPosition.x, vertexPosition.y, vertexPosition.z);
-							}
+							// recode
 						}
 					}
 				}
