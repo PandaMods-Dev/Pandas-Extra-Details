@@ -27,7 +27,8 @@ public class LeverRenderer implements ClientBlockEntityRenderer<LeverBlockEntity
 //		poseStack.translate(0, 1, 0);
 		translateBlock(blockEntity.getBlockState(), poseStack);
 		animateArmature(blockEntity, partialTick);
-		renderGeometry(blockEntity, blockEntity.armatureCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
+		renderArmatureDebug(blockEntity, poseStack, bufferSource);
+//		renderGeometry(blockEntity, blockEntity.armatureCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
 		poseStack.popPose();
 	}
 

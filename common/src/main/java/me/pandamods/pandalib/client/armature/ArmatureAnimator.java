@@ -1,8 +1,19 @@
 package me.pandamods.pandalib.client.armature;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.pandalib.client.mesh.MeshRenderer;
 import me.pandamods.pandalib.resource.ArmatureData;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.joml.*;
 
+import java.awt.*;
 import java.util.Objects;
 
 public interface ArmatureAnimator<Cache extends IAnimatableCache, AnimController extends AnimationController<Cache>> {
@@ -20,6 +31,25 @@ public interface ArmatureAnimator<Cache extends IAnimatableCache, AnimController
 		} else armature = cache.armatureCache().armature;
 
 		controller.animate(cache, armature, partialTick);
-		armature.getBones().values().forEach(Bone::updateGlobalTransform);
+		armature.getBones().values().forEach(bone -> {
+			if (bone.parent == null) bone.updateTransform();
+		});
+	}
+
+	default void renderArmatureDebug(Cache cache, PoseStack poseStack, MultiBufferSource bufferSource) {
+		Armature armature = cache.armatureCache().armature;
+		if (armature != null) {
+			armature.getBones().values().forEach(bone -> {
+				poseStack.pushPose();
+				poseStack.mulPoseMatrix(bone.getGlobalTransform());
+				LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()),
+						AABB.ofSize(new Vec3(0, .2f, 0), 0f, .3f, 0f),
+						1, 1, 1, 1);
+				LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()),
+						AABB.ofSize(new Vec3(0, 0, 0), 0.1f, 0.1f, 0.1f),
+						1, 1, 1, 1);
+				poseStack.popPose();
+			});
+		}
 	}
 }

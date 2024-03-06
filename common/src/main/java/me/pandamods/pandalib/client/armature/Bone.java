@@ -20,19 +20,27 @@ public class Bone {
 		this.initialTransform = new Matrix4f().identity().translate(boneData.position());
 		this.localTransform = new Matrix4f().identity();
 		this.globalTransform = new Matrix4f().identity();
-		this.updateGlobalTransform();
+		this.updateTransform();
 	}
 
 	public Matrix4f getGlobalTransform() {
 		return globalTransform;
 	}
 
-	public void updateGlobalTransform() {
-		// recode
-		children.values().forEach(Bone::updateGlobalTransform);
-	}
-
 	public Matrix4f getInitialTransform() {
 		return initialTransform;
+	}
+
+	public void updateTransform() {
+		Matrix4f initialTransform = this.initialTransform;
+
+		this.globalTransform.identity();
+		if (parent != null) {
+			this.globalTransform.mul(parent.initialTransform.invert(new Matrix4f()));
+			this.globalTransform.mul(parent.globalTransform);
+		}
+		this.globalTransform.mul(initialTransform);
+		this.globalTransform.mul(localTransform);
+		children.values().forEach(Bone::updateTransform);
 	}
 }
