@@ -41,7 +41,7 @@ public interface ArmatureAnimator<Cache extends IAnimatableCache, AnimController
 		if (armature != null) {
 			armature.getBones().values().forEach(bone -> {
 				poseStack.pushPose();
-				poseStack.mulPoseMatrix(bone.getGlobalTransform());
+				poseStack.mulPoseMatrix(new Matrix4f(bone.getGlobalTransform()));
 				LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()),
 						AABB.ofSize(new Vec3(0, .2f, 0), 0f, .3f, 0f),
 						1, 1, 1, 1);

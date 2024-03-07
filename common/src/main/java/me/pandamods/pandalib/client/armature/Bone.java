@@ -2,6 +2,7 @@ package me.pandamods.pandalib.client.armature;
 
 import me.pandamods.pandalib.resource.ArmatureData;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,20 +24,18 @@ public class Bone {
 		this.updateTransform();
 	}
 
-	public Matrix4f getGlobalTransform() {
+	public Matrix4fc getGlobalTransform() {
 		return globalTransform;
 	}
 
-	public Matrix4f getInitialTransform() {
+	public Matrix4fc getInitialTransform() {
 		return initialTransform;
 	}
 
 	public void updateTransform() {
-		Matrix4f initialTransform = this.initialTransform;
-
 		this.globalTransform.identity();
 		if (parent != null) {
-			this.globalTransform.mul(parent.initialTransform.invert(new Matrix4f()));
+			this.globalTransform.mul(parent.globalTransform).mul(new Matrix4f(parent.initialTransform.invert(new Matrix4f())));
 			this.globalTransform.mul(parent.globalTransform);
 		}
 		this.globalTransform.mul(initialTransform);

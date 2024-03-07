@@ -44,15 +44,13 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 						if (boneOptional.isPresent()) {
 							Bone bone = boneOptional.get();
-							Matrix4f initialTransform = new Matrix4f(bone.getInitialTransform());
-							Matrix4f initialTransformInverted = initialTransform.invert(new Matrix4f());
+							Matrix4fc initialTransform = bone.getInitialTransform();
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
 
 							Vector3f originalPosition = new Vector3f(position);
 							Vector4f position4 = new Vector4f(position, 1);
 
-							globalTransform.mul(initialTransformInverted);
-							globalTransform.transform(position4);
+							bone.localTransform.transform(position4);
 
 							position.set(position4.x, position4.y, position4.z);
 							Vector3f positionDifference = new Vector3f(position).sub(originalPosition);
