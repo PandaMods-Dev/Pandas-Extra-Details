@@ -19,10 +19,15 @@ public class LeverAnimationController implements AnimationController<LeverBlockE
 	@Override
 	public void animate(LeverBlockEntity leverBlockEntity, Armature armature, float partialTick) {
 		armature.getBone("handle").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
-		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
+
+//		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
+//		armature.getBone("Bone2").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
+//		armature.getBone("Bone3").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
+
 //		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setTranslation(0, 0, 1));
-//		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
-//		armature.getBone("Bone2").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
-//		armature.getBone("Bone3").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
+
+		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
+		armature.getBone("Bone2").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
+		armature.getBone("Bone3").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
 	}
 }

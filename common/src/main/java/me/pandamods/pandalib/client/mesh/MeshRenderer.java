@@ -14,9 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.*;
 
 import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public interface MeshRenderer<T, M extends Model<T>> {
 	M getModel();
@@ -37,8 +36,8 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
 				Vector3f position = new Vector3f(vertex.position());
-
 				if (armature != null && !vertex.weights().isEmpty()) {
+					Vector3f finalPosition = new Vector3f();
 					for (MeshData.Weight weight : vertex.weights()) {
 						Optional<Bone> boneOptional = armature.getBone(weight.name());
 						float weightPercent = weight.weight() / vertex.max_weight();
@@ -49,14 +48,22 @@ public interface MeshRenderer<T, M extends Model<T>> {
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
 							Vector3f initialPosition = new Vector3f(position);
 
+							Vector3f transformedPosition = new Vector3f(position);
 							globalTransform.mul(initialTransform.invert(new Matrix4f()));
-							globalTransform.transformProject(position);
+							globalTransform.transformPosition(transformedPosition);
 
-							Vector3f positionDifference = new Vector3f(position).sub(initialPosition);
-							positionDifference.mul(weightPercent);
-							position.set(initialPosition.add(positionDifference));
+//							Vector3f positionDifference = new Vector3f(position).sub(initialPosition);
+//							positionDifference.mul(weightPercent);
+//							position.set(initialPosition.add(positionDifference));
+
+//							initialPosition.lerp(position, weightPercent, position);
+
+							transformedPosition.mul(weightPercent);
+							finalPosition.add(transformedPosition);
 						}
 					}
+
+					position.set(finalPosition);
 				}
 				return new Vertex(vertex.index(), position);
 			}).toList();
