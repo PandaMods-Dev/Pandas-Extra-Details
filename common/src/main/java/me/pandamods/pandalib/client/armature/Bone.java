@@ -4,6 +4,7 @@ import me.pandamods.pandalib.resource.ArmatureData;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +37,10 @@ public class Bone {
 		this.globalTransform.identity();
 		if (parent != null) {
 			this.globalTransform.mul(parent.globalTransform).mul(new Matrix4f(parent.initialTransform.invert(new Matrix4f())));
-			this.globalTransform.mul(parent.globalTransform);
 		}
 		this.globalTransform.mul(initialTransform);
 		this.globalTransform.mul(localTransform);
+
 		children.values().forEach(Bone::updateTransform);
 	}
 }

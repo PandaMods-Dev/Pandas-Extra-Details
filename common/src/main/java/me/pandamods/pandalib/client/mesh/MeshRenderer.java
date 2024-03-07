@@ -37,6 +37,7 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
 				Vector3f position = new Vector3f(vertex.position());
+
 				if (armature != null && !vertex.weights().isEmpty()) {
 					for (MeshData.Weight weight : vertex.weights()) {
 						Optional<Bone> boneOptional = armature.getBone(weight.name());
@@ -44,22 +45,20 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 						if (boneOptional.isPresent()) {
 							Bone bone = boneOptional.get();
-							Matrix4fc initialTransform = bone.getInitialTransform();
+							Matrix4f initialTransform = new Matrix4f(bone.getInitialTransform());
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
+							Vector3f initialPosition = new Vector3f(position);
 
-							Vector3f originalPosition = new Vector3f(position);
-							Vector4f position4 = new Vector4f(position, 1);
+							globalTransform.mul(initialTransform.invert(new Matrix4f()));
+							globalTransform.transformProject(position);
 
-							bone.localTransform.transform(position4);
-
-							position.set(position4.x, position4.y, position4.z);
-							Vector3f positionDifference = new Vector3f(position).sub(originalPosition);
+							Vector3f positionDifference = new Vector3f(position).sub(initialPosition);
 							positionDifference.mul(weightPercent);
-							position.set(originalPosition.add(positionDifference));
+							position.set(initialPosition.add(positionDifference));
 						}
 					}
 				}
-				return new Vertex(vertex.index(), new Vector3f(position.x, position.y, position.z));
+				return new Vertex(vertex.index(), position);
 			}).toList();
 
 			for (MeshData.Face face : object.faces()) {
