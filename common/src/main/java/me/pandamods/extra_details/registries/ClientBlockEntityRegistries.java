@@ -5,11 +5,16 @@ import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity
 import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityType;
 import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderer;
 import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
+import me.pandamods.extra_details.client.renderer.LeverRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 
 public class ClientBlockEntityRegistries {
-	public static void init() {}
+	public static void init() {
+		ExtraDetails.rendererRegistryEvent.register(registry -> {
+			registry.register(ClientBlockEntityRegistries.LEVER, new LeverRenderer());
+		});
+	}
 
 	public static final ClientBlockEntityType<?> LEVER = ClientBlockEntityRegistry
 			.register(new ResourceLocation(ExtraDetails.MOD_ID, "lever"), ClientBlockEntityType

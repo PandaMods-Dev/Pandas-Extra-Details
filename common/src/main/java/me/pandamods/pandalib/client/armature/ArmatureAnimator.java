@@ -1,22 +1,19 @@
 package me.pandamods.pandalib.client.armature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.client.mesh.MeshRenderer;
+import me.pandamods.pandalib.client.animation.AnimationController;
 import me.pandamods.pandalib.resource.ArmatureData;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.*;
 
-import java.awt.*;
 import java.util.Objects;
 
-public interface ArmatureAnimator<Cache extends IAnimatableCache, AnimController extends AnimationController<Cache>> {
+public interface ArmatureAnimator<Cache extends IArmatureCache, AnimController extends AnimationController<Cache>> {
 	AnimController getController();
 
 	default void animateArmature(Cache cache, float partialTick) {

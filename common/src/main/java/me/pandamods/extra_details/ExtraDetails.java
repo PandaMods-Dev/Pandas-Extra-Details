@@ -23,9 +23,6 @@ public class ExtraDetails {
 
 	public static void client() {
 		ClientBlockEntityRegistries.init();
-		rendererRegistryEvent.register(registry -> {
-			registry.register(ClientBlockEntityRegistries.LEVER, new LeverRenderer());
-		});
 	}
 
 	public interface RendererRegistryEvent {

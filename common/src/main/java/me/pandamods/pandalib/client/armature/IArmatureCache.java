@@ -1,5 +1,5 @@
 package me.pandamods.pandalib.client.armature;
 
-public interface IAnimatableCache {
+public interface IArmatureCache {
 	ArmatureCache armatureCache();
 }

@@ -5,8 +5,6 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.Model;
 import me.pandamods.pandalib.client.armature.Armature;
 import me.pandamods.pandalib.client.armature.Bone;
-import me.pandamods.pandalib.client.armature.IAnimatableCache;
-import me.pandamods.pandalib.resource.ArmatureData;
 import me.pandamods.pandalib.resource.MeshData;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -46,17 +44,10 @@ public interface MeshRenderer<T, M extends Model<T>> {
 							Bone bone = boneOptional.get();
 							Matrix4f initialTransform = new Matrix4f(bone.getInitialTransform());
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
-							Vector3f initialPosition = new Vector3f(position);
 
 							Vector3f transformedPosition = new Vector3f(position);
 							globalTransform.mul(initialTransform.invert(new Matrix4f()));
 							globalTransform.transformPosition(transformedPosition);
-
-//							Vector3f positionDifference = new Vector3f(position).sub(initialPosition);
-//							positionDifference.mul(weightPercent);
-//							position.set(initialPosition.add(positionDifference));
-
-//							initialPosition.lerp(position, weightPercent, position);
 
 							transformedPosition.mul(weightPercent);
 							finalPosition.add(transformedPosition);

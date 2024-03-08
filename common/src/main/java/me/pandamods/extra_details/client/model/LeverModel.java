@@ -12,7 +12,8 @@ import java.util.Map;
 public class LeverModel implements Model<LeverBlockEntity> {
 	@Override
 	public ResourceLocation modelLocation(LeverBlockEntity leverBlockEntity) {
-		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/debug2.json");
+		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
+//		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/debug2.json");
 	}
 
 	@Override

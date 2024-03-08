@@ -27,6 +27,7 @@ import java.util.function.BiConsumer;
 public class Resources implements PreparableReloadListener {
 	private static final String SUPPORTED_MESH_VERSION = "0.3";
 	private static final String SUPPORTED_ARMATURE_VERSION = "0.1";
+	private static final String SUPPORTED_ANIMATION_VERSION = "0.1";
 
 	public static final Gson GSON = new GsonBuilder()
 			.registerTypeAdapter(Vector2f.class, new Vector2fTypeAdapter())
@@ -35,6 +36,7 @@ public class Resources implements PreparableReloadListener {
 
 	public Map<ResourceLocation, MeshData> meshes = new HashMap<>();
 	public Map<ResourceLocation, ArmatureData> armatures = new HashMap<>();
+	public Map<ResourceLocation, AnimationData> animations = new HashMap<>();
 
 	@Override
 	public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
@@ -42,14 +44,18 @@ public class Resources implements PreparableReloadListener {
 										  Executor backgroundExecutor, Executor gameExecutor) {
 		Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
+		Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
 		return CompletableFuture.allOf(
 				load("pandalib/meshes", SUPPORTED_MESH_VERSION, MeshData.class, backgroundExecutor,
 						resourceManager, meshes::put),
 				load("pandalib/armatures", SUPPORTED_ARMATURE_VERSION, ArmatureData.class, backgroundExecutor,
-						resourceManager, armatures::put)
+						resourceManager, armatures::put),
+						load("pandalib/animations", SUPPORTED_ANIMATION_VERSION, AnimationData.class, backgroundExecutor,
+								resourceManager, animations::put)
 		).thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor)
-				.thenAcceptAsync(unused -> this.armatures = armatures, gameExecutor);
+				.thenAcceptAsync(unused -> this.armatures = armatures, gameExecutor)
+				.thenAcceptAsync(unused -> this.animations = animations, gameExecutor);
 	}
 
 	private <C> CompletableFuture<Void> load(String directory, String formatVersion, Class<C> resourceDataClass,
