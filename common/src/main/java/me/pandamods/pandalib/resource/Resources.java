@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.pandalib.utils.Matrix4fTypeAdapter;
+import me.pandamods.pandalib.utils.QuaternionfTypeAdapter;
 import me.pandamods.pandalib.utils.gsonadapter.Vector2fTypeAdapter;
 import me.pandamods.pandalib.utils.gsonadapter.Vector3fTypeAdapter;
 import net.minecraft.resources.ResourceLocation;
@@ -12,8 +14,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -25,13 +26,15 @@ import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 
 public class Resources implements PreparableReloadListener {
-	private static final String SUPPORTED_MESH_VERSION = "0.3";
-	private static final String SUPPORTED_ARMATURE_VERSION = "0.1";
-	private static final String SUPPORTED_ANIMATION_VERSION = "0.1";
+	private static final String SUPPORTED_MESH_VERSION = "0.4";
+	private static final String SUPPORTED_ARMATURE_VERSION = "0.2";
+	private static final String SUPPORTED_ANIMATION_VERSION = "0.2";
 
 	public static final Gson GSON = new GsonBuilder()
-			.registerTypeAdapter(Vector2f.class, new Vector2fTypeAdapter())
-			.registerTypeAdapter(Vector3f.class, new Vector3fTypeAdapter())
+			.registerTypeAdapter(Vector2fc.class, new Vector2fTypeAdapter())
+			.registerTypeAdapter(Vector3fc.class, new Vector3fTypeAdapter())
+			.registerTypeAdapter(Quaternionfc.class, new QuaternionfTypeAdapter())
+			.registerTypeAdapter(Matrix4fc.class, new Matrix4fTypeAdapter())
 			.create();
 
 	public Map<ResourceLocation, MeshData> meshes = new HashMap<>();
@@ -50,8 +53,8 @@ public class Resources implements PreparableReloadListener {
 						resourceManager, meshes::put),
 				load("pandalib/armatures", SUPPORTED_ARMATURE_VERSION, ArmatureData.class, backgroundExecutor,
 						resourceManager, armatures::put),
-						load("pandalib/animations", SUPPORTED_ANIMATION_VERSION, AnimationData.class, backgroundExecutor,
-								resourceManager, animations::put)
+				load("pandalib/animations", SUPPORTED_ANIMATION_VERSION, AnimationData.class, backgroundExecutor,
+						resourceManager, animations::put)
 		).thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor)
 				.thenAcceptAsync(unused -> this.armatures = armatures, gameExecutor)

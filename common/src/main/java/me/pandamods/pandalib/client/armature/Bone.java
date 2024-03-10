@@ -19,7 +19,7 @@ public class Bone {
 		this.parent = parent;
 		if (this.parent != null)
 			this.parent.children.put(name, this);
-		this.initialTransform = new Matrix4f().identity().translate(boneData.position());
+		this.initialTransform = new Matrix4f(boneData.transform());
 		this.localTransform = new Matrix4f().identity();
 		this.globalTransform = new Matrix4f().identity();
 		this.updateTransform();

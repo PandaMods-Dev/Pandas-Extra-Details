@@ -14,6 +14,8 @@ public class ClientBlockEntity {
 	private BlockState blockState;
 	private ClientLevel level;
 
+	public float lifetime = 0;
+
 	public ClientBlockEntity(ClientBlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
 		this.type = type;
 		this.blockPos = blockPos;

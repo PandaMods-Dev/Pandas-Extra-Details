@@ -8,6 +8,7 @@ import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
 import me.pandamods.extra_details.client.model.LeverModel;
 import me.pandamods.pandalib.client.armature.ArmatureAnimator;
 import me.pandamods.pandalib.client.mesh.MeshRenderer;
+import me.pandamods.pandalib.utils.RenderUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.DirectionalBlock;
@@ -24,11 +25,11 @@ public class LeverRenderer implements ClientBlockEntityRenderer<LeverBlockEntity
 	@Override
 	public void render(LeverBlockEntity blockEntity, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
 		poseStack.pushPose();
-//		poseStack.translate(0, 1, 0);
 		translateBlock(blockEntity.getBlockState(), poseStack);
-		animateArmature(blockEntity, partialTick);
+		animateArmature(blockEntity, partialTick, blockEntity.lifetime);
+		blockEntity.lifetime += RenderUtils.getDeltaSeconds();
 		renderArmatureDebug(blockEntity, poseStack, bufferSource);
-		renderGeometry(blockEntity, blockEntity.armatureCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
+		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
 		poseStack.popPose();
 	}
 

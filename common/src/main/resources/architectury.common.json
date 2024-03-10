@@ -6,7 +6,6 @@
 		"net/minecraft/class_2818": ["me/pandamods/extra_details/api/impl/LevelChunkExtension"],
 		"net/minecraft/class_846$class_851$class_4578$class_7435": ["me/pandamods/extra_details/api/impl/CompileResultsExtension"],
 		"net/minecraft/class_6849": ["me/pandamods/extra_details/api/impl/RenderChunkExtension"],
-		"net/minecraft/class_846$class_849": ["me/pandamods/extra_details/api/impl/CompiledChunkExtension"],
-		"net/minecraft/class_2618": ["me/pandamods/pandalib/client/armature/IAnimatableCache"]
+		"net/minecraft/class_846$class_849": ["me/pandamods/extra_details/api/impl/CompiledChunkExtension"]
 	}
 }

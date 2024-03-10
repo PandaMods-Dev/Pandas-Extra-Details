@@ -3,6 +3,7 @@ package me.pandamods.pandalib.client.armature;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.animation.AnimationController;
+import me.pandamods.pandalib.client.animation.AnimationHandler;
 import me.pandamods.pandalib.resource.ArmatureData;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,28 +14,36 @@ import org.joml.*;
 
 import java.util.Objects;
 
-public interface ArmatureAnimator<Cache extends IArmatureCache, AnimController extends AnimationController<Cache>> {
+public interface ArmatureAnimator<Cache extends IAnimatable, AnimController extends AnimationController<Cache>> {
 	AnimController getController();
 
-	default void animateArmature(Cache cache, float partialTick) {
+	@SuppressWarnings("unchecked")
+	default void animateArmature(Cache cache, float partialTick, float time) {
 		AnimController controller = getController();
 		if (controller.armatureLocation(cache) == null) return;
-		Armature armature;
-		if (!Objects.equals(cache.armatureCache().resourceLocation, controller.armatureLocation(cache))) {
-			ArmatureData armatureData = ExtraDetails.RESOURCES.armatures.get(controller.armatureLocation(cache));
-			armature = new Armature(armatureData);
-			cache.armatureCache().armature = armature;
-			cache.armatureCache().resourceLocation = controller.armatureLocation(cache);
-		} else armature = cache.armatureCache().armature;
 
-		controller.animate(cache, armature, partialTick);
+		Armature armature;
+		if (!Objects.equals(cache.animatableCache().resourceLocation, controller.armatureLocation(cache))) {
+			ArmatureData armatureData = ExtraDetails.RESOURCES.armatures.get(controller.armatureLocation(cache));
+			cache.animatableCache().armature = armature = new Armature(armatureData);
+			cache.animatableCache().resourceLocation = controller.armatureLocation(cache);
+		} else armature = cache.animatableCache().armature;
+
+		AnimationHandler<Cache> animationHandler;
+		if (cache.animatableCache().animationHandler == null) {
+			animationHandler = new AnimationHandler<>(cache, controller);
+			cache.animatableCache().animationHandler = (AnimationHandler<? extends AnimatableCache>) animationHandler;
+		} else animationHandler = (AnimationHandler<Cache>) cache.animatableCache().animationHandler;
+
+		animationHandler.update(armature, time);
+		controller.mathAnimate(cache, armature, partialTick);
 		armature.getBones().values().forEach(bone -> {
 			if (bone.parent == null) bone.updateTransform();
 		});
 	}
 
 	default void renderArmatureDebug(Cache cache, PoseStack poseStack, MultiBufferSource bufferSource) {
-		Armature armature = cache.armatureCache().armature;
+		Armature armature = cache.animatableCache().armature;
 		if (armature != null) {
 			armature.getBones().values().forEach(bone -> {
 				poseStack.pushPose();

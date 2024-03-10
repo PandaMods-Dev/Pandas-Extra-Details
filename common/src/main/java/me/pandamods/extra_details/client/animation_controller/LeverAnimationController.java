@@ -3,29 +3,28 @@ package me.pandamods.extra_details.client.animation_controller;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
 import me.pandamods.pandalib.client.animation.AnimationController;
+import me.pandamods.pandalib.client.animation.AnimationState;
 import me.pandamods.pandalib.client.armature.Armature;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Math;
+import net.minecraft.world.level.block.LeverBlock;
 
 public class LeverAnimationController implements AnimationController<LeverBlockEntity> {
 	@Override
 	public ResourceLocation armatureLocation(LeverBlockEntity leverBlockEntity) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/block/redstone/lever.json");
-//		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/armatures/debug2.json");
 	}
 
 	@Override
-	public void animate(LeverBlockEntity leverBlockEntity, Armature armature, float partialTick) {
-		armature.getBone("handle").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
+	public AnimationState<LeverBlockEntity> registerAnimations() {
+		AnimationState<LeverBlockEntity> root = animate(ExtraDetails.MOD_ID, "pandalib/animations/block/redstone/lever_off.json");
+		AnimationState<LeverBlockEntity> on = animate(ExtraDetails.MOD_ID, "pandalib/animations/block/redstone/lever_on.json");
 
-//		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
-//		armature.getBone("Bone2").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
-//		armature.getBone("Bone3").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-90), 0, 0));
+		root.registerBranch(on, (leverBlockEntity, state) -> leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
+		on.registerBranch(root, (leverBlockEntity, state) -> leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
+		return root;
+	}
 
-//		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setTranslation(0, 0, 1));
-
-//		armature.getBone("Bone1").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
-//		armature.getBone("Bone2").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
-//		armature.getBone("Bone3").ifPresent(bone -> bone.localTransform.setRotationXYZ(Math.toRadians(-45), 0, 0));
+	@Override
+	public void mathAnimate(LeverBlockEntity leverBlockEntity, Armature armature, float partialTick) {
 	}
 }
