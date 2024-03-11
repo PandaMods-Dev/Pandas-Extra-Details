@@ -18,5 +18,5 @@ public class ClientBlockEntityRegistries {
 
 	public static final ClientBlockEntityType<?> LEVER = ClientBlockEntityRegistry
 			.register(new ResourceLocation(ExtraDetails.MOD_ID, "lever"), ClientBlockEntityType
-			.Builder.of(LeverBlockEntity::new, Blocks.LEVER));
+			.Builder.of(LeverBlockEntity::new, Blocks.LEVER).hideBase());
 }

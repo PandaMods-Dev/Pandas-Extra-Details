@@ -1,5 +1,7 @@
 package me.pandamods.extra_details.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityRegistry;
@@ -9,32 +11,27 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
-import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
 public class ChunkRenderDispatcherRenderChunkMixin {
-	@Shadow @Final private ChunkRenderDispatcher.RenderChunk field_20839;
-
-	@Shadow @Nullable protected RenderChunkRegion region;
-
 	@Inject(method = "compile",
 			at = @At(
 					value = "INVOKE",
@@ -90,5 +87,18 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 					   Vec3 vec3, float f, float g, float h, ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
 					   ChunkRenderDispatcher.CompiledChunk compiledChunk) {
 		compiledChunk.getClientBlockEntities().addAll(compileResults.getClientBlockEntities());
+	}
+
+	@Redirect(method = "compile", at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;getRenderShape()Lnet/minecraft/world/level/block/RenderShape;"
+	))
+	public RenderShape compileBlock(BlockState instance, @Local(name = "blockPos3") BlockPos blockPos,
+									@Local(name = "renderChunkRegion") RenderChunkRegion renderChunkRegion) {
+		ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(instance);
+		if (blockEntityType != null && blockEntityType.shouldHideBase()) {
+			return RenderShape.INVISIBLE;
+		}
+		return instance.getRenderShape();
 	}
 }

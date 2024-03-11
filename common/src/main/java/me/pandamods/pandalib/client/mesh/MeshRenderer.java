@@ -1,6 +1,7 @@
 package me.pandamods.pandalib.client.mesh;
 
 import com.mojang.blaze3d.vertex.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.Model;
 import me.pandamods.pandalib.client.armature.Armature;
@@ -28,14 +29,12 @@ public interface MeshRenderer<T, M extends Model<T>> {
 		Color color = Color.white;
 
 		for (MeshData.Object object : meshData.objects().values()) {
-			poseStack.pushPose();
-//			poseStack.translate(objectPosition.x, objectPosition.y, objectPosition.z);
-//			poseStack.mulPose(new Quaternionf().identity().rotateZYX(objectRotation.z, objectRotation.y, objectRotation.x));
-
 			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
-				Vector3f position = new Vector3f(vertex.position());
+				Vector3f position = new Vector3f(vertex.position()).rotate(object.rotation()).add(object.position());
+				Quaternionf normalRotation = new Quaternionf().identity();
 				if (armature != null && !vertex.weights().isEmpty()) {
 					Vector3f finalPosition = new Vector3f();
+					Quaternionf finalNormalRotation = new Quaternionf().identity();
 					for (MeshData.Weight weight : vertex.weights()) {
 						Optional<Bone> boneOptional = armature.getBone(weight.name());
 						float weightPercent = weight.weight() / vertex.max_weight();
@@ -44,33 +43,39 @@ public interface MeshRenderer<T, M extends Model<T>> {
 							Bone bone = boneOptional.get();
 							Matrix4f initialTransform = new Matrix4f(bone.getInitialTransform());
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
+							globalTransform.mul(initialTransform.invert(new Matrix4f()));
 
 							Vector3f transformedPosition = new Vector3f(position);
-							globalTransform.mul(initialTransform.invert(new Matrix4f()));
 							globalTransform.transformPosition(transformedPosition);
 
 							transformedPosition.mul(weightPercent);
 							finalPosition.add(transformedPosition);
+
+							Quaternionf transformedNormalRotation = new Quaternionf(normalRotation);
+							globalTransform.rotate(transformedNormalRotation);
+
+							transformedNormalRotation.mul(weightPercent);
+							finalNormalRotation.mul(transformedNormalRotation);
 						}
 					}
 
 					position.set(finalPosition);
+					normalRotation.set(finalNormalRotation);
 				}
-				return new Vertex(vertex.index(), position);
+				return new Vertex(vertex.index(), position, normalRotation);
 			}).toList();
 
 			for (MeshData.Face face : object.faces()) {
 				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(getTexture(t, face.texture_name())));
 				for (Integer vertexIndex : face.vertices()) {
 					Vertex vertex = vertices.get(vertexIndex);
+					Vector3f normal = new Vector3f(face.normal()).rotate(vertex.normalRotation).normalize();
 					vertex(vertexConsumer, poseStack.last(),
-							vertex.position(), new Vector3f(face.normal()), new Vector2f(face.vertex_uvs().get(vertexIndex)),
+							vertex.position(), normal, new Vector2f(face.vertex_uvs().get(vertexIndex)),
 							color, lightColor, overlayTexture
 					);
 				}
 			}
-
-			poseStack.popPose();
 		}
 	}
 
@@ -93,6 +98,6 @@ public interface MeshRenderer<T, M extends Model<T>> {
 	}
 
 	record Vertex(
-			int index, Vector3f position
-	) {}
+			int index, Vector3f position,
+			Quaternionf normalRotation) {}
 }
