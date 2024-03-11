@@ -1,9 +1,8 @@
 package me.pandamods.extra_details.registries;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityRegistry;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityType;
-import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderer;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
 import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
 import me.pandamods.extra_details.client.renderer.LeverRenderer;
 import net.minecraft.resources.ResourceLocation;

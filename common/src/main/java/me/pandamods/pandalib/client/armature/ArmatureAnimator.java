@@ -15,36 +15,36 @@ import org.joml.Math;
 
 import java.util.Objects;
 
-public interface ArmatureAnimator<Cache extends IAnimatable, AnimController extends AnimationController<Cache>> {
+public interface ArmatureAnimator<animatable extends IAnimatable, AnimController extends AnimationController<animatable>> {
 	AnimController getController();
 
 	@SuppressWarnings("unchecked")
-	default void animateArmature(Cache cache, float partialTick, float time) {
+	default void animateArmature(animatable animatable, float partialTick) {
 		AnimController controller = getController();
-		if (controller.armatureLocation(cache) == null) return;
+		if (controller.armatureLocation(animatable) == null) return;
 
 		Armature armature;
-		if (!Objects.equals(cache.animatableCache().resourceLocation, controller.armatureLocation(cache))) {
-			ArmatureData armatureData = ExtraDetails.RESOURCES.armatures.get(controller.armatureLocation(cache));
-			cache.animatableCache().armature = armature = new Armature(armatureData);
-			cache.animatableCache().resourceLocation = controller.armatureLocation(cache);
-		} else armature = cache.animatableCache().armature;
+		if (!Objects.equals(animatable.animatableCache().resourceLocation, controller.armatureLocation(animatable))) {
+			ArmatureData armatureData = ExtraDetails.RESOURCES.armatures.get(controller.armatureLocation(animatable));
+			animatable.animatableCache().armature = armature = new Armature(armatureData);
+			animatable.animatableCache().resourceLocation = controller.armatureLocation(animatable);
+		} else armature = animatable.animatableCache().armature;
 
-		AnimationHandler<Cache> animationHandler;
-		if (cache.animatableCache().animationHandler == null) {
-			animationHandler = new AnimationHandler<>(cache, controller);
-			cache.animatableCache().animationHandler = (AnimationHandler<? extends AnimatableCache>) animationHandler;
-		} else animationHandler = (AnimationHandler<Cache>) cache.animatableCache().animationHandler;
+		AnimationHandler<animatable> animationHandler;
+		if (animatable.animatableCache().animationHandler == null) {
+			animationHandler = new AnimationHandler<>(animatable, controller);
+			animatable.animatableCache().animationHandler = (AnimationHandler<? extends AnimatableCache>) animationHandler;
+		} else animationHandler = (AnimationHandler<animatable>) animatable.animatableCache().animationHandler;
 
-		animationHandler.update(armature, time);
-		controller.mathAnimate(cache, armature, partialTick);
+		animationHandler.update(armature, (animatable.getTick() + partialTick) / 20);
+		controller.mathAnimate(animatable, armature, partialTick);
 		armature.getBones().values().forEach(bone -> {
 			if (bone.parent == null) bone.updateTransform();
 		});
 	}
 
-	default void renderArmatureDebug(Cache cache, PoseStack poseStack, MultiBufferSource bufferSource) {
-		Armature armature = cache.animatableCache().armature;
+	default void renderArmatureDebug(animatable animatable, PoseStack poseStack, MultiBufferSource bufferSource) {
+		Armature armature = animatable.animatableCache().armature;
 		if (armature != null) {
 			armature.getBones().values().forEach(bone -> {
 				poseStack.pushPose();

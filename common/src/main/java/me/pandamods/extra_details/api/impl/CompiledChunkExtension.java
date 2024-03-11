@@ -1,6 +1,6 @@
 package me.pandamods.extra_details.api.impl;
 
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;

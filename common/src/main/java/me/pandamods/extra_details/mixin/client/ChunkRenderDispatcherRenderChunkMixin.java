@@ -1,12 +1,11 @@
 package me.pandamods.extra_details.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityRegistry;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityType;
-import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderer;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
+import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
@@ -17,11 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
-import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;

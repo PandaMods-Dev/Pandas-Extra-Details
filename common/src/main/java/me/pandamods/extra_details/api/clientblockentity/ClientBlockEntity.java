@@ -1,11 +1,8 @@
-package me.pandamods.extra_details.api.client.clientblockentity;
+package me.pandamods.extra_details.api.clientblockentity;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,8 +11,6 @@ public class ClientBlockEntity {
 	private final BlockPos blockPos;
 	private BlockState blockState;
 	private ClientLevel level;
-
-	public float lifetime = 0;
 
 	public ClientBlockEntity(ClientBlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
 		this.type = type;

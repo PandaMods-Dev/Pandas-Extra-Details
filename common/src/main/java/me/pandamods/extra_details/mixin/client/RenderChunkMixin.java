@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.client;
 
 import com.google.common.collect.ImmutableMap;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.impl.RenderChunkExtension;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.core.BlockPos;

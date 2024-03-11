@@ -1,6 +1,6 @@
-package me.pandamods.extra_details.api.client.render.block;
+package me.pandamods.extra_details.api.clientblockentity.renderer;
 
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityType;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
 
 import java.util.HashMap;
 import java.util.Map;

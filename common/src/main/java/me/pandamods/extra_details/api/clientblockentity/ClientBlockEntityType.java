@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.api.client.clientblockentity;
+package me.pandamods.extra_details.api.clientblockentity;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.client.animation_controller;
+package me.pandamods.extra_details.client.animationcontroller;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;

@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.api.client.clientblockentity;
+package me.pandamods.extra_details.api.clientblockentity;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ClientBlockEntityRegistry {
 	private static final Logger LOGGER = LogUtils.getLogger();

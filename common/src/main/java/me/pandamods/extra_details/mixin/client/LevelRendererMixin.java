@@ -7,8 +7,8 @@ import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.client.render.block.ClientBlockEntityRenderDispatcher;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 @Mixin(LevelRenderer.class)

@@ -1,7 +1,7 @@
-package me.pandamods.extra_details.api.client.render.block;
+package me.pandamods.extra_details.api.clientblockentity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.Vec3;
 

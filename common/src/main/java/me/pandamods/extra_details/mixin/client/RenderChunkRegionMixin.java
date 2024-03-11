@@ -1,6 +1,6 @@
 package me.pandamods.extra_details.mixin.client;
 
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.chunk.RenderChunk;

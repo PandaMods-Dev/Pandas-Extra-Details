@@ -1,25 +1,21 @@
-package me.pandamods.extra_details.api.client.render.block;
+package me.pandamods.extra_details.api.clientblockentity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.client.clientblockentity.ClientBlockEntityType;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
+import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.HitResult;
 
 import java.util.HashMap;
