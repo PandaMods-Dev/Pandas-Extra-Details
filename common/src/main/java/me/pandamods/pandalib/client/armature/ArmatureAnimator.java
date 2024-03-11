@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.*;
+import org.joml.Math;
 
 import java.util.Objects;
 
@@ -47,7 +48,7 @@ public interface ArmatureAnimator<Cache extends IAnimatable, AnimController exte
 		if (armature != null) {
 			armature.getBones().values().forEach(bone -> {
 				poseStack.pushPose();
-				poseStack.mulPoseMatrix(new Matrix4f(bone.getGlobalTransform()));
+				poseStack.mulPoseMatrix(new Matrix4f(bone.getGlobalTransform()).rotateX(Math.toRadians(-90)));
 				LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()),
 						AABB.ofSize(new Vec3(0, .2f, 0), 0f, .3f, 0f),
 						1, 1, 1, 1);

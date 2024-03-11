@@ -4,11 +4,9 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.armature.Armature;
 import me.pandamods.pandalib.client.armature.IAnimatable;
 import me.pandamods.pandalib.resource.AnimationData;
-import me.pandamods.pandalib.utils.MatrixUtils;
-import me.pandamods.pandalib.utils.RenderUtils;
+import me.pandamods.pandalib.utils.TransformUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.*;
-import org.joml.Math;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +50,7 @@ public class AnimationState<T extends IAnimatable> {
 		for (String boneName : boneNames) {
 			armature.getBone(boneName).ifPresent(bone -> {
 				Matrix4f transform = getBoneTransform(boneName, this.time);
-				if (nextBranch != null) transform.lerp(nextBranch.state.getBoneTransform(boneName, 0), this.transitionTime);
+				if (nextBranch != null) TransformUtils.lerp(transform, nextBranch.state.getBoneTransform(boneName, 0), this.transitionTime);
 				bone.localTransform.set(transform);
 			});
 		}

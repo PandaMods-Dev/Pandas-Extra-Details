@@ -1,4 +1,4 @@
-package me.pandamods.pandalib.utils;
+package me.pandamods.pandalib.utils.typeadapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
