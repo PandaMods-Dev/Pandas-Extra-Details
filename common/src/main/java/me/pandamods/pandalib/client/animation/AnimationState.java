@@ -4,13 +4,16 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.armature.Armature;
 import me.pandamods.pandalib.client.armature.IAnimatable;
 import me.pandamods.pandalib.resource.AnimationData;
+import me.pandamods.pandalib.utils.MatrixUtils;
 import me.pandamods.pandalib.utils.RenderUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.*;
+import org.joml.Math;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AnimationState<T extends IAnimatable> {
 	private final List<Branch<T>> branches = new ArrayList<>();
@@ -19,6 +22,10 @@ public class AnimationState<T extends IAnimatable> {
 
 	private float time = 0;
 	private float startTime = 0;
+
+	private Branch<T> nextBranch = null;
+	private float transitionTime = 0;
+	private float transitionStartTime = 0;
 
 	private AnimationState(ResourceLocation resourceLocation, PlayType playType) {
 		this.animation = ExtraDetails.RESOURCES.animations.get(resourceLocation);
@@ -30,25 +37,41 @@ public class AnimationState<T extends IAnimatable> {
 	}
 
 	public void update(T t, Armature armature, AnimationHandler<T> handler, float time) {
+		if (nextBranch == null) {
+			for (Branch<T> branch : branches) {
+				if (branch.branchCondition.condition(t, this)) {
+					transitionStartTime = time;
+					nextBranch = branch;
+					break;
+				}
+			}
+		}
 		updateTime(time);
-		updateAnimation(t, armature, handler);
-	}
 
-	private void updateAnimation(T t, Armature armature, AnimationHandler<T> handler) {
-		List<String> boneNames = armature.getBones().keySet().stream().toList();
+		Set<String> boneNames = armature.getBones().keySet();
 		for (String boneName : boneNames) {
 			armature.getBone(boneName).ifPresent(bone -> {
-				bone.localTransform.set(getBoneTransform(boneName, time));
+				Matrix4f transform = getBoneTransform(boneName, this.time);
+				if (nextBranch != null) transform.lerp(nextBranch.state.getBoneTransform(boneName, 0), this.transitionTime);
+				bone.localTransform.set(transform);
 			});
+		}
+
+		if (nextBranch != null && transitionTime >= 1) {
+			handler.setAnimationState(nextBranch.state);
 		}
 	}
 
 	private void updateTime(float time) {
-		if (playType.equals(PlayType.LOOP) && isFinished()) {
-			this.startTime += animation.animation_length();
-		}
+		if (nextBranch == null) {
+			if (playType.equals(PlayType.LOOP) && isFinished()) {
+				this.startTime += animation.animation_length();
+			}
 
-		this.time = time - this.startTime;
+			this.time = time - this.startTime;
+		} else {
+			this.transitionTime = (time - this.transitionStartTime) / nextBranch.transitionTime;
+		}
 	}
 
 	public Matrix4f getBoneTransform(String boneName, float time) {
@@ -87,6 +110,10 @@ public class AnimationState<T extends IAnimatable> {
 
 	public AnimationState<T> start(float startTime) {
 		this.startTime = startTime;
+		this.time = 0;
+		this.transitionStartTime = startTime;
+		this.transitionTime = 0;
+		this.nextBranch = null;
 		return this;
 	}
 

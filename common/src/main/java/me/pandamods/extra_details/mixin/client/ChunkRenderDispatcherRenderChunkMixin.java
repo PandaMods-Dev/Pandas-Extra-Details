@@ -63,6 +63,7 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 				}
 
 				if (blockEntity != null) {
+					blockEntity.setBlockState(blockState);
 					this.handleClientBlockEntity(compileResults, blockEntity);
 				}
 			}
