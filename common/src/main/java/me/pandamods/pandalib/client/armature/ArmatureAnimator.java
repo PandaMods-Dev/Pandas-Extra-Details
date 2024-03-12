@@ -36,7 +36,7 @@ public interface ArmatureAnimator<animatable extends IAnimatable, AnimController
 			animatable.animatableCache().animationHandler = (AnimationHandler<? extends AnimatableCache>) animationHandler;
 		} else animationHandler = (AnimationHandler<animatable>) animatable.animatableCache().animationHandler;
 
-		animationHandler.update(armature, (animatable.getTick() + partialTick) / 20);
+		animationHandler.update(armature, animatable.getTick(partialTick) / 20);
 		controller.mathAnimate(animatable, armature, partialTick);
 		armature.getBones().values().forEach(bone -> {
 			if (bone.parent == null) bone.updateTransform();

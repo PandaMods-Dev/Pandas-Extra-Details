@@ -16,12 +16,12 @@ public class LeverAnimationController implements AnimationController<LeverBlockE
 
 	@Override
 	public AnimationState<LeverBlockEntity> registerAnimations() {
-		AnimationState<LeverBlockEntity> root = animate(ExtraDetails.MOD_ID, "pandalib/animations/block/redstone/lever_off.json");
+		AnimationState<LeverBlockEntity> off = animate(ExtraDetails.MOD_ID, "pandalib/animations/block/redstone/lever_off.json");
 		AnimationState<LeverBlockEntity> on = animate(ExtraDetails.MOD_ID, "pandalib/animations/block/redstone/lever_on.json");
 
-		root.registerBranch(on, 0.1f, (leverBlockEntity, state) -> leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
-		on.registerBranch(root, 0.1f, (leverBlockEntity, state) -> !leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
-		return root;
+		off.registerBranch(on, 0.1f, (leverBlockEntity, state) -> leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
+		on.registerBranch(off, 0.1f, (leverBlockEntity, state) -> !leverBlockEntity.getBlockState().getValue(LeverBlock.POWERED));
+		return off;
 	}
 
 	@Override

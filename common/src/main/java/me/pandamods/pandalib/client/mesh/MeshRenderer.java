@@ -16,16 +16,22 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface MeshRenderer<T, M extends Model<T>> {
 	M getModel();
 
-	default void renderGeometry(T t, Armature armature, PoseStack poseStack, MultiBufferSource bufferSource, int lightColor, int overlayTexture) {
+	default void renderGeometry(T t, Armature armature, PoseStack poseStack, MultiBufferSource bufferSource,
+								int lightColor, int overlayTexture) {
 		M model = getModel();
 		MeshData meshData = ExtraDetails.RESOURCES.meshes.get(model.modelLocation(t));
 		Color color = Color.white;
+
+		Map<String, ResourceLocation> textures = model.textureLocation(t);
+		Map<String, VertexConsumer> consumers = new HashMap<>();
 
 		for (MeshData.Object object : meshData.objects().values()) {
 			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
@@ -65,7 +71,13 @@ public interface MeshRenderer<T, M extends Model<T>> {
 			}).toList();
 
 			for (MeshData.Face face : object.faces()) {
-				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(getTexture(t, face.texture_name())));
+				VertexConsumer vertexConsumer = consumers.get(face.texture_name());
+				if (vertexConsumer == null) {
+					vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(
+							textures.getOrDefault(face.texture_name(), textures.get(""))
+					));
+					consumers.put(face.texture_name(), vertexConsumer);
+				}
 				for (Integer vertexIndex : face.vertices()) {
 					Vertex vertex = vertices.get(vertexIndex);
 					Vector3f normal = new Vector3f(face.normal()).rotate(vertex.normalRotation).normalize();
@@ -76,12 +88,6 @@ public interface MeshRenderer<T, M extends Model<T>> {
 				}
 			}
 		}
-	}
-
-	default ResourceLocation getTexture(T t, String name) {
-		if (getModel().textureLocation(t).containsKey(name))
-			return getModel().textureLocation(t).get(name);
-		return getModel().textureLocation(t).values().stream().findFirst().orElse(new ResourceLocation(""));
 	}
 
 	static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose pose,

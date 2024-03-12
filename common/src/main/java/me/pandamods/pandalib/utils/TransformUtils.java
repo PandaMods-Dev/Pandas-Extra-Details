@@ -1,5 +1,7 @@
 package me.pandamods.pandalib.utils;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;

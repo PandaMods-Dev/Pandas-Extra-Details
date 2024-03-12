@@ -1,8 +1,8 @@
 package me.pandamods.pandalib.client.armature;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.pandalib.resource.ArmatureData;
-import org.joml.Matrix4f;
-import org.joml.Matrix4fc;
+import org.joml.*;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
@@ -42,5 +42,15 @@ public class Bone {
 		this.globalTransform.mul(localTransform);
 
 		children.values().forEach(Bone::updateTransform);
+	}
+
+	public PoseStack applyToPoseStack(PoseStack poseStack) {
+		poseStack.translate(0.5, 0, 0.5);
+		Vector3f offset = this.getInitialTransform().getTranslation(new Vector3f());
+		poseStack.translate(offset.x, offset.y, offset.z);
+		poseStack.mulPoseMatrix(this.localTransform);
+		poseStack.translate(-offset.x, -offset.y, -offset.z);
+		poseStack.translate(-0.5, 0, -0.5);
+		return poseStack;
 	}
 }
