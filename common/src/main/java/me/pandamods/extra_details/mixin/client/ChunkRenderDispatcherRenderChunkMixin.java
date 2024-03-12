@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -32,11 +33,12 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 					value = "INVOKE",
 					target = "Lcom/mojang/blaze3d/vertex/PoseStack;<init>()V",
 					shift = At.Shift.BEFORE
-			), locals = LocalCapture.CAPTURE_FAILHARD)
+			))
 	public void compile(float x, float y, float z, ChunkBufferBuilderPack chunkBufferBuilderPack,
 						CallbackInfoReturnable<ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults> cir,
-						ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults, int i, BlockPos startPos, BlockPos endPos,
-						VisGraph visGraph, RenderChunkRegion renderChunkRegion) {
+						@Local ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
+						@Local(name = "blockPos") BlockPos startPos, @Local(name = "blockPos2") BlockPos endPos,
+						@Local RenderChunkRegion renderChunkRegion) {
 		ClientLevel level = Minecraft.getInstance().level;
 		if (level == null) return;
 		if (renderChunkRegion != null) {
@@ -62,6 +64,7 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 		}
 	}
 
+	@Unique
 	@SuppressWarnings("unchecked")
 	private <E extends ClientBlockEntity> void handleClientBlockEntity(ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
 																	   ClientBlockEntity blockEntity) {
@@ -79,8 +82,8 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 					shift = At.Shift.AFTER
 			), locals = LocalCapture.CAPTURE_FAILHARD)
 	public void doTask(ChunkBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<ChunkRenderDispatcher.ChunkTaskResult>> cir,
-					   Vec3 vec3, float f, float g, float h, ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
-					   ChunkRenderDispatcher.CompiledChunk compiledChunk) {
+					   @Local ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
+					   @Local ChunkRenderDispatcher.CompiledChunk compiledChunk) {
 		compiledChunk.getClientBlockEntities().addAll(compileResults.getClientBlockEntities());
 	}
 
