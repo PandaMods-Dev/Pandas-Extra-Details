@@ -8,7 +8,8 @@ public interface AnimationController<T extends IAnimatable> {
 	ResourceLocation armatureLocation(T t);
 
 	AnimationState<T> registerAnimations();
-	void mathAnimate(T t, Armature armature, float partialTick);
+	default void postMathAnimate(T t, Armature armature, float partialTick) {}
+	default void preMathAnimate(T t, Armature armature, float partialTick) {}
 
 	default AnimationState<T> animate(String modId, String path, PlayType playType) {
 		return animate(new ResourceLocation(modId, path), playType);

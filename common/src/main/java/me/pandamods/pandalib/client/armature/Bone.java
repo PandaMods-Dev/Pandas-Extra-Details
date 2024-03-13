@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bone {
-	private final Matrix4f initialTransform;
+	private final ArmatureData.Bone boneData;
+
+	public final Matrix4f initialTransform;
 	public final Matrix4f localTransform;
 	private final Matrix4f globalTransform;
 	public final Map<String, Bone> children = new HashMap<>();
@@ -17,6 +19,7 @@ public class Bone {
 
 	public Bone(Bone parent, String name, ArmatureData.Bone boneData) {
 		this.parent = parent;
+		this.boneData = boneData;
 		if (this.parent != null)
 			this.parent.children.put(name, this);
 		this.initialTransform = new Matrix4f(boneData.transform());
@@ -28,9 +31,8 @@ public class Bone {
 	public Matrix4fc getGlobalTransform() {
 		return globalTransform;
 	}
-
-	public Matrix4fc getInitialTransform() {
-		return initialTransform;
+	public Matrix4f resetInitialTransform() {
+		return this.initialTransform.set(this.boneData.transform());
 	}
 
 	public void updateTransform() {
@@ -46,7 +48,7 @@ public class Bone {
 
 	public PoseStack applyToPoseStack(PoseStack poseStack) {
 		poseStack.translate(0.5, 0, 0.5);
-		Vector3f offset = this.getInitialTransform().getTranslation(new Vector3f());
+		Vector3f offset = this.initialTransform.getTranslation(new Vector3f());
 		poseStack.translate(offset.x, offset.y, offset.z);
 		poseStack.mulPoseMatrix(this.localTransform);
 		poseStack.translate(-offset.x, -offset.y, -offset.z);

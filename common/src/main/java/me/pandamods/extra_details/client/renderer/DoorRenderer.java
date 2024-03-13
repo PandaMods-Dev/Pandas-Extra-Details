@@ -1,6 +1,7 @@
 package me.pandamods.extra_details.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderer;
 import me.pandamods.extra_details.api.clientblockentity.renderer.MeshClientBlockRenderer;
@@ -14,6 +15,7 @@ import me.pandamods.pandalib.client.animation.AnimationController;
 import me.pandamods.pandalib.client.armature.Armature;
 import me.pandamods.pandalib.client.armature.ArmatureAnimator;
 import me.pandamods.pandalib.client.armature.IAnimatable;
+import me.pandamods.pandalib.client.mesh.MeshBlockEntityRenderer;
 import me.pandamods.pandalib.client.mesh.MeshRenderer;
 import me.pandamods.pandalib.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -30,9 +32,13 @@ public class DoorRenderer implements ClientBlockEntityRenderer<DoorBlockEntity>,
 	public void render(DoorBlockEntity blockEntity, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
 		BlockRenderDispatcher blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
 
+		poseStack.pushPose();
+		MeshBlockEntityRenderer.translateBlock(blockEntity.getBlockState(), poseStack);
+		poseStack.translate(.5f, 0, .5f);
+		poseStack.mulPose(Axis.YP.rotationDegrees(180));
+		poseStack.translate(-.5f, 0, -.5f);
 		animateArmature(blockEntity, partialTick);
 		Armature armature = blockEntity.animatableCache().armature;
-		poseStack.pushPose();
 		if (armature != null && blockEntity.hasLevel()) {
 			BlockState blockState = blockEntity.getBlockState();
 			BlockState state = blockEntity.getBlockState().getBlock().defaultBlockState()

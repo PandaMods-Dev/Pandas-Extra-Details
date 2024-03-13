@@ -46,7 +46,7 @@ public interface MeshRenderer<T, M extends Model<T>> {
 
 						if (boneOptional.isPresent()) {
 							Bone bone = boneOptional.get();
-							Matrix4f initialTransform = new Matrix4f(bone.getInitialTransform());
+							Matrix4f initialTransform = new Matrix4f(bone.initialTransform);
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
 							globalTransform.mul(initialTransform.invert(new Matrix4f()));
 

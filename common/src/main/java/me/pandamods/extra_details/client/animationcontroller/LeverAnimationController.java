@@ -25,6 +25,6 @@ public class LeverAnimationController implements AnimationController<LeverBlockE
 	}
 
 	@Override
-	public void mathAnimate(LeverBlockEntity leverBlockEntity, Armature armature, float partialTick) {
+	public void postMathAnimate(LeverBlockEntity leverBlockEntity, Armature armature, float partialTick) {
 	}
 }

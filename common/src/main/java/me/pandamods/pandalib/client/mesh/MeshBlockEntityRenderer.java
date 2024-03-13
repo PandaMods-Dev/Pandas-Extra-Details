@@ -32,6 +32,7 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & IAnimatabl
 	@Override
 	public void render(T blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 		poseStack.pushPose();
+		poseStack.translate(0.5f, 0, 0.5f);
 		translateBlock(blockEntity.getBlockState(), poseStack);
 		animateArmature(blockEntity, partialTick);
 		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, buffer, packedLight, packedOverlay);
@@ -49,8 +50,7 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & IAnimatabl
 	}
 
 	public static void translateBlock(BlockState blockState, PoseStack poseStack) {
-		poseStack.translate(0.5f, 0.5f, 0.5f);
-
+		poseStack.translate(0, 0.5f, 0);
 		float direction = getYRotation(blockState);
 		poseStack.mulPose(Axis.YP.rotationDegrees(direction));
 
@@ -61,7 +61,6 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & IAnimatabl
 				case WALL -> poseStack.mulPose(Axis.XP.rotationDegrees(90));
 			}
 		}
-
 		poseStack.translate(0, -0.5f, 0);
 	}
 
