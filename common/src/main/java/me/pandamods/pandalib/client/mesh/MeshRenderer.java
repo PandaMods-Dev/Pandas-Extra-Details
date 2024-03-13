@@ -16,16 +16,16 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public interface MeshRenderer<T, M extends Model<T>> {
 	M getModel();
 
 	default void renderGeometry(T t, Armature armature, PoseStack poseStack, MultiBufferSource bufferSource,
 								int lightColor, int overlayTexture) {
+		poseStack.pushPose();
+		poseStack.translate(.5f, 0, .5f);
 		M model = getModel();
 		MeshData meshData = ExtraDetails.RESOURCES.meshes.get(model.modelLocation(t));
 		Color color = Color.white;
@@ -34,18 +34,18 @@ public interface MeshRenderer<T, M extends Model<T>> {
 		Map<String, VertexConsumer> consumers = new HashMap<>();
 
 		for (MeshData.Object object : meshData.objects().values()) {
-			List<Vertex> vertices = object.vertices().stream().map(vertex -> {
+			List<Vertex> vertices = new ArrayList<>();
+			for (MeshData.Vertex vertex : object.vertices()) {
 				Vector3f position = new Vector3f(vertex.position()).rotate(object.rotation()).add(object.position());
 				Quaternionf normalRotation = new Quaternionf().identity();
 				if (armature != null && !vertex.weights().isEmpty()) {
 					Vector3f finalPosition = new Vector3f();
 					Quaternionf finalNormalRotation = new Quaternionf().identity();
 					for (MeshData.Weight weight : vertex.weights()) {
-						Optional<Bone> boneOptional = armature.getBone(weight.name());
+						Bone bone = armature.getBone(weight.name());
 						float weightPercent = weight.weight() / vertex.max_weight();
 
-						if (boneOptional.isPresent()) {
-							Bone bone = boneOptional.get();
+						if (bone != null) {
 							Matrix4f initialTransform = new Matrix4f(bone.initialTransform);
 							Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
 							globalTransform.mul(initialTransform.invert(new Matrix4f()));
@@ -67,8 +67,8 @@ public interface MeshRenderer<T, M extends Model<T>> {
 					position.set(finalPosition);
 					normalRotation.set(finalNormalRotation);
 				}
-				return new Vertex(vertex.index(), position, normalRotation);
-			}).toList();
+				vertices.add(new Vertex(vertex.index(), position, normalRotation));
+			}
 
 			for (MeshData.Face face : object.faces()) {
 				VertexConsumer vertexConsumer = consumers.get(face.texture_name());
@@ -88,6 +88,7 @@ public interface MeshRenderer<T, M extends Model<T>> {
 				}
 			}
 		}
+		poseStack.popPose();
 	}
 
 	static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose pose,

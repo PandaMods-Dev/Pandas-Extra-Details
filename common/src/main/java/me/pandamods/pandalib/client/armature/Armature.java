@@ -16,8 +16,12 @@ public class Armature {
 		});
 	}
 
-	public Optional<Bone> getBone(String name) {
+	public Optional<Bone> getOptionalBone(String name) {
 		return Optional.ofNullable(bones.get(name));
+	}
+
+	public Bone getBone(String name) {
+		return bones.get(name);
 	}
 
 	public Map<String, Bone> getBones() {

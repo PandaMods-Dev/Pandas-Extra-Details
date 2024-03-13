@@ -48,7 +48,7 @@ public class AnimationState<T extends IAnimatable> {
 
 		Set<String> boneNames = armature.getBones().keySet();
 		for (String boneName : boneNames) {
-			armature.getBone(boneName).ifPresent(bone -> {
+			armature.getOptionalBone(boneName).ifPresent(bone -> {
 				Matrix4f transform = getBoneTransform(boneName, this.time);
 				if (nextBranch != null) TransformUtils.lerp(transform, nextBranch.state.getBoneTransform(boneName, 0), this.transitionTime);
 				bone.localTransform.set(transform);

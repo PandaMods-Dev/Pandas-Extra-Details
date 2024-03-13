@@ -2,13 +2,11 @@ package me.pandamods.extra_details.client.animationcontroller;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.clientblockentity.DoorBlockEntity;
-import me.pandamods.extra_details.client.clientblockentity.LeverBlockEntity;
 import me.pandamods.pandalib.client.animation.AnimationController;
 import me.pandamods.pandalib.client.animation.AnimationState;
 import me.pandamods.pandalib.client.armature.Armature;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import org.joml.Vector3f;
 
@@ -31,7 +29,7 @@ public class DoorAnimationController implements AnimationController<DoorBlockEnt
 	@Override
 	public void preMathAnimate(DoorBlockEntity doorBlockEntity, Armature armature, float partialTick) {
 		if (doorBlockEntity.getBlockState().getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT)) {
-			armature.getBone("door").ifPresent(bone -> {
+			armature.getOptionalBone("door").ifPresent(bone -> {
 				bone.resetInitialTransform();
 				Vector3f translation = bone.initialTransform.getTranslation(new Vector3f());
 				bone.initialTransform.setTranslation(-translation.x, translation.y, translation.z);
@@ -42,7 +40,7 @@ public class DoorAnimationController implements AnimationController<DoorBlockEnt
 	@Override
 	public void postMathAnimate(DoorBlockEntity doorBlockEntity, Armature armature, float partialTick) {
 		if (doorBlockEntity.getBlockState().getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT)) {
-			armature.getBone("door").ifPresent(bone -> {
+			armature.getOptionalBone("door").ifPresent(bone -> {
 				Vector3f rotation = bone.localTransform.getEulerAnglesXYZ(new Vector3f());
 				bone.localTransform.setRotationZYX(rotation.z, -rotation.y, rotation.x);
 			});
