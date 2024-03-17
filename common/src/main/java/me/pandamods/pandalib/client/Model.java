@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface Model<T> {
 	ResourceLocation modelLocation(T t);
-	Map<String, ResourceLocation> textureLocation(T t);
+	ResourceLocation textureLocation(T t, String name);
 }

@@ -14,6 +14,7 @@ public class ExtraDetails {
 	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public static final Resources RESOURCES = new Resources();
+	public static final ExtraDetailsLevelRenderer levelRenderer = new ExtraDetailsLevelRenderer();
 	public static final ClientBlockEntityRenderDispatcher blockRenderDispatcher = new ClientBlockEntityRenderDispatcher();
 	public static final Event<RendererRegistryEvent> rendererRegistryEvent = EventFactory.createLoop();
 

@@ -2,6 +2,7 @@ package me.pandamods.extra_details.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
@@ -28,6 +29,8 @@ import java.util.concurrent.CompletableFuture;
 
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
 public class ChunkRenderDispatcherRenderChunkMixin {
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
+
 	@Inject(method = "compile",
 			at = @At(
 					value = "INVOKE",
@@ -39,40 +42,7 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						@Local ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
 						@Local(name = "blockPos") BlockPos startPos, @Local(name = "blockPos2") BlockPos endPos,
 						@Local RenderChunkRegion renderChunkRegion) {
-		ClientLevel level = Minecraft.getInstance().level;
-		if (level == null) return;
-		if (renderChunkRegion != null) {
-			for (BlockPos pos : BlockPos.betweenClosed(startPos, endPos)) {
-				BlockPos blockPos = pos.immutable();
-				BlockState blockState = renderChunkRegion.getBlockState(blockPos);
-
-				ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(blockState);
-				ClientBlockEntity blockEntity = renderChunkRegion.getClientBlockEntity(blockPos);
-				if (blockEntityType != null && (blockEntity == null || !blockEntity.getType().isValid(blockState))) {
-					blockEntity = blockEntityType.create(blockPos, blockState);
-					level.setClientBlockEntity(blockEntity);
-				} else if (blockEntityType == null && blockEntity != null) {
-					blockEntity = null;
-					level.removeClientBlockEntity(blockPos);
-				}
-
-				if (blockEntity != null) {
-					blockEntity.setBlockState(blockState);
-					this.handleClientBlockEntity(compileResults, blockEntity);
-				}
-			}
-		}
-	}
-
-	@Unique
-	@SuppressWarnings("unchecked")
-	private <E extends ClientBlockEntity> void handleClientBlockEntity(ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
-																	   ClientBlockEntity blockEntity) {
-		ClientBlockEntityRenderer<E> blockEntityRenderer = (ClientBlockEntityRenderer<E>)
-				ExtraDetails.blockRenderDispatcher.getRenderer(blockEntity);
-		if (blockEntityRenderer != null) {
-			compileResults.getClientBlockEntities().add(blockEntity);
-		}
+		edLevelRenderer.compileChunk(compileResults, renderChunkRegion, startPos, endPos);
 	}
 
 	@Inject(method = "doTask",

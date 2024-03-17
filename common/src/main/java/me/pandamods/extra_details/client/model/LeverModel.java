@@ -13,14 +13,11 @@ public class LeverModel implements Model<LeverBlockEntity> {
 	@Override
 	public ResourceLocation modelLocation(LeverBlockEntity leverBlockEntity) {
 		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/block/redstone/lever.json");
-//		return new ResourceLocation(ExtraDetails.MOD_ID, "pandalib/meshes/debug2.json");
 	}
 
 	@Override
-	public Map<String, ResourceLocation> textureLocation(LeverBlockEntity leverBlockEntity) {
-		return ImmutableMap.of(
-				"", new ResourceLocation("textures/block/cobblestone.png"),
-				"lever", new ResourceLocation("textures/block/lever.png")
-		);
+	public ResourceLocation textureLocation(LeverBlockEntity leverBlockEntity, String name) {
+		if (name.equals("lever")) return new ResourceLocation("textures/block/lever.png");
+		return new ResourceLocation("textures/block/cobblestone.png");
 	}
 }

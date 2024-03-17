@@ -30,11 +30,11 @@ public interface MeshRenderer<T, M extends Model<T>> {
 		MeshData meshData = ExtraDetails.RESOURCES.meshes.get(model.modelLocation(t));
 		Color color = Color.white;
 
-		Map<String, ResourceLocation> textures = model.textureLocation(t);
 		Map<String, VertexConsumer> consumers = new HashMap<>();
+		List<Vertex> vertices = new ArrayList<>();
 
 		for (MeshData.Object object : meshData.objects().values()) {
-			List<Vertex> vertices = new ArrayList<>();
+			vertices.clear();
 			for (MeshData.Vertex vertex : object.vertices()) {
 				Vector3f position = new Vector3f(vertex.position()).rotate(object.rotation()).add(object.position());
 				Quaternionf normalRotation = new Quaternionf().identity();
@@ -73,9 +73,7 @@ public interface MeshRenderer<T, M extends Model<T>> {
 			for (MeshData.Face face : object.faces()) {
 				VertexConsumer vertexConsumer = consumers.get(face.texture_name());
 				if (vertexConsumer == null) {
-					vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(
-							textures.getOrDefault(face.texture_name(), textures.get(""))
-					));
+					vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(model.textureLocation(t, face.texture_name())));
 					consumers.put(face.texture_name(), vertexConsumer);
 				}
 				for (Integer vertexIndex : face.vertices()) {

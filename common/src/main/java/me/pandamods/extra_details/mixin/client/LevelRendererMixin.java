@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
 import net.minecraft.client.Camera;
@@ -31,26 +32,28 @@ import java.util.SortedSet;
 public abstract class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
-	@Shadow @Nullable private ClientLevel level;
-
 	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
 
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
 
-	@Shadow @Final private Minecraft minecraft;
-	private final ClientBlockEntityRenderDispatcher clientBlocEntityRenderDispatcher = ExtraDetails.blockRenderDispatcher;
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
 
 	@Inject(
 			method = "renderLevel",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;prepare(Lnet/minecraft/world/level/Level;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/HitResult;)V",
-					ordinal = 0
+					target = "Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;prepare(Lnet/minecraft/world/level/Level;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/HitResult;)V"
 			)
 	)
 	public void prepareRenderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 								   GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		this.clientBlocEntityRenderDispatcher.prepare(this.level, camera, this.minecraft.hitResult);
+		edLevelRenderer.prepareRender((LevelRenderer) (Object) this, poseStack, partialTick, finishNanoTime, renderBlockOutline,
+				camera, gameRenderer, lightTexture, projectionMatrix);
+	}
+
+	@Inject(method = "setLevel", at = @At(value = "RETURN"))
+	public void setLevel(ClientLevel level, CallbackInfo ci) {
+		edLevelRenderer.setLevel(level);
 	}
 
 	@Inject(
@@ -58,49 +61,12 @@ public abstract class LevelRendererMixin {
 			at = @At(
 					value = "FIELD",
 					target = "Lnet/minecraft/client/renderer/LevelRenderer;globalBlockEntities:Ljava/util/Set;",
-					shift = At.Shift.BEFORE,
-					ordinal = 0
+					shift = At.Shift.BEFORE
 			)
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
 							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		Vec3 cameraPosition = camera.getPosition();
-		double camX = cameraPosition.x;
-		double camY = cameraPosition.y;
-		double camZ = cameraPosition.z;
-
-		if (this.level != null && !this.renderChunksInFrustum.isEmpty()) {
-			for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
-				List<ClientBlockEntity> blockEntities = renderChunkInfo.chunk.getCompiledChunk().getClientBlockEntities();
-				if (blockEntities.isEmpty()) continue;
-
-				for (ClientBlockEntity blockEntity : blockEntities) {
-					BlockPos blockPos = blockEntity.getBlockPos();
-					poseStack.pushPose();
-					poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
-					MultiBufferSource bufferSource = this.renderBuffers.bufferSource();
-
-					SortedSet<BlockDestructionProgress> breakingInfo = this.destructionProgress.get(blockPos.asLong());
-					if (breakingInfo != null && !breakingInfo.isEmpty()) {
-						int stage = breakingInfo.last().getProgress();
-
-						if (stage >= 0) {
-							VertexConsumer bufferBuilder = this.renderBuffers.crumblingBufferSource()
-									.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
-
-							PoseStack.Pose pose = poseStack.last();
-							VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
-
-							bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
-									.create(crumblingConsumer, this.renderBuffers.bufferSource().getBuffer(renderType)) :
-									this.renderBuffers.bufferSource().getBuffer(renderType);
-						}
-					}
-
-					clientBlocEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
-					poseStack.popPose();
-				}
-			}
-		}
+		edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camera, this.renderChunksInFrustum, this.renderBuffers,
+				this.destructionProgress);
 	}
 }
