@@ -29,8 +29,12 @@ import java.util.SortedSet;
 
 public class ExtraDetailsLevelRenderer {
 	private final Minecraft minecraft = Minecraft.getInstance();
-	private final ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher = ExtraDetails.blockRenderDispatcher;
+	private final ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher;
 	private ClientLevel level = null;
+
+	public ExtraDetailsLevelRenderer(ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher) {
+		this.clientBlockEntityRenderDispatcher = clientBlockEntityRenderDispatcher;
+	}
 
 	public void prepareRender(LevelRenderer levelRenderer, PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline,
 							  Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix) {

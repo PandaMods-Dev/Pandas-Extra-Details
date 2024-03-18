@@ -25,7 +25,7 @@ public interface ArmatureAnimator<animatable extends IAnimatable, AnimController
 
 		Armature armature;
 		if (!Objects.equals(animatable.animatableCache().resourceLocation, controller.armatureLocation(animatable))) {
-			ArmatureData armatureData = ExtraDetails.RESOURCES.armatures.get(controller.armatureLocation(animatable));
+			ArmatureData armatureData = ExtraDetails.resources.armatures.get(controller.armatureLocation(animatable));
 			animatable.animatableCache().armature = armature = new Armature(armatureData);
 			animatable.animatableCache().resourceLocation = controller.armatureLocation(animatable);
 		} else armature = animatable.animatableCache().armature;

@@ -9,7 +9,6 @@ import me.pandamods.pandalib.client.armature.Bone;
 import me.pandamods.pandalib.resource.MeshData;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
@@ -25,9 +24,8 @@ public interface MeshRenderer<T, M extends Model<T>> {
 	default void renderGeometry(T t, Armature armature, PoseStack poseStack, MultiBufferSource bufferSource,
 								int lightColor, int overlayTexture) {
 		poseStack.pushPose();
-		poseStack.translate(.5f, 0, .5f);
 		M model = getModel();
-		MeshData meshData = ExtraDetails.RESOURCES.meshes.get(model.modelLocation(t));
+		MeshData meshData = ExtraDetails.resources.meshes.get(model.modelLocation(t));
 		Color color = Color.white;
 
 		Map<String, VertexConsumer> consumers = new HashMap<>();

@@ -2,6 +2,8 @@ package me.pandamods.extra_details.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
+import me.pandamods.pandalib.event.ClientResourceEvent;
+import me.pandamods.pandalib.event.ResourceEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -13,7 +15,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ExtraDetailsForge {
     public ExtraDetailsForge() {
         EventBuses.registerModEventBus(ExtraDetails.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-		MinecraftForge.EVENT_BUS.addListener(this::addReloadListenerEvent);
 		ExtraDetails.init();
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ExtraDetails::client);
 
@@ -21,9 +22,4 @@ public class ExtraDetailsForge {
 //				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
 //						AutoConfig.getConfigScreen(ModConfig.class, screen).get()));
     }
-
-	public void addReloadListenerEvent(AddReloadListenerEvent event) {
-		event.addListener(ExtraDetails.blockRenderDispatcher);
-		event.addListener(ExtraDetails.RESOURCES);
-	}
 }

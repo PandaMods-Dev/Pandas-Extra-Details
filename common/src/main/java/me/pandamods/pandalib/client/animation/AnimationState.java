@@ -26,7 +26,7 @@ public class AnimationState<T extends IAnimatable> {
 	private float transitionStartTime = 0;
 
 	private AnimationState(ResourceLocation resourceLocation, PlayType playType) {
-		this.animation = ExtraDetails.RESOURCES.animations.get(resourceLocation);
+		this.animation = ExtraDetails.resources.animations.get(resourceLocation);
 		this.playType = playType;
 	}
 

@@ -50,7 +50,7 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & IAnimatabl
 	}
 
 	public static void translateBlock(BlockState blockState, PoseStack poseStack) {
-		poseStack.translate(0, 0.5f, 0);
+		poseStack.translate(0.5f, 0.5f, 0.5f);
 		float direction = getYRotation(blockState);
 		poseStack.mulPose(Axis.YP.rotationDegrees(direction));
 
