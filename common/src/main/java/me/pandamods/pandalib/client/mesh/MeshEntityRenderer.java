@@ -34,7 +34,7 @@ public abstract class MeshEntityRenderer<T extends Entity & IAnimatable, M exten
 	public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 		super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
 		animateArmature(entity, partialTick);
-		renderGeometry(entity, entity.animatableCache().armature, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+		renderGeometry(entity, entity.animatableCache().armature, poseStack, buffer, packedLight);
 	}
 
 	@Override

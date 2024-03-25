@@ -33,7 +33,7 @@ public abstract class MeshClientBlockRenderer<T extends ClientBlockEntity & IAni
 		poseStack.pushPose();
 		MeshBlockEntityRenderer.translateBlock(blockEntity.getBlockState(), poseStack);
 		animateArmature(blockEntity, partialTick);
-		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, bufferSource, lightColor, OverlayTexture.NO_OVERLAY);
+		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, bufferSource, lightColor);
 		poseStack.popPose();
 	}
 

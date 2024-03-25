@@ -64,12 +64,11 @@ public class Bone {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Bone bone = (Bone) o;
-		return Objects.equals(name, bone.name) &&
-				Objects.equals(parent, bone.parent);
+		return Objects.equals(name, bone.name);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, parent);
+		return Objects.hash(name);
 	}
 }

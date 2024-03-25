@@ -35,7 +35,7 @@ public abstract class MeshBlockEntityRenderer<T extends BlockEntity & IAnimatabl
 		poseStack.translate(0.5f, 0, 0.5f);
 		translateBlock(blockEntity.getBlockState(), poseStack);
 		animateArmature(blockEntity, partialTick);
-		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, buffer, packedLight, packedOverlay);
+		renderGeometry(blockEntity, blockEntity.animatableCache().armature, poseStack, buffer, packedLight);
 		poseStack.popPose();
 	}
 

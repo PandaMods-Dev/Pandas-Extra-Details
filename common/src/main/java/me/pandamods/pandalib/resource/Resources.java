@@ -3,7 +3,9 @@ package me.pandamods.pandalib.resource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.utils.typeadapter.Matrix4fTypeAdapter;
 import me.pandamods.pandalib.utils.typeadapter.QuaternionfTypeAdapter;
@@ -14,19 +16,24 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.joml.*;
+import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 
 public class Resources implements PreparableReloadListener {
-	private static final String SUPPORTED_MESH_VERSION = "0.4";
+	private static final Logger LOGGER = LogUtils.getLogger();
+	private static final String SUPPORTED_MESH_VERSION = "0.5";
 	private static final String SUPPORTED_ARMATURE_VERSION = "0.2";
 	private static final String SUPPORTED_ANIMATION_VERSION = "0.2";
 
@@ -37,14 +44,27 @@ public class Resources implements PreparableReloadListener {
 			.registerTypeAdapter(Matrix4fc.class, new Matrix4fTypeAdapter())
 			.create();
 
-	public Map<ResourceLocation, MeshData> meshes = new HashMap<>();
-	public Map<ResourceLocation, ArmatureData> armatures = new HashMap<>();
-	public Map<ResourceLocation, AnimationData> animations = new HashMap<>();
+	private static final List<ResourceLocation> missingResources = new ObjectArrayList<>();
+
+	public Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
+	public Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
+	public Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
+
+	public static MeshData getMesh(ResourceLocation resourceLocation) {
+		MeshData meshData = ExtraDetails.resources.meshes.get(resourceLocation);
+		if (meshData == null) {
+			if (missingResources.contains(resourceLocation))
+				missingResources.add(resourceLocation);
+			else
+				LOGGER.error("Resource '{}' is missing", resourceLocation.toString());
+		}
+		return meshData;
+	}
 
 	@Override
-	public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
-										  ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
-										  Executor backgroundExecutor, Executor gameExecutor) {
+	public @NotNull CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
+												   ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
+												   Executor backgroundExecutor, Executor gameExecutor) {
 		Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
@@ -71,14 +91,16 @@ public class Resources implements PreparableReloadListener {
 
 			for (ResourceLocation resource : resources.keySet()) {
 				JsonObject json = loadFile(resource, resourceManager);
-				if (!json.has("format_version") || !json.get("format_version").getAsString().equals(formatVersion)) {
-					ExtraDetails.LOGGER.error("format version '{}' of '{}' is not supported",
+				if (!json.has("format_version")) {
+					LOGGER.error("'{}' does not have a format version",
+							resource);
+				} else if (!json.get("format_version").getAsString().equals(formatVersion)) {
+					LOGGER.error("format version '{}' of '{}' is not supported",
 							json.get("format_version").getAsString(), resource);
-					continue;
+				} else {
+					C file = GSON.fromJson(json, resourceDataClass);
+					tasks.put(resource, CompletableFuture.supplyAsync(() -> file, executor));
 				}
-
-				C file = GSON.fromJson(json, resourceDataClass);
-				tasks.put(resource, CompletableFuture.supplyAsync(() -> file, executor));
 			}
 
 			return tasks;
@@ -98,8 +120,7 @@ public class Resources implements PreparableReloadListener {
 			return IOUtils.toString(inputStream, Charset.defaultCharset());
 		}
 		catch (Exception e) {
-			ExtraDetails.LOGGER.error("Couldn't load '" + location + "'", e);
-
+			LOGGER.error("Couldn't load '" + location + "'", e);
 			throw new RuntimeException(new FileNotFoundException(location.toString()));
 		}
 	}

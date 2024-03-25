@@ -1,5 +1,6 @@
 package me.pandamods.pandalib.client.armature;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.pandamods.pandalib.resource.ArmatureData;
 
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Armature {
-	private final Map<String, Bone> bones = new HashMap<>();
+	private final Map<String, Bone> bones = new Object2ObjectOpenHashMap<>();
 
 	public Armature(ArmatureData armatureData) {
 		armatureData.bones().forEach((name, boneData) -> {
