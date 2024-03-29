@@ -1,4 +1,4 @@
-package me.pandamods.pandalib.utils;
+package me.pandamods.extra_details.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;

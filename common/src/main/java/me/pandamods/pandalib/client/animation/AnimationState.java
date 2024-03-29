@@ -4,7 +4,7 @@ import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.pandalib.client.armature.Armature;
 import me.pandamods.pandalib.client.armature.IAnimatable;
 import me.pandamods.pandalib.resource.AnimationData;
-import me.pandamods.pandalib.utils.TransformUtils;
+import me.pandamods.extra_details.utils.TransformUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.*;
 

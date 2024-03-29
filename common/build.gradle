@@ -16,7 +16,7 @@ dependencies {
 
     modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
 
-//    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
+    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
 //    modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 }
 

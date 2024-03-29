@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
@@ -31,6 +32,7 @@ public class ExtraDetailsLevelRenderer {
 	private final Minecraft minecraft = Minecraft.getInstance();
 	private final ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher;
 	private ClientLevel level = null;
+	private LevelRenderer levelRenderer;
 
 	public ExtraDetailsLevelRenderer(ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher) {
 		this.clientBlockEntityRenderDispatcher = clientBlockEntityRenderDispatcher;
@@ -38,6 +40,7 @@ public class ExtraDetailsLevelRenderer {
 
 	public void prepareRender(LevelRenderer levelRenderer, PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline,
 							  Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix) {
+		this.levelRenderer = levelRenderer;
 		this.clientBlockEntityRenderDispatcher.prepare(this.level, camera, this.minecraft.hitResult);
 	}
 
