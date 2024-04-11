@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.client;
 
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.impl.LevelExtension;
+import me.pandamods.extra_details.api.extensions.LevelExtension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;

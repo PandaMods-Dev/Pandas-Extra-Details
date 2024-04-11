@@ -33,7 +33,7 @@ dependencies {
 
     modApi("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
-    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
+//    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
 //    modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 }
 

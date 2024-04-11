@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;

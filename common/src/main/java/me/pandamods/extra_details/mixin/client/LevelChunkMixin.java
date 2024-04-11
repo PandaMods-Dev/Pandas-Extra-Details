@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.client;
 
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.impl.LevelChunkExtension;
+import me.pandamods.extra_details.api.extensions.LevelChunkExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -2,16 +2,12 @@ package me.pandamods.pandalib.client.mesh;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderer;
 import me.pandamods.pandalib.client.Model;
 import me.pandamods.pandalib.client.animation.AnimationController;
 import me.pandamods.pandalib.client.armature.ArmatureAnimator;
 import me.pandamods.pandalib.client.armature.IAnimatable;
-import me.pandamods.pandalib.utils.RenderUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;

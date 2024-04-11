@@ -37,35 +37,35 @@ public interface MeshRenderer<T, M extends Model<T>> {
 		for (MeshData.Vertex vertex : meshData.vertices()) {
 			Vector3f position = new Vector3f(vertex.position());
 			Quaternionf normalRotation = new Quaternionf().identity();
-//			if (armature != null && !vertex.weights().isEmpty()) {
-//				Vector3f finalPosition = new Vector3f();
-//				Quaternionf finalNormalRotation = new Quaternionf().identity();
-//				for (MeshData.Weight weight : vertex.weights()) {
-//					Bone bone = armature.getBone(weight.name());
-//					float weightPercent = weight.weight() / vertex.max_weight();
-//
-//					if (bone != null) {
-//						Matrix4f initialTransform = new Matrix4f(bone.initialTransform);
-//						Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
-//						globalTransform.mul(initialTransform.invert(new Matrix4f()));
-//
-//						Vector3f transformedPosition = new Vector3f(position);
-//						globalTransform.transformPosition(transformedPosition);
-//
-//						transformedPosition.mul(weightPercent);
-//						finalPosition.add(transformedPosition);
-//
-//						Quaternionf transformedNormalRotation = new Quaternionf(normalRotation);
-//						globalTransform.rotate(transformedNormalRotation);
-//
-//						transformedNormalRotation.mul(weightPercent);
-//						finalNormalRotation.mul(transformedNormalRotation);
-//					}
-//				}
-//
-//				position.set(finalPosition);
-//				normalRotation.set(finalNormalRotation);
-//			}
+			if (armature != null && !vertex.weights().isEmpty()) {
+				Vector3f finalPosition = new Vector3f();
+				Quaternionf finalNormalRotation = new Quaternionf().identity();
+				for (MeshData.Weight weight : vertex.weights()) {
+					Bone bone = armature.getBone(weight.name());
+					float weightPercent = weight.weight() / vertex.max_weight();
+
+					if (bone != null) {
+						Matrix4f initialTransform = new Matrix4f(bone.initialTransform);
+						Matrix4f globalTransform = new Matrix4f(bone.getGlobalTransform());
+						globalTransform.mul(initialTransform.invert(new Matrix4f()));
+
+						Vector3f transformedPosition = new Vector3f(position);
+						globalTransform.transformPosition(transformedPosition);
+
+						transformedPosition.mul(weightPercent);
+						finalPosition.add(transformedPosition);
+
+						Quaternionf transformedNormalRotation = new Quaternionf(normalRotation);
+						globalTransform.rotate(transformedNormalRotation);
+
+						transformedNormalRotation.mul(weightPercent);
+						finalNormalRotation.mul(transformedNormalRotation);
+					}
+				}
+
+				position.set(finalPosition);
+				normalRotation.set(finalNormalRotation);
+			}
 			vertices.add(new Vertex(position, normalRotation));
 		}
 
