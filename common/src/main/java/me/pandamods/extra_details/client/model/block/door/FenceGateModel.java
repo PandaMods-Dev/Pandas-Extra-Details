@@ -2,22 +2,14 @@ package me.pandamods.extra_details.client.model.block.door;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.door.FenceDoorAnimationController;
-import me.pandamods.extra_details.client.renderer.block.door.DoorRenderer;
-import me.pandamods.extra_details.entity.block.DoorClientBlock;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
-import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
-import me.pandamods.pandalib.utils.RenderUtils;
-import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.client.model.MeshModel;
+import me.pandamods.extra_details.pandalib.client.animation_controller.AnimationControllerProvider;
+import me.pandamods.extra_details.pandalib.utils.RenderUtils;
+import me.pandamods.extra_details.pandalib.client.model.Armature;
+import me.pandamods.extra_details.pandalib.client.model.MeshModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Math;
 import org.joml.Quaternionf;
-import org.spongepowered.include.com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.fabric;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.resources.Resources;
+import me.pandamods.extra_details.pandalib.resources.Resources;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;

@@ -1,14 +1,12 @@
 package me.pandamods.extra_details.client.animation_controller.block.door;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.entity.block.DoorClientBlock;
 import me.pandamods.extra_details.entity.block.FenceGateClientBlock;
-import me.pandamods.pandalib.client.animation_controller.Animation;
-import me.pandamods.pandalib.client.animation_controller.AnimationController;
-import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.entity.MeshAnimatable;
+import me.pandamods.extra_details.pandalib.client.animation_controller.Animation;
+import me.pandamods.extra_details.pandalib.client.animation_controller.AnimationController;
+import me.pandamods.extra_details.pandalib.client.model.Armature;
+import me.pandamods.extra_details.pandalib.entity.MeshAnimatable;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 
 public class FenceDoorAnimationController extends AnimationController<FenceGateClientBlock> {

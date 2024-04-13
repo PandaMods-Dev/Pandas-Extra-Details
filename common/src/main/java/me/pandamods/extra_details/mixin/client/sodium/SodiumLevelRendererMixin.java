@@ -8,7 +8,7 @@ import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.pandalib.impl.CompileResultsExtension;
 import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;

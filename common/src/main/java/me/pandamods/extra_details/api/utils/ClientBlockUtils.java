@@ -2,7 +2,7 @@ package me.pandamods.extra_details.api.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.api.client.render.block.*;
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.pandalib.impl.CompileResultsExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;

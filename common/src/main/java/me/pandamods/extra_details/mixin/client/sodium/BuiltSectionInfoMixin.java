@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.client.sodium;
 
 import me.jellysquid.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.pandalib.impl.CompileResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;

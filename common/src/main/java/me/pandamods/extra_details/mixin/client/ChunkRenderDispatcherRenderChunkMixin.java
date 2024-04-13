@@ -1,6 +1,6 @@
 package me.pandamods.extra_details.mixin.client;
 
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.pandalib.impl.CompileResultsExtension;
 import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.client.Minecraft;

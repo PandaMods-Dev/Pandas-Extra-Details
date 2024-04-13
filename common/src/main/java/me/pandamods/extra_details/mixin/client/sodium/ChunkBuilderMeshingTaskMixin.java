@@ -10,7 +10,7 @@ import me.jellysquid.mods.sodium.client.render.chunk.compile.tasks.ChunkBuilderM
 import me.jellysquid.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
 import me.jellysquid.mods.sodium.client.util.task.CancellationToken;
 import me.jellysquid.mods.sodium.client.world.WorldSlice;
-import me.pandamods.pandalib.impl.CompileResultsExtension;
+import me.pandamods.extra_details.pandalib.impl.CompileResultsExtension;
 import me.pandamods.extra_details.api.utils.ClientBlockUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

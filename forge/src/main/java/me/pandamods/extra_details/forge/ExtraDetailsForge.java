@@ -3,7 +3,7 @@ package me.pandamods.extra_details.forge;
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.config.ModConfig;
-import me.pandamods.pandalib.resources.Resources;
+import me.pandamods.extra_details.pandalib.resources.Resources;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;

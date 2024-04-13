@@ -1,13 +1,12 @@
 package me.pandamods.extra_details.client.model.block.redstone;
 
-import com.google.common.collect.ImmutableMap;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.animation_controller.block.redstone.LeverAnimationController;
 import me.pandamods.extra_details.entity.block.LeverClientBlock;
-import me.pandamods.pandalib.client.animation_controller.AnimationControllerProvider;
-import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.client.model.MeshModel;
-import me.pandamods.pandalib.utils.RenderUtils;
+import me.pandamods.extra_details.pandalib.client.animation_controller.AnimationControllerProvider;
+import me.pandamods.extra_details.pandalib.client.model.Armature;
+import me.pandamods.extra_details.pandalib.client.model.MeshModel;
+import me.pandamods.extra_details.pandalib.utils.RenderUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Math;

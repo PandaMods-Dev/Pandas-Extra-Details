@@ -2,9 +2,9 @@ package me.pandamods.extra_details.client.model.block.sign;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.HangingSignClientBlock;
-import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.client.model.MeshModel;
-import me.pandamods.pandalib.utils.RandomUtils;
+import me.pandamods.extra_details.pandalib.client.model.Armature;
+import me.pandamods.extra_details.pandalib.client.model.MeshModel;
+import me.pandamods.extra_details.pandalib.utils.RandomUtils;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

@@ -4,7 +4,7 @@ import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteArrayIterator;
 import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
-import me.pandamods.pandalib.impl.ChunkRenderListExtension;
+import me.pandamods.extra_details.pandalib.impl.ChunkRenderListExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Mixin;

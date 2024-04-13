@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.client.model.block.chest.ChestModel;
-import me.pandamods.pandalib.client.render.MeshRenderer;
+import me.pandamods.extra_details.pandalib.client.render.MeshRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;

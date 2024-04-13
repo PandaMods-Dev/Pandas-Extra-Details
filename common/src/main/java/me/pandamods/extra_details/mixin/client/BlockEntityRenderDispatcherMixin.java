@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import me.pandamods.extra_details.api.client.render.block.BlockRendererRegistry;
 import me.pandamods.extra_details.api.client.render.block.ClientBlock;
 import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderer;
-import me.pandamods.pandalib.client.render.MeshRenderer;
+import me.pandamods.extra_details.pandalib.client.render.MeshRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

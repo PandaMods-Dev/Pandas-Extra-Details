@@ -5,10 +5,11 @@ import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.api.client.render.block.ClientBlock;
 import me.pandamods.extra_details.api.client.render.block.ClientBlockRenderer;
-import me.pandamods.pandalib.cache.ObjectCache;
-import me.pandamods.pandalib.client.render.MeshRenderer;
-import me.pandamods.pandalib.entity.MeshAnimatable;
-import me.pandamods.pandalib.resources.MeshRecord;
+import me.pandamods.extra_details.pandalib.client.model.MeshModel;
+import me.pandamods.extra_details.pandalib.cache.ObjectCache;
+import me.pandamods.extra_details.pandalib.client.render.MeshRenderer;
+import me.pandamods.extra_details.pandalib.entity.MeshAnimatable;
+import me.pandamods.extra_details.pandalib.resources.MeshRecord;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.ModelBakery;
@@ -20,7 +21,7 @@ import java.awt.*;
 import java.util.Map;
 import java.util.SortedSet;
 
-public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimatable, M extends me.pandamods.pandalib.client.model.MeshModel<T>>
+public abstract class MeshClientBlockRenderer<T extends ClientBlock & MeshAnimatable, M extends MeshModel<T>>
 		implements ClientBlockRenderer<T>, MeshRenderer<T, M> {
 	protected final M model;
 

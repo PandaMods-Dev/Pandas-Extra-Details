@@ -1,8 +1,8 @@
 package me.pandamods.extra_details.mixin.blockentity;
 
 import me.pandamods.extra_details.impl.IChest;
-import me.pandamods.pandalib.cache.ObjectCache;
-import me.pandamods.pandalib.entity.MeshAnimatable;
+import me.pandamods.extra_details.pandalib.cache.ObjectCache;
+import me.pandamods.extra_details.pandalib.entity.MeshAnimatable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;

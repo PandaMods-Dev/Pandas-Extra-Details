@@ -2,7 +2,7 @@ package me.pandamods.extra_details.client.renderer.block.sign;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.utils.VectorUtils;
+import me.pandamods.extra_details.pandalib.utils.VectorUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.SignRenderer;

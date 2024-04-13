@@ -2,13 +2,12 @@ package me.pandamods.extra_details.client.animation_controller.block.redstone;
 
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.entity.block.LeverClientBlock;
-import me.pandamods.pandalib.client.animation_controller.AnimationController;
-import me.pandamods.pandalib.client.animation_controller.Animation;
-import me.pandamods.pandalib.client.model.Armature;
-import me.pandamods.pandalib.entity.MeshAnimatable;
+import me.pandamods.extra_details.pandalib.client.animation_controller.AnimationController;
+import me.pandamods.extra_details.pandalib.client.animation_controller.Animation;
+import me.pandamods.extra_details.pandalib.client.model.Armature;
+import me.pandamods.extra_details.pandalib.entity.MeshAnimatable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.LeverBlock;
-import net.minecraft.world.level.block.state.properties.AttachFace;
 
 public class LeverAnimationController extends AnimationController<LeverClientBlock> {
 	public <T extends MeshAnimatable> LeverAnimationController(LeverClientBlock base) {
