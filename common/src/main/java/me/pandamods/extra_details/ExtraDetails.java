@@ -3,10 +3,12 @@ package me.pandamods.extra_details;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
+import dev.architectury.event.events.client.ClientReloadShadersEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRendererRegistry;
 import me.pandamods.extra_details.registries.ClientBlockEntityRegistries;
+import me.pandamods.pandalib.client.render.PLInternalShaders;
 import me.pandamods.pandalib.resource.Resources;
 import net.minecraft.server.packs.PackType;
 import org.slf4j.Logger;
@@ -24,6 +26,7 @@ public class ExtraDetails {
 	}
 
 	public static void client() {
+		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, ExtraDetails.resources);
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, ExtraDetails.blockRenderDispatcher);
 		ClientBlockEntityRegistries.init();

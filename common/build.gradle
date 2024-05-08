@@ -14,6 +14,14 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
 
+    implementation platform("org.lwjgl:lwjgl-bom:${rootProject.lwjgl_version}")
+
+    implementation("org.lwjgl:lwjgl")
+    implementation("org.lwjgl:lwjgl-assimp")
+
+    runtimeOnly("org.lwjgl:lwjgl::${rootProject.lwjgl_natives}")
+    runtimeOnly("org.lwjgl:lwjgl-assimp::${rootProject.lwjgl_natives}")
+
     modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
 
 //    modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
