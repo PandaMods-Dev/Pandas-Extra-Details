@@ -7,14 +7,35 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 
 public class PLRenderTypes extends RenderType {
-	public static final RenderStateShard.ShaderStateShard RENDERTYPE_TRIANGULAR_SHADER =
-			new RenderStateShard.ShaderStateShard(PLInternalShaders::getRenderTypeTriangularShader);
+	private static final ShaderStateShard TRIANGULAR_SHADER =
+			new ShaderStateShard(PLInternalShaders::getRenderTypeTriangularShader);
 
-	public static final RenderType RENDERTYPE_TRIANGULAR = RenderType.create("triangular", DefaultVertexFormat.NEW_ENTITY,
-			VertexFormat.Mode.TRIANGLES, 256, true, false,
-			RenderType.CompositeState.builder().setLightmapState(RenderType.LIGHTMAP)
-					.setShaderState(RENDERTYPE_TRIANGULAR_SHADER).createCompositeState(true)
+
+	private static final RenderType SOLID_TRIANGULAR = RenderType.create("solid_triangular",
+			DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 0x200000, true, false,
+			CompositeState.builder()
+					.setLightmapState(LIGHTMAP)
+					.setShaderState(TRIANGULAR_SHADER)
+					.setTextureState(BLOCK_SHEET_MIPPED)
+					.createCompositeState(true)
 	);
+
+	public static RenderType solidTriangular() {
+		return SOLID_TRIANGULAR;
+	}
+
+	private static final RenderType CUTOUT_TRIANGULAR = RenderType.create("cutout_triangular",
+			DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 131072, true, false,
+			CompositeState.builder()
+					.setLightmapState(LIGHTMAP)
+					.setShaderState(TRIANGULAR_SHADER)
+					.setTextureState(BLOCK_SHEET)
+					.createCompositeState(true)
+	);
+
+	public static RenderType cutoutTriangular() {
+		return CUTOUT_TRIANGULAR;
+	}
 
 	public PLRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling,
 						 boolean sortOnUpload, Runnable setupState, Runnable clearState) {

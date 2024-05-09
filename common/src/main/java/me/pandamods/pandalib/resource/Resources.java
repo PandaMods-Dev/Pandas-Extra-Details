@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 
 public class Resources implements PreparableReloadListener {
 	private static final Logger LOGGER = LogUtils.getLogger();
-	private static final String SUPPORTED_MESH_VERSION = "0.5";
 	private static final String SUPPORTED_ARMATURE_VERSION = "0.2";
 	private static final String SUPPORTED_ANIMATION_VERSION = "0.2";
 
@@ -51,21 +50,9 @@ public class Resources implements PreparableReloadListener {
 
 	private static final List<ResourceLocation> missingResources = new ObjectArrayList<>();
 
-//	public Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
 	public Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
 	public Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
 	public Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
-
-//	public static MeshData getMesh(ResourceLocation resourceLocation) {
-//		MeshData meshData = ExtraDetails.resources.meshes.get(resourceLocation);
-//		if (meshData == null) {
-//			if (missingResources.contains(resourceLocation))
-//				missingResources.add(resourceLocation);
-//			else
-//				LOGGER.error("Resource '{}' is missing", resourceLocation.toString());
-//		}
-//		return meshData;
-//	}
 
 	public static Mesh getMesh(ResourceLocation resourceLocation) {
 		Mesh meshData = ExtraDetails.resources.meshes.get(resourceLocation);
@@ -82,13 +69,10 @@ public class Resources implements PreparableReloadListener {
 	public @NotNull CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
 												   ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 												   Executor backgroundExecutor, Executor gameExecutor) {
-//		Map<ResourceLocation, MeshData> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
 		return CompletableFuture.allOf(
-//				load("pandalib/meshes", SUPPORTED_MESH_VERSION, MeshData.class, backgroundExecutor,
-//						resourceManager, meshes::put),
  				loadMesh("pandalib/meshes", backgroundExecutor, resourceManager, meshes::put),
 				load("pandalib/armatures", SUPPORTED_ARMATURE_VERSION, ArmatureData.class, backgroundExecutor,
 						resourceManager, armatures::put),
@@ -112,8 +96,7 @@ public class Resources implements PreparableReloadListener {
 							buffer.put(bytes);
 							buffer.flip();
 							AIScene aiScene = Assimp.aiImportFileFromMemory(buffer,
-									Assimp.aiProcess_Triangulate | Assimp.aiProcess_JoinIdenticalVertices,
-									"fbx");
+									Assimp.aiProcess_Triangulate | Assimp.aiProcess_JoinIdenticalVertices, "");
 							if (aiScene != null)
 								tasks.put(resource, CompletableFuture.supplyAsync(() -> new Mesh(aiScene), executor));
 						}

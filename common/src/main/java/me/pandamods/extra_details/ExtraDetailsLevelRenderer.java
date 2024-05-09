@@ -47,45 +47,39 @@ public class ExtraDetailsLevelRenderer {
 		this.level = level;
 	}
 
-	public void renderClientBlockEntities(PoseStack poseStack, float partialTick, Camera camera,
-										  ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum, RenderBuffers renderBuffers,
+	public void renderClientBlockEntities(PoseStack poseStack, float partialTick, double camX, double camY, double camZ,
+										  ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum,
+										  RenderBuffers renderBuffers, MultiBufferSource bufferSource,
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
-		Vec3 cameraPosition = camera.getPosition();
-		double camX = cameraPosition.x;
-		double camY = cameraPosition.y;
-		double camZ = cameraPosition.z;
+		for (LevelRenderer.RenderChunkInfo renderChunkInfo : renderChunksInFrustum) {
+			List<ClientBlockEntity> blockEntities = renderChunkInfo.chunk.getCompiledChunk().getClientBlockEntities();
+			if (blockEntities.isEmpty()) continue;
 
-		if (this.level != null && !renderChunksInFrustum.isEmpty()) {
-			for (LevelRenderer.RenderChunkInfo renderChunkInfo : renderChunksInFrustum) {
-				List<ClientBlockEntity> blockEntities = renderChunkInfo.chunk.getCompiledChunk().getClientBlockEntities();
-				if (blockEntities.isEmpty()) continue;
+			for (ClientBlockEntity blockEntity : blockEntities) {
+				BlockPos blockPos = blockEntity.getBlockPos();
 
-				for (ClientBlockEntity blockEntity : blockEntities) {
-					BlockPos blockPos = blockEntity.getBlockPos();
-					poseStack.pushPose();
-					poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
-					MultiBufferSource bufferSource = renderBuffers.bufferSource();
+				poseStack.pushPose();
+				poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
 
-					SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
-					if (breakingInfo != null && !breakingInfo.isEmpty()) {
-						int stage = breakingInfo.last().getProgress();
+				SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
+				if (breakingInfo != null && !breakingInfo.isEmpty()) {
+					int stage = breakingInfo.last().getProgress();
 
-						if (stage >= 0) {
-							VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
-									.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
+					if (stage >= 0) {
+						VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
+								.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
 
-							PoseStack.Pose pose = poseStack.last();
-							VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
+						PoseStack.Pose pose = poseStack.last();
+						VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
 
-							bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
-									.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
-									renderBuffers.bufferSource().getBuffer(renderType);
-						}
+						bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
+								.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
+								renderBuffers.bufferSource().getBuffer(renderType);
 					}
-
-					clientBlockEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
-					poseStack.popPose();
 				}
+
+				clientBlockEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
+				poseStack.popPose();
 			}
 		}
 	}

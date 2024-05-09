@@ -1,5 +1,6 @@
 package me.pandamods.extra_details.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -65,8 +66,10 @@ public abstract class LevelRendererMixin {
 			)
 	)
 	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
-							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camera, this.renderChunksInFrustum, this.renderBuffers,
-				this.destructionProgress);
+							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci,
+							@Local(ordinal = 0) double camX, @Local(ordinal = 1) double camY, @Local(ordinal = 2) double camZ,
+							@Local MultiBufferSource.BufferSource bufferSource) {
+		edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ, this.renderChunksInFrustum,
+				this.renderBuffers, bufferSource, this.destructionProgress);
 	}
 }

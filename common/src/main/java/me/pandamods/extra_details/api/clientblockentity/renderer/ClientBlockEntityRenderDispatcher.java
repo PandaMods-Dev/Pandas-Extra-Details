@@ -35,13 +35,13 @@ public class ClientBlockEntityRenderDispatcher implements ResourceManagerReloadL
 
 	public <E extends ClientBlockEntity> void render(E blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource) {
 		ClientBlockEntityRenderer<E> blockEntityRenderer = this.getRenderer(blockEntity);
-		if (blockEntityRenderer != null) {
-			if (blockEntity.hasLevel() && blockEntity.getType().isValid(blockEntity.getBlockState())) {
-				if (blockEntityRenderer.shouldRender(blockEntity, this.camera.getPosition())) {
-					tryRender(blockEntity, () -> setupAndRender(blockEntityRenderer, blockEntity, partialTick, poseStack, bufferSource));
-				}
-			}
-		}
+		if (blockEntityRenderer == null)
+			return;
+		if (!blockEntity.hasLevel() || !blockEntity.getType().isValid(blockEntity.getBlockState()))
+			return;
+		if (!blockEntityRenderer.shouldRender(blockEntity, this.camera.getPosition()))
+			return;
+		tryRender(blockEntity, () -> setupAndRender(blockEntityRenderer, blockEntity, partialTick, poseStack, bufferSource));
 	}
 
 	private static <T extends ClientBlockEntity> void setupAndRender(ClientBlockEntityRenderer<T> renderer, T blockEntity, float partialTick,
@@ -64,7 +64,7 @@ public class ClientBlockEntityRenderDispatcher implements ResourceManagerReloadL
 		if (level != null) {
 			return LevelRenderer.getLightColor(level, blockPos);
 		} else {
-			return  15728880;
+			return  0xF000F0;
 		}
 	}
 
