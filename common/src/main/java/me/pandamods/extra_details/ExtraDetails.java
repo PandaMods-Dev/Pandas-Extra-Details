@@ -7,6 +7,7 @@ import dev.architectury.event.events.client.ClientReloadShadersEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRendererRegistry;
+import me.pandamods.extra_details.compat.ExtraDetailsCompat;
 import me.pandamods.extra_details.registries.ClientBlockEntityRegistries;
 import me.pandamods.pandalib.client.render.PLInternalShaders;
 import me.pandamods.pandalib.resource.Resources;

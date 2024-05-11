@@ -11,6 +11,8 @@ import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistr
 import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
 import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderer;
+import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
+import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -20,6 +22,7 @@ import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -48,75 +51,65 @@ public class ExtraDetailsLevelRenderer {
 	}
 
 	public void renderClientBlockEntities(PoseStack poseStack, float partialTick, double camX, double camY, double camZ,
-										  ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum,
+										  CompiledChunkExtension compiledChunk,
 										  RenderBuffers renderBuffers, MultiBufferSource bufferSource,
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
-		for (LevelRenderer.RenderChunkInfo renderChunkInfo : renderChunksInFrustum) {
-			List<ClientBlockEntity> blockEntities = renderChunkInfo.chunk.getCompiledChunk().getClientBlockEntities();
-			if (blockEntities.isEmpty()) continue;
+		List<ClientBlockEntity> blockEntities = compiledChunk.getClientBlockEntities();
+		for (ClientBlockEntity blockEntity : blockEntities) {
+			BlockPos blockPos = blockEntity.getBlockPos();
 
-			for (ClientBlockEntity blockEntity : blockEntities) {
-				BlockPos blockPos = blockEntity.getBlockPos();
+			poseStack.pushPose();
+			poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
 
-				poseStack.pushPose();
-				poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
+			SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
+			if (breakingInfo != null && !breakingInfo.isEmpty()) {
+				int stage = breakingInfo.last().getProgress();
 
-				SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
-				if (breakingInfo != null && !breakingInfo.isEmpty()) {
-					int stage = breakingInfo.last().getProgress();
+				if (stage >= 0) {
+					VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
+							.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
 
-					if (stage >= 0) {
-						VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
-								.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
+					PoseStack.Pose pose = poseStack.last();
+					VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
 
-						PoseStack.Pose pose = poseStack.last();
-						VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
-
-						bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
-								.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
-								renderBuffers.bufferSource().getBuffer(renderType);
-					}
+					bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
+							.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
+							renderBuffers.bufferSource().getBuffer(renderType);
 				}
-
-				clientBlockEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
-				poseStack.popPose();
 			}
+
+			clientBlockEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
+			poseStack.popPose();
 		}
 	}
 
-	public void compileChunk(ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults, RenderChunkRegion renderChunkRegion, BlockPos startPos, BlockPos endPos) {
+	public void compileChunk(CompileResultsExtension compileResults, BlockGetter blockGetter, BlockPos blockPos) {
 		ClientLevel level = Minecraft.getInstance().level;
 		if (level == null) return;
-		if (renderChunkRegion != null) {
-			for (BlockPos pos : BlockPos.betweenClosed(startPos, endPos)) {
-				BlockPos blockPos = pos.immutable();
-				BlockState blockState = renderChunkRegion.getBlockState(blockPos);
+		if (blockGetter != null) {
+			blockPos = blockPos.immutable();
+			BlockState blockState = blockGetter.getBlockState(blockPos);
 
-				ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(blockState);
-				ClientBlockEntity blockEntity = renderChunkRegion.getClientBlockEntity(blockPos);
-				if (blockEntityType != null && (blockEntity == null || !blockEntity.getType().isValid(blockState))) {
-					blockEntity = blockEntityType.create(blockPos, blockState);
-					level.setClientBlockEntity(blockEntity);
-				} else if (blockEntityType == null && blockEntity != null) {
-					blockEntity = null;
-					level.removeClientBlockEntity(blockPos);
-				}
+			ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(blockState);
+			ClientBlockEntity blockEntity = blockGetter.getClientBlockEntity(blockPos);
 
-				if (blockEntity != null) {
-					blockEntity.setBlockState(blockState);
-					this.handleClientBlockEntity(compileResults, blockEntity);
+			if (blockEntity != null && !blockEntity.getType().isValid(blockState)) {
+				blockEntity = null;
+				level.removeClientBlockEntity(blockPos);
+			}
+
+			if (blockEntity == null && blockEntityType != null) {
+				blockEntity = blockEntityType.create(blockPos, blockState);
+				level.setClientBlockEntity(blockEntity);
+			}
+
+			if (blockEntity != null) {
+				blockEntity.setBlockState(blockState);
+				ClientBlockEntityRenderer<ClientBlockEntity> blockEntityRenderer = ExtraDetails.blockRenderDispatcher.getRenderer(blockEntity);
+				if (blockEntityRenderer != null) {
+					compileResults.getClientBlockEntities().add(blockEntity);
 				}
 			}
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private <E extends ClientBlockEntity> void handleClientBlockEntity(ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
-																	   ClientBlockEntity blockEntity) {
-		ClientBlockEntityRenderer<E> blockEntityRenderer = (ClientBlockEntityRenderer<E>)
-				ExtraDetails.blockRenderDispatcher.getRenderer(blockEntity);
-		if (blockEntityRenderer != null) {
-			compileResults.getClientBlockEntities().add(blockEntity);
 		}
 	}
 }

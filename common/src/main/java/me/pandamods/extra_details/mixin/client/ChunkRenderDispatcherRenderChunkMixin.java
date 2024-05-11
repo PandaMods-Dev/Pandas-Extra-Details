@@ -34,15 +34,15 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 	@Inject(method = "compile",
 			at = @At(
 					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/vertex/PoseStack;<init>()V",
+					target = "Lnet/minecraft/world/level/block/state/BlockState;hasBlockEntity()Z",
 					shift = At.Shift.BEFORE
 			))
 	public void compile(float x, float y, float z, ChunkBufferBuilderPack chunkBufferBuilderPack,
 						CallbackInfoReturnable<ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults> cir,
 						@Local ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults compileResults,
-						@Local(name = "blockPos") BlockPos startPos, @Local(name = "blockPos2") BlockPos endPos,
+						@Local(ordinal = 2) BlockPos blockPos,
 						@Local RenderChunkRegion renderChunkRegion) {
-		edLevelRenderer.compileChunk(compileResults, renderChunkRegion, startPos, endPos);
+		edLevelRenderer.compileChunk(compileResults, renderChunkRegion, blockPos);
 	}
 
 	@Inject(method = "doTask",

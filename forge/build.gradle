@@ -40,6 +40,7 @@ dependencies {
     modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
 
 //    modImplementation("maven.modrinth:rubidium:${rootProject.rubidium_version}")
+    modImplementation("maven.modrinth:embeddium:${rootProject.embeddium_version}")
 }
 
 processResources {

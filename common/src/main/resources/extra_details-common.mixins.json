@@ -11,10 +11,19 @@
 		"client.LevelMixin",
 		"client.LevelRendererMixin",
 		"client.RenderChunkMixin",
-		"client.RenderChunkRegionMixin"
+		"client.RenderChunkRegionMixin",
+		"sodium.client.BuiltSectionInfoBuilderMixin",
+		"sodium.client.BuiltSectionInfoMixin",
+		"sodium.client.ChunkBuilderMeshingTaskMixin",
+		"sodium.client.ClonedChunkSectionMixin",
+		"sodium.client.RenderSectionMixin",
+		"sodium.client.SodiumLevelRendererMixin",
+		"sodium.client.SodiumWorldRendererAccessor",
+		"sodium.client.WorldSliceMixin"
 	],
 	"mixins": [
 	],
+	"plugin": "me.pandamods.extra_details.ExtraDetailsMixinPlugin",
 	"injectors": {
 		"defaultRequire": 1
 	}

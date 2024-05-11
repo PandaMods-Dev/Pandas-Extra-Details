@@ -7,6 +7,7 @@
   ],
   "mixins": [
   ],
+	"plugin": "me.pandamods.extra_details.ExtraDetailsMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }

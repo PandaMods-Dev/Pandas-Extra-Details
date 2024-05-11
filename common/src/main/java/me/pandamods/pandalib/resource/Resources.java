@@ -18,14 +18,11 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
-import org.lwjgl.PointerBuffer;
-import org.lwjgl.assimp.AIMesh;
+import org.lwjgl.assimp.AIAnimation;
 import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.Assimp;
 import org.slf4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -34,12 +31,9 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
-import java.util.regex.Pattern;
 
 public class Resources implements PreparableReloadListener {
 	private static final Logger LOGGER = LogUtils.getLogger();
-	private static final String SUPPORTED_ARMATURE_VERSION = "0.2";
-	private static final String SUPPORTED_ANIMATION_VERSION = "0.2";
 
 	public static final Gson GSON = new GsonBuilder()
 			.registerTypeAdapter(Vector2fc.class, new Vector2fTypeAdapter())
@@ -51,8 +45,7 @@ public class Resources implements PreparableReloadListener {
 	private static final List<ResourceLocation> missingResources = new ObjectArrayList<>();
 
 	public Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
-	public Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
-	public Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
+	public Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 
 	public static Mesh getMesh(ResourceLocation resourceLocation) {
 		Mesh meshData = ExtraDetails.resources.meshes.get(resourceLocation);
@@ -70,40 +63,25 @@ public class Resources implements PreparableReloadListener {
 												   ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 												   Executor backgroundExecutor, Executor gameExecutor) {
 		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
-		Map<ResourceLocation, ArmatureData> armatures = new Object2ObjectOpenHashMap<>();
-		Map<ResourceLocation, AnimationData> animations = new Object2ObjectOpenHashMap<>();
+		Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 		return CompletableFuture.allOf(
- 				loadMesh("pandalib/meshes", backgroundExecutor, resourceManager, meshes::put),
-				load("pandalib/armatures", SUPPORTED_ARMATURE_VERSION, ArmatureData.class, backgroundExecutor,
-						resourceManager, armatures::put),
-				load("pandalib/animations", SUPPORTED_ANIMATION_VERSION, AnimationData.class, backgroundExecutor,
-						resourceManager, animations::put)
+ 				loadMeshes(backgroundExecutor, resourceManager, meshes::put),
+ 				loadAnimations(backgroundExecutor, resourceManager, animations::put)
 		).thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor)
-				.thenAcceptAsync(unused -> this.armatures = armatures, gameExecutor)
 				.thenAcceptAsync(unused -> this.animations = animations, gameExecutor);
 	}
-	private CompletableFuture<Void> loadMesh(String directory, Executor executor,
-										  ResourceManager resourceManager, BiConsumer<ResourceLocation, Mesh> map) {
-		return CompletableFuture.supplyAsync(() -> resourceManager.listResources(directory, resource -> true), executor)
-				.thenApplyAsync(resources -> {
-					Map<ResourceLocation, CompletableFuture<Mesh>> tasks = new Object2ObjectOpenHashMap<>();
 
-					for (ResourceLocation resource : resources.keySet()) {
-						try (InputStream inputStream = resourceManager.getResourceOrThrow(resource).open()) {
-							byte[] bytes = inputStream.readAllBytes();
-							ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
-							buffer.put(bytes);
-							buffer.flip();
-							AIScene aiScene = Assimp.aiImportFileFromMemory(buffer,
-									Assimp.aiProcess_Triangulate | Assimp.aiProcess_JoinIdenticalVertices, "");
-							if (aiScene != null)
-								tasks.put(resource, CompletableFuture.supplyAsync(() -> new Mesh(aiScene), executor));
-						}
-						catch (Exception e) {
-							LOGGER.error("Couldn't load '{}'", resource.toString(), e);
-							throw new RuntimeException(new FileNotFoundException(resource.toString()));
-						}
+	private CompletableFuture<Void> loadMeshes(
+			Executor executor, ResourceManager resourceManager, BiConsumer<ResourceLocation, Mesh> map) {
+		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/meshes", resource -> true), executor)
+				.thenApplyAsync(resources -> {
+					Map<ResourceLocation, CompletableFuture<Mesh>> tasks = new HashMap<>();
+
+					for (ResourceLocation resourceLocation : resources.keySet()) {
+						AIScene scene = loadAssimp(resourceManager, resourceLocation);
+						if (scene != null && scene.mNumMeshes() > 0)
+							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Mesh(scene), executor));
 					}
 					return tasks;
 				}, executor).thenAcceptAsync(resource -> {
@@ -111,6 +89,43 @@ public class Resources implements PreparableReloadListener {
 						map.accept(entry.getKey(), entry.getValue().join());
 					}
 				}, executor);
+	}
+
+	private CompletableFuture<Void> loadAnimations(
+			Executor executor, ResourceManager resourceManager, BiConsumer<ResourceLocation, Animation> map) {
+		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/animations", resource -> true), executor)
+				.thenApplyAsync(resources -> {
+					Map<ResourceLocation, CompletableFuture<Animation>> tasks = new HashMap<>();
+
+					for (ResourceLocation resourceLocation : resources.keySet()) {
+						AIScene scene = loadAssimp(resourceManager, resourceLocation);
+
+						for (int i = 0; i < scene.mNumAnimations(); i++) {
+							AIAnimation animation = AIAnimation.create(scene.mAnimations().get(i));
+
+							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Animation(animation), executor));
+						}
+					}
+					return tasks;
+				}, executor).thenAcceptAsync(resource -> {
+					for (Map.Entry<ResourceLocation, CompletableFuture<Animation>> entry : resource.entrySet()) {
+						map.accept(entry.getKey(), entry.getValue().join());
+					}
+				}, executor);
+	}
+
+	private AIScene loadAssimp(ResourceManager resourceManager, ResourceLocation resourceLocation) {
+		try (InputStream inputStream = resourceManager.getResourceOrThrow(resourceLocation).open()) {
+			byte[] bytes = inputStream.readAllBytes();
+			ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
+			buffer.put(bytes);
+			buffer.flip();
+			return Assimp.aiImportFileFromMemory(buffer,
+					Assimp.aiProcess_Triangulate | Assimp.aiProcess_JoinIdenticalVertices, "");
+		}
+		catch (Exception e) {
+			throw new RuntimeException(new FileNotFoundException(resourceLocation.toString()));
+		}
 	}
 
 	private <C> CompletableFuture<Void> load(String directory, String formatVersion, Class<C> resourceDataClass,
