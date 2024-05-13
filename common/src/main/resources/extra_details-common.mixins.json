@@ -8,11 +8,12 @@
 		"client.CompiledChunkMixin",
 		"client.CompileResultsMixin",
 		"client.LevelRendererMixin",
+		"nvidium.client.LevelRendererMixin",
 		"sodium.client.BuiltSectionInfoBuilderMixin",
 		"sodium.client.BuiltSectionInfoMixin",
 		"sodium.client.ChunkBuilderMeshingTaskMixin",
+		"sodium.client.LevelRendererMixin",
 		"sodium.client.RenderSectionMixin",
-		"sodium.client.SodiumLevelRendererMixin",
 		"sodium.client.SodiumWorldRendererAccessor"
 	],
 	"mixins": [

@@ -1,8 +1,10 @@
-package me.pandamods.extra_details.mixin.sodium.client;
+package me.pandamods.extra_details.mixin.nvidium.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import me.cortex.nvidium.NvidiumWorldRenderer;
+import me.cortex.nvidium.sodiumCompat.INvidiumWorldRendererGetter;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
@@ -12,8 +14,8 @@ import me.jellysquid.mods.sodium.client.util.iterator.ByteIterator;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
 import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
+import me.pandamods.extra_details.mixin.sodium.client.SodiumWorldRendererAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
@@ -30,7 +32,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 @Mixin(LevelRenderer.class)
-public class SodiumLevelRendererMixin {
+public class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
 	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
@@ -66,23 +68,10 @@ public class SodiumLevelRendererMixin {
 							@Local(ordinal = 0) double camX, @Local(ordinal = 1) double camY, @Local(ordinal = 2) double camZ,
 							@Local MultiBufferSource.BufferSource bufferSource) {
 		SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
-		RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) sodiumWorld).getRenderSectionManager();
-		Iterator<ChunkRenderList> iterator = renderSectionManager.getRenderLists().iterator();
-		while (iterator.hasNext()) {
-			ChunkRenderList renderList = iterator.next();
-
-			RenderRegion renderRegion = renderList.getRegion();
-			ByteIterator renderSectionIterator = renderList.sectionsWithEntitiesIterator();
-
-			if (renderSectionIterator == null) continue;
-
-			while (renderSectionIterator.hasNext()) {
-				int renderSectionId = renderSectionIterator.nextByteAsInt();
-				RenderSection renderSection = renderRegion.getSection(renderSectionId);
-
-				edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ, (CompiledChunkExtension) renderSection,
-						this.renderBuffers, bufferSource, this.destructionProgress);
-			}
+		NvidiumWorldRenderer nvidiumWorld = ((INvidiumWorldRendererGetter) sodiumWorld).getRenderer();
+		for (RenderSection renderSection : nvidiumWorld.getSectionsWithEntities()) {
+			edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ, (CompiledChunkExtension) renderSection,
+					this.renderBuffers, bufferSource, this.destructionProgress);
 		}
 	}
 }

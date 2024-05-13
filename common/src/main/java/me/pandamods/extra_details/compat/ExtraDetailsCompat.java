@@ -6,4 +6,8 @@ public class ExtraDetailsCompat {
 	public static boolean isSodiumLoaded() {
 		return Platform.isModLoaded("sodium") || Platform.isModLoaded("rubidium") || Platform.isModLoaded("embeddium");
 	}
+
+	public static boolean isNvidiumLoaded() {
+		return Platform.isModLoaded("nvidium");
+	}
 }

@@ -78,7 +78,7 @@ public class ExtraDetailsLevelRenderer {
 		}
 	}
 
-	public void compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
+	public void  compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
 		blockPos = blockPos.immutable();
 		BlockState blockState = blockGetter.getBlockState(blockPos);
 
