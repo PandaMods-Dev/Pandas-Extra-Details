@@ -9,26 +9,37 @@
 [![Cloth Config](https://img.shields.io/badge/Cloth%20Config-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 [![Fabric API](https://img.shields.io/badge/Fabric%20API-REQUIRED%20for%20Fabric-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
-## About:
+## About
 This mod aims to add small animations and details to blocks that originally didn't have them.
 
-## Showcase:
+## **❗Important❗**
+Some large structures can cause performance issues, because of the large amount of block getting rendered.
+
+If you might know how i can prevent this issue or at least reduce it. 
+please either open a [pull request](https://github.com/PandaDap2006/Pandas-Extra-Details/pulls) with a fix or an [issue](https://github.com/PandaDap2006/Pandas-Extra-Details/issues) with your idea.
+
+## Showcase
 ![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
 ![Trap Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_trap_door_animation.gif?raw=true)
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
+## Compatibilities
+* [Sodium](https://modrinth.com/mod/sodium) 0.5.8
+  * [Rubidium](https://www.curseforge.com/minecraft/mc-mods/rubidium) 0.7.1
+  * [Embeddium](https://www.curseforge.com/minecraft/mc-mods/embeddium) 0.3.18
+* [Nvidium](https://modrinth.com/mod/nvidium) 0.2.6
+
 ## Incompatibilities
 * Optifine (I will not make support)
 * Enhanced Block entities
-* Nvidium
 
-## FAQ:
+## FAQ
 * [Q] Is this mod Client side.
-  * [A] Yes this mod is a 100% client side.
+  * [A] Yes this mod is a 100% client side and should only be installed on the client.
 * [Q] Are there any plans to add more features to the mod in the future.
-  * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them my discord server [here](https://discord.gg/wjPt4vEfXb)
-* [Q] Does this mod support resource packs.
-  * [A] Yes but it won't support custom vanilla models for blocks that are changed by the mod.
+  * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
+* [Q] Does this mod support Resource packs.
+  * [A] Only Resource packs that only changes the textures or are made for the mod works.
 
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and sign up, you can also use my code to get 15% off you first month at Kinetic Hosting.
