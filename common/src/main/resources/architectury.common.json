@@ -2,6 +2,8 @@
   "accessWidener": "extra_details.accesswidener",
 	"injected_interfaces": {
 		"net/minecraft/class_846$class_851$class_4578$class_7435": ["me/pandamods/extra_details/api/extensions/CompileResultsExtension"],
-		"net/minecraft/class_846$class_849": ["me/pandamods/extra_details/api/extensions/CompiledChunkExtension"]
+		"net/minecraft/class_846$class_849": ["me/pandamods/extra_details/api/extensions/CompiledChunkExtension"],
+		"net/minecraft/class_1937": ["me/pandamods/extra_details/api/extensions/LevelExtension"],
+		"net/minecraft/class_2818": ["me/pandamods/extra_details/api/extensions/LevelChunkExtension"]
 	}
 }

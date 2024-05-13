@@ -65,7 +65,7 @@ public class ExtraDetailsLevelRenderer {
 				}
 			}
 
-			renderer.render(poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
+			renderer.render(blockPos, this.level, poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
 			poseStack.popPose();
 		}
 	}
@@ -78,12 +78,13 @@ public class ExtraDetailsLevelRenderer {
 		}
 	}
 
-	public void  compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
+	public void compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
 		blockPos = blockPos.immutable();
 		BlockState blockState = blockGetter.getBlockState(blockPos);
 
 		BlockRenderer renderer = BlockRendererRegistry.get(blockState.getBlock());
-		if (renderer != null)
+		if (renderer != null) {
 			chunk.getRenderableBlocks().add(blockPos);
+		}
 	}
 }

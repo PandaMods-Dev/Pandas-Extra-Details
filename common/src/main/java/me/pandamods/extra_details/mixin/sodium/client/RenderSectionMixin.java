@@ -34,7 +34,7 @@ public abstract class RenderSectionMixin implements CompiledChunkExtension {
 
 	@Inject(method = "setRenderState", at = @At("RETURN"))
 	public void setRenderState(BuiltSectionInfo info, CallbackInfo ci) {
-		this.getRenderableBlocks().addAll(((CompileResultsExtension) info).getRenderableBlocks());
+		this.renderableBlocks = ((CompileResultsExtension) info).getRenderableBlocks();
 		if (!this.getRenderableBlocks().isEmpty())
 			this.flags |= 2;
 	}
