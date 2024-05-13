@@ -5,45 +5,32 @@ import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityRegistry;
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntityType;
-import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
-import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderer;
 import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
 import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
+import me.pandamods.extra_details.api.render.BlockRenderer;
+import me.pandamods.extra_details.api.render.BlockRendererRegistry;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
-import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
-import java.util.List;
 import java.util.SortedSet;
 
 public class ExtraDetailsLevelRenderer {
 	private final Minecraft minecraft = Minecraft.getInstance();
-	private final ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher;
 	private ClientLevel level = null;
 	private LevelRenderer levelRenderer;
-
-	public ExtraDetailsLevelRenderer(ClientBlockEntityRenderDispatcher clientBlockEntityRenderDispatcher) {
-		this.clientBlockEntityRenderDispatcher = clientBlockEntityRenderDispatcher;
-	}
 
 	public void prepareRender(LevelRenderer levelRenderer, PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline,
 							  Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix) {
 		this.levelRenderer = levelRenderer;
-		this.clientBlockEntityRenderDispatcher.prepare(this.level, camera, this.minecraft.hitResult);
 	}
 
 	public void setLevel(ClientLevel level) {
@@ -54,9 +41,9 @@ public class ExtraDetailsLevelRenderer {
 										  CompiledChunkExtension compiledChunk,
 										  RenderBuffers renderBuffers, MultiBufferSource bufferSource,
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
-		List<ClientBlockEntity> blockEntities = compiledChunk.getClientBlockEntities();
-		for (ClientBlockEntity blockEntity : blockEntities) {
-			BlockPos blockPos = blockEntity.getBlockPos();
+		for (BlockPos blockPos : compiledChunk.getRenderableBlocks()) {
+			BlockRenderer renderer = BlockRendererRegistry.get(this.level.getBlockState(blockPos).getBlock());
+			if (renderer == null) return;
 
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
@@ -78,38 +65,25 @@ public class ExtraDetailsLevelRenderer {
 				}
 			}
 
-			clientBlockEntityRenderDispatcher.render(blockEntity, partialTick, poseStack, bufferSource);
+			renderer.render(poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
 			poseStack.popPose();
 		}
 	}
 
-	public void compileChunk(CompileResultsExtension compileResults, BlockGetter blockGetter, BlockPos blockPos) {
-		ClientLevel level = Minecraft.getInstance().level;
-		if (level == null) return;
-		if (blockGetter != null) {
-			blockPos = blockPos.immutable();
-			BlockState blockState = blockGetter.getBlockState(blockPos);
-
-			ClientBlockEntityType<?> blockEntityType = ClientBlockEntityRegistry.get(blockState);
-			ClientBlockEntity blockEntity = blockGetter.getClientBlockEntity(blockPos);
-
-			if (blockEntity != null && !blockEntity.getType().isValid(blockState)) {
-				blockEntity = null;
-				level.removeClientBlockEntity(blockPos);
-			}
-
-			if (blockEntity == null && blockEntityType != null) {
-				blockEntity = blockEntityType.create(blockPos, blockState);
-				level.setClientBlockEntity(blockEntity);
-			}
-
-			if (blockEntity != null) {
-				blockEntity.setBlockState(blockState);
-				ClientBlockEntityRenderer<ClientBlockEntity> blockEntityRenderer = ExtraDetails.blockRenderDispatcher.getRenderer(blockEntity);
-				if (blockEntityRenderer != null) {
-					compileResults.getClientBlockEntities().add(blockEntity);
-				}
-			}
+	private int getLightColor(Level level, BlockPos blockPos) {
+		if (level != null) {
+			return LevelRenderer.getLightColor(level, blockPos);
+		} else {
+			return  0xF000F0;
 		}
+	}
+
+	public void compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
+		blockPos = blockPos.immutable();
+		BlockState blockState = blockGetter.getBlockState(blockPos);
+
+		BlockRenderer renderer = BlockRendererRegistry.get(blockState.getBlock());
+		if (renderer != null)
+			chunk.getRenderableBlocks().add(blockPos);
 	}
 }

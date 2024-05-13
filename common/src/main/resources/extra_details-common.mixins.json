@@ -7,19 +7,13 @@
 		"client.ChunkRenderDispatcherRenderChunkMixin",
 		"client.CompiledChunkMixin",
 		"client.CompileResultsMixin",
-		"client.LevelChunkMixin",
-		"client.LevelMixin",
 		"client.LevelRendererMixin",
-		"client.RenderChunkMixin",
-		"client.RenderChunkRegionMixin",
 		"sodium.client.BuiltSectionInfoBuilderMixin",
 		"sodium.client.BuiltSectionInfoMixin",
 		"sodium.client.ChunkBuilderMeshingTaskMixin",
-		"sodium.client.ClonedChunkSectionMixin",
 		"sodium.client.RenderSectionMixin",
 		"sodium.client.SodiumLevelRendererMixin",
-		"sodium.client.SodiumWorldRendererAccessor",
-		"sodium.client.WorldSliceMixin"
+		"sodium.client.SodiumWorldRendererAccessor"
 	],
 	"mixins": [
 	],

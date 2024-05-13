@@ -1,12 +1,12 @@
 package me.pandamods.extra_details.api.extensions;
 
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
+import net.minecraft.core.BlockPos;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface CompileResultsExtension {
-	default List<ClientBlockEntity> getClientBlockEntities() {
-		return new ArrayList<>();
+	default Set<BlockPos> getRenderableBlocks() {
+		return new HashSet<>();
 	}
 }

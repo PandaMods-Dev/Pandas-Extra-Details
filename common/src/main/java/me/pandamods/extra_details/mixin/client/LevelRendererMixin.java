@@ -2,33 +2,20 @@ package me.pandamods.extra_details.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
-import me.pandamods.extra_details.api.clientblockentity.ClientBlockEntity;
-import me.pandamods.extra_details.api.clientblockentity.renderer.ClientBlockEntityRenderDispatcher;
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
-import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
 import java.util.SortedSet;
 
 @Mixin(LevelRenderer.class)

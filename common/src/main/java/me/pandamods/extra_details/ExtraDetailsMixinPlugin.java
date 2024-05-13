@@ -27,10 +27,8 @@ public class ExtraDetailsMixinPlugin implements IMixinConfigPlugin {
 				 "me.pandamods.extra_details.mixin.sodium.client.SodiumWorldRendererAccessor",
 				 "me.pandamods.extra_details.mixin.sodium.client.BuiltSectionInfoMixin",
 				 "me.pandamods.extra_details.mixin.sodium.client.ChunkBuilderMeshingTaskMixin",
-				 "me.pandamods.extra_details.mixin.sodium.client.ClonedChunkSectionMixin",
 				 "me.pandamods.extra_details.mixin.sodium.client.RenderSectionMixin",
-				 "me.pandamods.extra_details.mixin.sodium.client.SodiumLevelRendererMixin",
-				 "me.pandamods.extra_details.mixin.sodium.client.WorldSliceMixin" -> ExtraDetailsCompat.isSodiumLoaded();
+				 "me.pandamods.extra_details.mixin.sodium.client.SodiumLevelRendererMixin" -> ExtraDetailsCompat.isSodiumLoaded();
 			default -> true;
 		};
 	}
