@@ -26,9 +26,12 @@ public class LeverRenderer implements BlockRenderer {
 		poseStack.mulPose(Axis.XP.rotationDegrees(-90));
 
 		LeverData data = level.extraDetails$getBlockData(blockPos, LeverData::new);
-		poseStack.mulPose(Axis.XP.rotationDegrees(data.value += RenderUtils.getDeltaSeconds()));
-
 		Mesh mesh = Resources.getMesh(new ResourceLocation("extra_details", "pandalib/meshes/block/redstone/lever.fbx"));
+
+		data.value += RenderUtils.getDeltaSeconds();
+		Mesh.Bone bone = mesh.getBone("handle");
+		bone.localMatrix.setRotationXYZ((float) Math.toRadians(data.value), 0, 0);
+
 		TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(new ResourceLocation("textures/atlas/blocks.png"));
 		mesh.render(poseStack.last().pose(), poseStack.last().normal(), OverlayTexture.NO_OVERLAY, lightColor, s -> new PLSpriteCoordinateExpander(
 				bufferSource.getBuffer(PLRenderTypes.cutoutTriangular()),
