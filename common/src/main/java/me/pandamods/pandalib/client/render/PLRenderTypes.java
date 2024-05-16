@@ -37,6 +37,19 @@ public class PLRenderTypes extends RenderType {
 		return CUTOUT_TRIANGULAR;
 	}
 
+	private static final RenderType MESH = RenderType.create("mesh",
+			DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 131072, true, false,
+			CompositeState.builder()
+					.setLightmapState(LIGHTMAP)
+					.setShaderState(TRIANGULAR_SHADER)
+					.setTextureState(BLOCK_SHEET)
+					.createCompositeState(true)
+	);
+
+	public static RenderType mesh() {
+		return CUTOUT_TRIANGULAR;
+	}
+
 	public PLRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling,
 						 boolean sortOnUpload, Runnable setupState, Runnable clearState) {
 		super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);

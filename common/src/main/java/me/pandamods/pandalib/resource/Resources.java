@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
@@ -31,6 +32,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Resources implements PreparableReloadListener {
 	private static final Logger LOGGER = LogUtils.getLogger();
@@ -62,18 +64,21 @@ public class Resources implements PreparableReloadListener {
 	public @NotNull CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
 												   ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
 												   Executor backgroundExecutor, Executor gameExecutor) {
+		List<AIScene> scenes = new ObjectArrayList<>();
+
 		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 		return CompletableFuture.allOf(
- 				loadMeshes(backgroundExecutor, resourceManager, meshes::put),
- 				loadAnimations(backgroundExecutor, resourceManager, animations::put)
+ 				loadMeshes(backgroundExecutor, resourceManager, scenes::add, meshes::put),
+ 				loadAnimations(backgroundExecutor, resourceManager, scenes::add, animations::put)
 		).thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor)
-				.thenAcceptAsync(unused -> this.animations = animations, gameExecutor);
+				.thenAcceptAsync(unused -> this.animations = animations, gameExecutor)
+				.thenAcceptAsync(unused -> scenes.forEach(Assimp::aiReleaseImport));
 	}
 
-	private CompletableFuture<Void> loadMeshes(
-			Executor executor, ResourceManager resourceManager, BiConsumer<ResourceLocation, Mesh> map) {
+	private CompletableFuture<Void> loadMeshes(Executor executor, ResourceManager resourceManager,
+			Consumer<AIScene> addScene, BiConsumer<ResourceLocation, Mesh> map) {
 		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/meshes", resource -> true), executor)
 				.thenApplyAsync(resources -> {
 					Map<ResourceLocation, CompletableFuture<Mesh>> tasks = new HashMap<>();
@@ -82,6 +87,7 @@ public class Resources implements PreparableReloadListener {
 						AIScene scene = loadAssimp(resourceManager, resourceLocation);
 						if (scene != null && scene.mNumMeshes() > 0)
 							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Mesh(scene), executor));
+						addScene.accept(scene);
 					}
 					return tasks;
 				}, executor).thenAcceptAsync(resource -> {
@@ -91,8 +97,8 @@ public class Resources implements PreparableReloadListener {
 				}, executor);
 	}
 
-	private CompletableFuture<Void> loadAnimations(
-			Executor executor, ResourceManager resourceManager, BiConsumer<ResourceLocation, Animation> map) {
+	private CompletableFuture<Void> loadAnimations(Executor executor, ResourceManager resourceManager,
+												   Consumer<AIScene> addScene, BiConsumer<ResourceLocation, Animation> map) {
 		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/animations", resource -> true), executor)
 				.thenApplyAsync(resources -> {
 					Map<ResourceLocation, CompletableFuture<Animation>> tasks = new HashMap<>();
@@ -105,6 +111,7 @@ public class Resources implements PreparableReloadListener {
 
 							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Animation(animation), executor));
 						}
+						addScene.accept(scene);
 					}
 					return tasks;
 				}, executor).thenAcceptAsync(resource -> {

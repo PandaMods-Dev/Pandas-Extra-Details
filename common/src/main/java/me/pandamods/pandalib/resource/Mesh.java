@@ -1,22 +1,22 @@
 package me.pandamods.pandalib.resource;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.*;
 import org.lwjgl.assimp.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 public class Mesh {
 	private final Object[] objects;
-	private final Bone[] bones;
+//	private final Bone rootBone;
+	private final Map<String, Bone> bones = new Object2ObjectOpenHashMap<>();
 
 	public Mesh(AIScene scene) {
 		List<Object> objects = new ArrayList<>();
-		Map<String, Bone> bones = new HashMap<>();
+//		this.rootBone = scene.mRootNode() == null ? null : createBone(scene.mRootNode(), null);
 
 		for (int i = 0; i < scene.mNumMeshes(); i++) {
 			AIMesh mesh = AIMesh.create(scene.mMeshes().get(i));
@@ -26,11 +26,26 @@ public class Mesh {
 			Assimp.aiGetMaterialString(material, Assimp.AI_MATKEY_NAME, Assimp.aiTextureType_NONE, 0, materialName);
 			String materialNameStr = materialName.dataString();
 
-			objects.add(new Object(mesh, materialNameStr, bones));
+			objects.add(new Object(mesh, materialNameStr));
 		}
 
 		this.objects = objects.toArray(new Object[0]);
-		this.bones = bones.values().toArray(new Bone[0]);
+	}
+
+	private void processBone(AIBone aiBone) {
+		String name = aiBone.mName().dataString();
+		Bone parent = aiBone.mNode().mParent() != null ?
+				bones.get(aiBone.mNode().mParent().mName().dataString()) : null;
+
+		AIMatrix4x4 matrix = aiBone.mOffsetMatrix();
+		Bone bone = new Bone(name, new Matrix4f(
+				matrix.a1(), matrix.a2(), matrix.a3(), matrix.a4(),
+				matrix.b1(), matrix.b2(), matrix.b3(), matrix.b4(),
+				matrix.c1(), matrix.c2(), matrix.c3(), matrix.c4(),
+				matrix.d1(), matrix.d2(), matrix.d3(), matrix.d4()
+		), parent);
+
+		bones.put(name, bone);
 	}
 
 	public void render(Matrix4f worldMatrix, Matrix3f normalMatrix, int overlayUV, int lightmapUV,
@@ -41,10 +56,7 @@ public class Mesh {
 	}
 
 	public Bone getBone(String name) {
-		for (Bone bone : bones) {
-			if (bone.name.equals(name)) return bone;
-		}
-		return null;
+		return bones.get(name);
 	}
 
 	public class Object {
@@ -55,7 +67,7 @@ public class Mesh {
 		private final Weight[] weights;
 		private final String materialName;
 
-		public Object(AIMesh mesh, String materialName, Map<String, Bone> bones) {
+		public Object(AIMesh mesh, String materialName) {
 			List<Integer> indices = new ArrayList<>();
 			List<Float> vertices = new ArrayList<>();
 			List<Float> uvs = new ArrayList<>();
@@ -63,8 +75,8 @@ public class Mesh {
 			List<Weight> weights = new ArrayList<>();
 
 			for (AIFace face : mesh.mFaces()) {
-				for (int i1 = 0; i1 < face.mNumIndices(); i1++) {
-					indices.add(face.mIndices().get(i1));
+				for (int i = 0; i < face.mNumIndices(); i++) {
+					indices.add(face.mIndices().get(i));
 				}
 			}
 
@@ -87,9 +99,8 @@ public class Mesh {
 
 			for (int i = 0; i < mesh.mNumBones(); i++) {
 				AIBone bone = AIBone.create(mesh.mBones().get(i));
+				processBone(bone);
 				String name = bone.mName().dataString();
-				if (!bones.containsKey(name))
-					bones.put(name, new Bone(bone, bones));
 				for (AIVertexWeight mWeight : bone.mWeights()) {
 					weights.add(new Weight(name, mWeight.mVertexId(), mWeight.mWeight()));
 				}
@@ -130,28 +141,27 @@ public class Mesh {
 					float finalPosZ = 0;
 					normalRotation.identity();
 					for (Weight weight : weights) {
-						for (Bone bone : bones) {
-							if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
-							float weightValue = weight.value;
+						Bone bone = getBone(weight.boneName);
+						if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
+						float weightValue = weight.value;
 
-							offsetMatrix.set(bone.offsetMatrix);
-							globalMatrix.set(bone.getGlobalMatrix());
-							globalMatrix.mul(offsetMatrix.invert());
+						offsetMatrix.set(bone.offsetMatrix);
+						globalMatrix.set(bone.getGlobalMatrix());
+						globalMatrix.mul(offsetMatrix.invert());
 
-							transformedPosition.set(posX, posY, posZ);
-							globalMatrix.transformPosition(transformedPosition);
+						transformedPosition.set(posX, posY, posZ);
+						globalMatrix.transformPosition(transformedPosition);
 
-							transformedPosition.mul(weightValue);
-							finalPosX += transformedPosition.x;
-							finalPosY += transformedPosition.y;
-							finalPosZ += transformedPosition.z;
+						transformedPosition.mul(weightValue);
+						finalPosX += transformedPosition.x;
+						finalPosY += transformedPosition.y;
+						finalPosZ += transformedPosition.z;
 
-							transformedNormalRotation.set(normalRotation);
-							globalMatrix.rotate(transformedNormalRotation);
+						transformedNormalRotation.set(normalRotation);
+						globalMatrix.rotate(transformedNormalRotation);
 
-							transformedNormalRotation.mul(weightValue);
-							normalRotation.mul(transformedNormalRotation);
-						}
+						transformedNormalRotation.mul(weightValue);
+						normalRotation.mul(transformedNormalRotation);
 					}
 					posX = finalPosX;
 					posY = finalPosY;
@@ -172,26 +182,20 @@ public class Mesh {
 
 	public class Bone {
 		private final String name;
-		private Bone parent;
+		private final Bone parent;
+		private List<Bone> children = new ObjectArrayList<>();
 
-		private final Matrix4f globalMatrix = new Matrix4f().identity();
 		private final Matrix4fc offsetMatrix;
+		private final Matrix4f globalMatrix = new Matrix4f().identity();
 		public final Matrix4f localMatrix = new Matrix4f().identity();
 
-		public Bone(AIBone bone, Map<String, Bone> bones) {
-			AIMatrix4x4 offsetMatrix = bone.mOffsetMatrix();
+		public Bone(String name, Matrix4f offsetMatrix, Bone parent) {
+			this.name = name;
+			this.parent = parent;
+			this.offsetMatrix = offsetMatrix;
 
-			this.name = bone.mName().dataString();
-			if (bone.mNode().mParent() != null)
-				this.parent = bones.get(bone.mNode().mParent().mName().dataString());
-			else
-				this.parent = null;
-			this.offsetMatrix = new Matrix4f(
-					offsetMatrix.a1(), offsetMatrix.a2(), offsetMatrix.a3(), offsetMatrix.a4(),
-					offsetMatrix.b1(), offsetMatrix.b2(), offsetMatrix.b3(), offsetMatrix.b4(),
-					offsetMatrix.c1(), offsetMatrix.c2(), offsetMatrix.c3(), offsetMatrix.c4(),
-					offsetMatrix.d1(), offsetMatrix.d2(), offsetMatrix.d3(), offsetMatrix.d4()
-			);
+			if (parent != null)
+				parent.children.add(this);
 		}
 
 		public Bone getParent() {

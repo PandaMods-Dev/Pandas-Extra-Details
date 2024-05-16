@@ -34,7 +34,7 @@ public class LeverRenderer implements BlockRenderer {
 
 		TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(new ResourceLocation("textures/atlas/blocks.png"));
 		mesh.render(poseStack.last().pose(), poseStack.last().normal(), OverlayTexture.NO_OVERLAY, lightColor, s -> new PLSpriteCoordinateExpander(
-				bufferSource.getBuffer(PLRenderTypes.cutoutTriangular()),
+				bufferSource.getBuffer(PLRenderTypes.mesh()),
 				atlas.getSprite(new ResourceLocation("block/" + s))
 		));
 		poseStack.popPose();
