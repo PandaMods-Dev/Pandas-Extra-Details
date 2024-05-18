@@ -11,12 +11,10 @@ import java.util.function.Function;
 
 public class Mesh {
 	private final Object[] objects;
-//	private final Bone rootBone;
 	private final Map<String, Bone> bones = new Object2ObjectOpenHashMap<>();
 
 	public Mesh(AIScene scene) {
 		List<Object> objects = new ArrayList<>();
-//		this.rootBone = scene.mRootNode() == null ? null : createBone(scene.mRootNode(), null);
 
 		for (int i = 0; i < scene.mNumMeshes(); i++) {
 			AIMesh mesh = AIMesh.create(scene.mMeshes().get(i));
@@ -39,10 +37,10 @@ public class Mesh {
 
 		AIMatrix4x4 matrix = aiBone.mOffsetMatrix();
 		Bone bone = new Bone(name, new Matrix4f(
-				matrix.a1(), matrix.a2(), matrix.a3(), matrix.a4(),
-				matrix.b1(), matrix.b2(), matrix.b3(), matrix.b4(),
-				matrix.c1(), matrix.c2(), matrix.c3(), matrix.c4(),
-				matrix.d1(), matrix.d2(), matrix.d3(), matrix.d4()
+				matrix.a1(), matrix.b1(), matrix.c1(), matrix.d1(),
+				matrix.a2(), matrix.b2(), matrix.c2(), matrix.d2(),
+				matrix.a3(), matrix.b3(), matrix.c3(), matrix.d3(),
+				matrix.a4(), matrix.b4(), matrix.c4(), matrix.d4()
 		), parent);
 
 		bones.put(name, bone);
@@ -115,11 +113,7 @@ public class Mesh {
 		}
 
 		private void render(VertexConsumer vertexConsumer, Matrix4f worldMatrix, Matrix3f normalMatrix, int overlayUV, int lightmapUV) {
-			Matrix4f offsetMatrix = new Matrix4f();
-			Matrix4f globalMatrix = new Matrix4f();
-
 			Vector3f transformedPosition = new Vector3f();
-
 			Quaternionf normalRotation = new Quaternionf();
 			Quaternionf transformedNormalRotation = new Quaternionf();
 
@@ -145,12 +139,9 @@ public class Mesh {
 						if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
 						float weightValue = weight.value;
 
-						offsetMatrix.set(bone.offsetMatrix);
-						globalMatrix.set(bone.getGlobalMatrix());
-						globalMatrix.mul(offsetMatrix.invert());
-
 						transformedPosition.set(posX, posY, posZ);
-						globalMatrix.transformPosition(transformedPosition);
+						bone.getGlobalMatrix(true).transformPosition(transformedPosition);
+						bone.getOffsetMatrixInverse().transformPosition(transformedPosition);
 
 						transformedPosition.mul(weightValue);
 						finalPosX += transformedPosition.x;
@@ -158,7 +149,6 @@ public class Mesh {
 						finalPosZ += transformedPosition.z;
 
 						transformedNormalRotation.set(normalRotation);
-						globalMatrix.rotate(transformedNormalRotation);
 
 						transformedNormalRotation.mul(weightValue);
 						normalRotation.mul(transformedNormalRotation);
@@ -185,14 +175,18 @@ public class Mesh {
 		private final Bone parent;
 		private List<Bone> children = new ObjectArrayList<>();
 
-		private final Matrix4fc offsetMatrix;
-		private final Matrix4f globalMatrix = new Matrix4f().identity();
-		public final Matrix4f localMatrix = new Matrix4f().identity();
+		private final Matrix4f offsetMatrix;
+		private final Matrix4f offsetMatrixInverse;
+		private final Matrix4f globalMatrix;
+		private final Matrix4f localMatrix;
 
 		public Bone(String name, Matrix4f offsetMatrix, Bone parent) {
 			this.name = name;
 			this.parent = parent;
 			this.offsetMatrix = offsetMatrix;
+			this.offsetMatrixInverse = offsetMatrix.invert(new Matrix4f());
+			this.globalMatrix = new Matrix4f();
+			this.localMatrix = new Matrix4f().identity();
 
 			if (parent != null)
 				parent.children.add(this);
@@ -202,14 +196,35 @@ public class Mesh {
 			return parent;
 		}
 
-		public Matrix4fc getGlobalMatrix() {
-			this.globalMatrix.identity();
+		private void updateGlobalMatrix() {
+			globalMatrix.set(localMatrix);
+			globalMatrix.mul(offsetMatrix);
 			if (parent != null) {
-				this.globalMatrix.mul(parent.getGlobalMatrix()).mul(new Matrix4f(parent.offsetMatrix.invert(new Matrix4f())));
+				globalMatrix.mulLocal(parent.getGlobalMatrix());
 			}
-			this.globalMatrix.mul(this.offsetMatrix);
-			this.globalMatrix.mul(this.localMatrix);
-			return this.globalMatrix;
+
+			children.forEach(Bone::updateGlobalMatrix);
+		}
+
+		public Matrix4fc getGlobalMatrix() {
+			return getGlobalMatrix(false);
+		}
+
+		public Matrix4fc getGlobalMatrix(Boolean shouldCalculate) {
+			if (shouldCalculate) updateGlobalMatrix();
+			return globalMatrix;
+		}
+
+		public Matrix4f getLocalMatrix() {
+			return localMatrix;
+		}
+
+		public Matrix4fc getOffsetMatrix() {
+			return offsetMatrix;
+		}
+
+		public Matrix4fc getOffsetMatrixInverse() {
+			return offsetMatrixInverse;
 		}
 	}
 

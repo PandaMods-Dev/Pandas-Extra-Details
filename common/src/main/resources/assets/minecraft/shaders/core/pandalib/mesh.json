@@ -4,8 +4,8 @@
 		"srcrgb": "srcalpha",
 		"dstrgb": "1-srcalpha"
 	},
-	"vertex": "pandalib/rendertype_triangular",
-	"fragment": "pandalib/rendertype_triangular",
+	"vertex": "pandalib/mesh",
+	"fragment": "pandalib/mesh",
 	"attributes": [
 		"Position",
 		"Color",
