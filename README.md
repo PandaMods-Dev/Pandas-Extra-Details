@@ -6,7 +6,7 @@
 [![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Extra-Details?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Extra-Details/tree/master)
 
 [![Architecury API](https://img.shields.io/badge/Architectury%20API-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
-[![Cloth Config](https://img.shields.io/badge/Cloth%20Config-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+[![PandaLib](https://img.shields.io/badge/PandaLib-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/pandalib)
 [![Fabric API](https://img.shields.io/badge/Fabric%20API-REQUIRED%20for%20Fabric-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
 ## About
@@ -24,10 +24,10 @@ please either open a [pull request](https://github.com/PandaDap2006/Pandas-Extra
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
 
 ## Compatibilities
-* [Sodium](https://modrinth.com/mod/sodium) 0.5.8
-  * [Rubidium](https://www.curseforge.com/minecraft/mc-mods/rubidium) 0.7.1
-  * [Embeddium](https://www.curseforge.com/minecraft/mc-mods/embeddium) 0.3.18
-* [Nvidium](https://modrinth.com/mod/nvidium) 0.2.6
+* [Sodium](https://modrinth.com/mod/sodium) 0.5.8+
+  * [Rubidium](https://www.curseforge.com/minecraft/mc-mods/rubidium) 0.7.1+
+  * [Embeddium](https://www.curseforge.com/minecraft/mc-mods/embeddium) 0.3.18+
+* [Nvidium](https://modrinth.com/mod/nvidium) 0.2.6+
 
 ## Incompatibilities
 * Optifine (I will not make support)
