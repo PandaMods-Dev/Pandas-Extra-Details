@@ -45,7 +45,7 @@ dependencies {
     modRuntimeOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
 
     modCompileOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-//    modRuntimeOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
+    modRuntimeOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 }
 
 processResources {

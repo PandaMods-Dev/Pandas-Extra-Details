@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
@@ -12,6 +11,10 @@ import me.pandamods.pandalib.core.utils.typeadapter.Matrix4fTypeAdapter;
 import me.pandamods.pandalib.core.utils.typeadapter.QuaternionfTypeAdapter;
 import me.pandamods.pandalib.core.utils.typeadapter.Vector2fTypeAdapter;
 import me.pandamods.pandalib.core.utils.typeadapter.Vector3fTypeAdapter;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -19,9 +22,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
-import org.lwjgl.assimp.AIAnimation;
-import org.lwjgl.assimp.AIScene;
-import org.lwjgl.assimp.Assimp;
+import org.lwjgl.assimp.*;
 import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
@@ -50,14 +51,36 @@ public class Resources implements PreparableReloadListener {
 	public Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 
 	public static Mesh getMesh(ResourceLocation resourceLocation) {
-		Mesh meshData = ExtraDetails.resources.meshes.get(resourceLocation);
-		if (meshData == null) {
-			if (missingResources.contains(resourceLocation))
-				missingResources.add(resourceLocation);
-			else
-				LOGGER.error("Resource '{}' is missing", resourceLocation.toString());
+		return getMesh(resourceLocation, false);
+	}
+
+	public static Mesh getMesh(ResourceLocation resourceLocation, boolean allowNull) {
+		try {
+			if (!allowNull && !ExtraDetails.resources.meshes.containsKey(resourceLocation))
+				throw new ResourceLocationException(resourceLocation.toString());
+			return ExtraDetails.resources.meshes.get(resourceLocation);
+		} catch (ResourceLocationException e) {
+			throw createCrashReport(e, resourceLocation);
 		}
-		return meshData;
+	}
+
+	public static Animation getAnimation(ResourceLocation resourceLocation) {
+		return getAnimation(resourceLocation, false);
+	}
+
+	public static Animation getAnimation(ResourceLocation resourceLocation, boolean allowNull) {
+		try {
+			if (!allowNull && !ExtraDetails.resources.animations.containsKey(resourceLocation))
+				throw new ResourceLocationException(resourceLocation.toString());
+			return ExtraDetails.resources.animations.get(resourceLocation);
+		} catch (ResourceLocationException e) {
+			throw createCrashReport(e, resourceLocation);
+		}
+	}
+
+	private static RuntimeException createCrashReport(Throwable cause, ResourceLocation resourceLocation) {
+		CrashReport crashReport = CrashReport.forThrowable(cause, "Couldn't find " + resourceLocation.toString());
+    	return new ReportedException(crashReport);
 	}
 
 	@Override
@@ -68,60 +91,61 @@ public class Resources implements PreparableReloadListener {
 
 		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
-		return CompletableFuture.allOf(
- 				loadMeshes(backgroundExecutor, resourceManager, scenes::add, meshes::put),
- 				loadAnimations(backgroundExecutor, resourceManager, scenes::add, animations::put)
-		).thenCompose(preparationBarrier::wait)
-				.thenAcceptAsync(unused -> this.meshes = meshes, gameExecutor)
-				.thenAcceptAsync(unused -> this.animations = animations, gameExecutor)
-				.thenAcceptAsync(unused -> scenes.forEach(Assimp::aiReleaseImport));
+
+		return CompletableFuture.allOf(loadAssimpScene(backgroundExecutor, resourceManager, scenes::add, meshes::put, animations::put))
+				.thenCompose(preparationBarrier::wait)
+				.thenAcceptAsync(unused -> {
+					this.meshes = meshes;
+					this.animations = animations;
+					scenes.forEach(Assimp::aiReleaseImport);
+				}, gameExecutor);
 	}
 
-	private CompletableFuture<Void> loadMeshes(Executor executor, ResourceManager resourceManager,
-			Consumer<AIScene> addScene, BiConsumer<ResourceLocation, Mesh> map) {
-		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/meshes", resource -> true), executor)
+	private CompletableFuture<Void> loadAssimpScene(Executor executor, ResourceManager resourceManager,
+													Consumer<AIScene> addScene,
+													BiConsumer<ResourceLocation, Mesh> putMesh,
+													BiConsumer<ResourceLocation, Animation> putAnimation
+	) {
+		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("assimp", resource -> true), executor)
 				.thenApplyAsync(resources -> {
-					Map<ResourceLocation, CompletableFuture<Mesh>> tasks = new HashMap<>();
+					Map<ResourceLocation, CompletableFuture<AIScene>> sceneTasks = new HashMap<>();
 
 					for (ResourceLocation resourceLocation : resources.keySet()) {
-						AIScene scene = loadAssimp(resourceManager, resourceLocation);
-						if (scene != null && scene.mNumMeshes() > 0)
-							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Mesh(scene), executor));
+						AIScene scene = loadAssimpScene(resourceManager, resourceLocation);
 						addScene.accept(scene);
-					}
-					return tasks;
-				}, executor).thenAcceptAsync(resource -> {
-					for (Map.Entry<ResourceLocation, CompletableFuture<Mesh>> entry : resource.entrySet()) {
-						map.accept(entry.getKey(), entry.getValue().join());
-					}
-				}, executor);
-	}
 
-	private CompletableFuture<Void> loadAnimations(Executor executor, ResourceManager resourceManager,
-												   Consumer<AIScene> addScene, BiConsumer<ResourceLocation, Animation> map) {
-		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("pandalib/animations", resource -> true), executor)
-				.thenApplyAsync(resources -> {
-					Map<ResourceLocation, CompletableFuture<Animation>> tasks = new HashMap<>();
+						if (scene != null) sceneTasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> scene, executor));
+					}
+					return sceneTasks;
+				}, executor)
+				.thenAcceptAsync(resource -> {
+					for (Map.Entry<ResourceLocation, CompletableFuture<AIScene>> entry : resource.entrySet()) {
+						ResourceLocation resourceLocation = entry.getKey();
+						AIScene scene = entry.getValue().join();
 
-					for (ResourceLocation resourceLocation : resources.keySet()) {
-						AIScene scene = loadAssimp(resourceManager, resourceLocation);
+						List<AIMesh> meshes = new ObjectArrayList<>();
+						List<AIMaterial> materials = new ObjectArrayList<>();
+
+						for (int i = 0; i < scene.mNumMeshes(); i++)
+							meshes.add(AIMesh.create(scene.mMeshes().get(i)));
+
+						for (int i = 0; i < scene.mNumMaterials(); i++)
+							materials.add(AIMaterial.create(scene.mMaterials().get(i)));
+
+						putMesh.accept(resourceLocation, new Mesh(meshes, materials));
 
 						for (int i = 0; i < scene.mNumAnimations(); i++) {
 							AIAnimation animation = AIAnimation.create(scene.mAnimations().get(i));
+							ResourceLocation animationLocation = resourceLocation;
+							if (scene.mNumAnimations() > 1) animationLocation.withSuffix("/" + animation.mName().dataString());
 
-							tasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> new Animation(animation), executor));
+							putAnimation.accept(resourceLocation, new Animation(animation));
 						}
-						addScene.accept(scene);
-					}
-					return tasks;
-				}, executor).thenAcceptAsync(resource -> {
-					for (Map.Entry<ResourceLocation, CompletableFuture<Animation>> entry : resource.entrySet()) {
-						map.accept(entry.getKey(), entry.getValue().join());
 					}
 				}, executor);
 	}
 
-	private AIScene loadAssimp(ResourceManager resourceManager, ResourceLocation resourceLocation) {
+	private AIScene loadAssimpScene(ResourceManager resourceManager, ResourceLocation resourceLocation) {
 		try (InputStream inputStream = resourceManager.getResourceOrThrow(resourceLocation).open()) {
 			byte[] bytes = inputStream.readAllBytes();
 			ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
@@ -133,51 +157,6 @@ public class Resources implements PreparableReloadListener {
 		}
 		catch (Exception e) {
 			throw new RuntimeException(new FileNotFoundException(resourceLocation.toString()));
-		}
-	}
-
-	private <C> CompletableFuture<Void> load(String directory, String formatVersion, Class<C> resourceDataClass,
-													Executor executor, ResourceManager resourceManager,
-													BiConsumer<ResourceLocation, C> map) {
-		return CompletableFuture.supplyAsync(() ->
-				resourceManager.listResources(directory, resource ->
-						resource.getPath().endsWith(".json")), executor)
-				.thenApplyAsync(resources -> {
-					Map<ResourceLocation, CompletableFuture<C>> tasks = new Object2ObjectOpenHashMap<>();
-
-					for (ResourceLocation resource : resources.keySet()) {
-						JsonObject json = loadFile(resource, resourceManager);
-						if (!json.has("format_version")) {
-							LOGGER.error("'{}' does not have a format version",
-									resource);
-						} else if (!json.get("format_version").getAsString().equals(formatVersion)) {
-							LOGGER.error("format version '{}' of '{}' is not supported",
-									json.get("format_version").getAsString(), resource);
-						} else {
-							C file = GSON.fromJson(json, resourceDataClass);
-							tasks.put(resource, CompletableFuture.supplyAsync(() -> file, executor));
-						}
-					}
-
-					return tasks;
-				}, executor).thenAcceptAsync(resource -> {
-					for (Map.Entry<ResourceLocation, CompletableFuture<C>> entry : resource.entrySet()) {
-						map.accept(entry.getKey(), entry.getValue().join());
-					}
-				}, executor);
-	}
-
-	public JsonObject loadFile(ResourceLocation location, ResourceManager manager) {
-		return GSON.fromJson(getFileContents(location, manager), JsonObject.class);
-	}
-
-	public String getFileContents(ResourceLocation location, ResourceManager manager) {
-		try (InputStream inputStream = manager.getResourceOrThrow(location).open()) {
-			return IOUtils.toString(inputStream, Charset.defaultCharset());
-		}
-		catch (Exception e) {
-			LOGGER.error("Couldn't load '" + location + "'", e);
-			throw new RuntimeException(new FileNotFoundException(location.toString()));
 		}
 	}
 }

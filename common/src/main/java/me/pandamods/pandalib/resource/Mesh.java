@@ -13,13 +13,11 @@ public class Mesh {
 	private final Object[] objects;
 	private final Map<String, Bone> bones = new Object2ObjectOpenHashMap<>();
 
-	public Mesh(AIScene scene) {
+	public Mesh(List<AIMesh> meshes, List<AIMaterial> materials) {
 		List<Object> objects = new ArrayList<>();
 
-		for (int i = 0; i < scene.mNumMeshes(); i++) {
-			AIMesh mesh = AIMesh.create(scene.mMeshes().get(i));
-
-			AIMaterial material = AIMaterial.create(scene.mMaterials().get(mesh.mMaterialIndex()));
+		for (AIMesh mesh : meshes) {
+			AIMaterial material = materials.get(mesh.mMaterialIndex());
 			AIString materialName = AIString.create();
 			Assimp.aiGetMaterialString(material, Assimp.AI_MATKEY_NAME, Assimp.aiTextureType_NONE, 0, materialName);
 			String materialNameStr = materialName.dataString();

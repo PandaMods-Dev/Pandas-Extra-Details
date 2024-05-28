@@ -26,7 +26,7 @@ public class LeverRenderer implements BlockRenderer {
 		poseStack.mulPose(Axis.XP.rotationDegrees(-90));
 
 		LeverData data = level.extraDetails$getBlockData(blockPos, LeverData::new);
-		Mesh mesh = Resources.getMesh(new ResourceLocation("extra_details", "pandalib/meshes/block/redstone/lever.fbx"));
+		Mesh mesh = Resources.getMesh(new ResourceLocation("extra_details", "assimp/meshes/block/redstone/lever.fbx"));
 
 		data.value += RenderUtils.getDeltaSeconds();
 		Mesh.Bone bone = mesh.getBone("handle");
