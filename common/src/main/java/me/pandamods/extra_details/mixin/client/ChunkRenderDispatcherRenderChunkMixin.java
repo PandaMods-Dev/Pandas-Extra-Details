@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 @Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.class)
 public class ChunkRenderDispatcherRenderChunkMixin {
 	@Shadow @Final private ChunkRenderDispatcher.RenderChunk field_20839;
-	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.LEVEL_RENDERER;
 
 	@Inject(method = "compile",
 			at = @At(
@@ -39,7 +39,7 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 						@Local(ordinal = 2) BlockPos blockPos,
 						@Local RenderChunkRegion renderChunkRegion) {
 		if (renderChunkRegion.getBlockState(blockPos).isAir()) return;
-		edLevelRenderer.compileChunk(compileResults, renderChunkRegion, blockPos);
+		edLevelRenderer.compileBlock(compileResults, renderChunkRegion, blockPos);
 	}
 
 	@Inject(method = "doTask",

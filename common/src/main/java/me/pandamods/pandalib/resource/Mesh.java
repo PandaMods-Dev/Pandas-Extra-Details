@@ -1,21 +1,29 @@
 package me.pandamods.pandalib.resource;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.*;
+import org.joml.Math;
 import org.lwjgl.assimp.*;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class Mesh {
-	private final Object[] objects;
+	private final List<Object> objects = new ObjectArrayList<>();
 	private final Map<String, Bone> bones = new Object2ObjectOpenHashMap<>();
 
-	public Mesh(List<AIMesh> meshes, List<AIMaterial> materials) {
-		List<Object> objects = new ArrayList<>();
+	public Mesh() {}
 
+	public Mesh(List<AIMesh> meshes, List<AIMaterial> materials) {
+		set(meshes, materials);
+	}
+
+	public Mesh set(List<AIMesh> meshes, List<AIMaterial> materials) {
+		objects.clear();
 		for (AIMesh mesh : meshes) {
 			AIMaterial material = materials.get(mesh.mMaterialIndex());
 			AIString materialName = AIString.create();
@@ -24,8 +32,7 @@ public class Mesh {
 
 			objects.add(new Object(mesh, materialNameStr));
 		}
-
-		this.objects = objects.toArray(new Object[0]);
+		return this;
 	}
 
 	private void processBone(AIBone aiBone) {
@@ -44,6 +51,11 @@ public class Mesh {
 		bones.put(name, bone);
 	}
 
+	public void render(PoseStack poseStack, int overlayUV, int lightmapUV, Function<String, VertexConsumer> vertexConsumerProvider) {
+		PoseStack.Pose last = poseStack.last();
+		render(last.pose(), last.normal(), overlayUV, lightmapUV, vertexConsumerProvider);
+	}
+
 	public void render(Matrix4f worldMatrix, Matrix3f normalMatrix, int overlayUV, int lightmapUV,
 					   Function<String, VertexConsumer> vertexConsumerProvider) {
 		for (Object object : this.objects) {
@@ -53,6 +65,10 @@ public class Mesh {
 
 	public Bone getBone(String name) {
 		return bones.get(name);
+	}
+
+	public void forEachBone(BiConsumer<String, Bone> action) {
+		bones.forEach(action);
 	}
 
 	public class Object {
@@ -138,8 +154,8 @@ public class Mesh {
 						float weightValue = weight.value;
 
 						transformedPosition.set(posX, posY, posZ);
+						bone.getOffsetMatrix().transformPosition(transformedPosition);
 						bone.getGlobalMatrix(true).transformPosition(transformedPosition);
-						bone.getOffsetMatrixInverse().transformPosition(transformedPosition);
 
 						transformedPosition.mul(weightValue);
 						finalPosX += transformedPosition.x;
@@ -174,20 +190,23 @@ public class Mesh {
 		private List<Bone> children = new ObjectArrayList<>();
 
 		private final Matrix4f offsetMatrix;
-		private final Matrix4f offsetMatrixInverse;
-		private final Matrix4f globalMatrix;
 		private final Matrix4f localMatrix;
+		private final Matrix4f globalMatrix;
 
 		public Bone(String name, Matrix4f offsetMatrix, Bone parent) {
 			this.name = name;
 			this.parent = parent;
 			this.offsetMatrix = offsetMatrix;
-			this.offsetMatrixInverse = offsetMatrix.invert(new Matrix4f());
+			this.localMatrix = new Matrix4f();
 			this.globalMatrix = new Matrix4f();
-			this.localMatrix = new Matrix4f().identity();
+			updateGlobalMatrix();
 
 			if (parent != null)
 				parent.children.add(this);
+		}
+
+		public String getName() {
+			return name;
 		}
 
 		public Bone getParent() {
@@ -195,10 +214,10 @@ public class Mesh {
 		}
 
 		private void updateGlobalMatrix() {
-			globalMatrix.set(localMatrix);
-			globalMatrix.mul(offsetMatrix);
 			if (parent != null) {
-				globalMatrix.mulLocal(parent.getGlobalMatrix());
+				parent.getGlobalMatrix().mul(localMatrix, globalMatrix);
+			} else {
+				globalMatrix.set(localMatrix);
 			}
 
 			children.forEach(Bone::updateGlobalMatrix);
@@ -221,8 +240,8 @@ public class Mesh {
 			return offsetMatrix;
 		}
 
-		public Matrix4fc getOffsetMatrixInverse() {
-			return offsetMatrixInverse;
+		public void resetMatrix() {
+			this.localMatrix.set(this.offsetMatrix);
 		}
 	}
 

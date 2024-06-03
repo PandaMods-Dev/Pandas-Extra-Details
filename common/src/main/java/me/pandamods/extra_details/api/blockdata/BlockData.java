@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Environment(EnvType.CLIENT)
 public class BlockData {
@@ -19,6 +20,22 @@ public class BlockData {
 	}
 
 	public boolean validate() {
-		return this.level.getBlockState(this.blockPos).is(this.block);
+		return validate(getBlockstate());
+	}
+
+	public boolean validate(BlockState blockState) {
+		return blockState.is(this.block);
+	}
+
+	public BlockPos getBlockPos() {
+		return blockPos;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public BlockState getBlockstate() {
+		return this.getLevel().getBlockState(this.getBlockPos());
 	}
 }

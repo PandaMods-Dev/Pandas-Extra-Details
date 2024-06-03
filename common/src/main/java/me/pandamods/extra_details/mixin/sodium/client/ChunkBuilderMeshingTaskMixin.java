@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = ChunkBuilderMeshingTask.class, remap = false)
 public class ChunkBuilderMeshingTaskMixin {
 	@Shadow @Final private RenderSection render;
-	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.LEVEL_RENDERER;
 
 	@Inject(
 			method = "execute(Lme/jellysquid/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lme/jellysquid/mods/sodium/client/util/task/CancellationToken;)Lme/jellysquid/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;",
@@ -46,7 +46,7 @@ public class ChunkBuilderMeshingTaskMixin {
 	)
 	public void execute(ChunkBuildContext buildContext, CancellationToken cancellationToken, CallbackInfoReturnable<ChunkBuildOutput> cir,
 					 @Local WorldSlice slice, @Local BuiltSectionInfo.Builder renderData, @Local(ordinal = 0) BlockPos.MutableBlockPos blockPos) {
-		edLevelRenderer.compileChunk((CompileResultsExtension) renderData, slice, blockPos);
+		edLevelRenderer.compileBlock((CompileResultsExtension) renderData, slice, blockPos);
 	}
 
 	@Redirect(

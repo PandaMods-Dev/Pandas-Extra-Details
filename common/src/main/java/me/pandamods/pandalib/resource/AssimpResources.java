@@ -1,86 +1,62 @@
 package me.pandamods.pandalib.resource;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.pandalib.core.utils.typeadapter.Matrix4fTypeAdapter;
-import me.pandamods.pandalib.core.utils.typeadapter.QuaternionfTypeAdapter;
-import me.pandamods.pandalib.core.utils.typeadapter.Vector2fTypeAdapter;
-import me.pandamods.pandalib.core.utils.typeadapter.Vector3fTypeAdapter;
 import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
-import org.joml.*;
 import org.lwjgl.assimp.*;
 import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class Resources implements PreparableReloadListener {
+public class AssimpResources implements PreparableReloadListener {
 	private static final Logger LOGGER = LogUtils.getLogger();
-
-	public static final Gson GSON = new GsonBuilder()
-			.registerTypeAdapter(Vector2fc.class, new Vector2fTypeAdapter())
-			.registerTypeAdapter(Vector3fc.class, new Vector3fTypeAdapter())
-			.registerTypeAdapter(Quaternionfc.class, new QuaternionfTypeAdapter())
-			.registerTypeAdapter(Matrix4fc.class, new Matrix4fTypeAdapter())
-			.create();
-
 	private static final List<ResourceLocation> missingResources = new ObjectArrayList<>();
 
-	public Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
-	public Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
+	public final Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
+	public final Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 
+	/**
+	 * Retrieves a Mesh object associated with the given resource location.
+	 *
+	 * @param resourceLocation The resource location of the mesh.
+	 * @return The Mesh object associated with the resource location.
+	 * Mesh object might be empty if the Mesh was never loaded.
+	 */
 	public static Mesh getMesh(ResourceLocation resourceLocation) {
-		return getMesh(resourceLocation, false);
+		AssimpResources resources = ExtraDetails.ASSIMP_RESOURCES;
+		Mesh mesh = resources.meshes.get(resourceLocation);
+		if (mesh == null) resources.meshes.put(resourceLocation, mesh = new Mesh());
+		return mesh;
 	}
 
-	public static Mesh getMesh(ResourceLocation resourceLocation, boolean allowNull) {
-		try {
-			if (!allowNull && !ExtraDetails.resources.meshes.containsKey(resourceLocation))
-				throw new ResourceLocationException(resourceLocation.toString());
-			return ExtraDetails.resources.meshes.get(resourceLocation);
-		} catch (ResourceLocationException e) {
-			throw createCrashReport(e, resourceLocation);
-		}
-	}
-
+	/**
+	 * Retrieves an Animation object associated with the given resource location.
+	 *
+	 * @param resourceLocation The resource location of the animation.
+	 * @return The Animation object associated with the resource location.
+	 * Animation object might be empty if the Animation was never loaded.
+	 */
 	public static Animation getAnimation(ResourceLocation resourceLocation) {
-		return getAnimation(resourceLocation, false);
-	}
-
-	public static Animation getAnimation(ResourceLocation resourceLocation, boolean allowNull) {
-		try {
-			if (!allowNull && !ExtraDetails.resources.animations.containsKey(resourceLocation))
-				throw new ResourceLocationException(resourceLocation.toString());
-			return ExtraDetails.resources.animations.get(resourceLocation);
-		} catch (ResourceLocationException e) {
-			throw createCrashReport(e, resourceLocation);
-		}
-	}
-
-	private static RuntimeException createCrashReport(Throwable cause, ResourceLocation resourceLocation) {
-		CrashReport crashReport = CrashReport.forThrowable(cause, "Couldn't find " + resourceLocation.toString());
-    	return new ReportedException(crashReport);
+		AssimpResources resources = ExtraDetails.ASSIMP_RESOURCES;
+		Animation animation = resources.animations.get(resourceLocation);
+		if (animation == null) resources.animations.put(resourceLocation, animation = new Animation());
+		return animation;
 	}
 
 	@Override
@@ -95,8 +71,10 @@ public class Resources implements PreparableReloadListener {
 		return CompletableFuture.allOf(loadAssimpScene(backgroundExecutor, resourceManager, scenes::add, meshes::put, animations::put))
 				.thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> {
-					this.meshes = meshes;
-					this.animations = animations;
+					this.meshes.clear();
+					this.animations.clear();
+					this.meshes.putAll(meshes);
+					this.animations.putAll(animations);
 					scenes.forEach(Assimp::aiReleaseImport);
 				}, gameExecutor);
 	}
@@ -132,14 +110,14 @@ public class Resources implements PreparableReloadListener {
 						for (int i = 0; i < scene.mNumMaterials(); i++)
 							materials.add(AIMaterial.create(scene.mMaterials().get(i)));
 
-						putMesh.accept(resourceLocation, new Mesh(meshes, materials));
+						putMesh.accept(resourceLocation, AssimpResources.getMesh(resourceLocation).set(meshes, materials));
 
 						for (int i = 0; i < scene.mNumAnimations(); i++) {
 							AIAnimation animation = AIAnimation.create(scene.mAnimations().get(i));
 							ResourceLocation animationLocation = resourceLocation;
 							if (scene.mNumAnimations() > 1) animationLocation.withSuffix("/" + animation.mName().dataString());
 
-							putAnimation.accept(resourceLocation, new Animation(animation));
+							putAnimation.accept(animationLocation, AssimpResources.getAnimation(animationLocation).set(animation));
 						}
 					}
 				}, executor);

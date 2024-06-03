@@ -1,12 +1,10 @@
-package me.pandamods.extra_details.utils;
+package me.pandamods.pandalib.utils;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class TransformUtils {
+public class MatrixUtils {
 	public static Matrix4f lerp(Matrix4f main, Matrix4f other, float alpha) {
 		Vector3f mainTranslation = new Vector3f();
 		Quaternionf mainRotation = new Quaternionf();

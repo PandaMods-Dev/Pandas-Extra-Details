@@ -32,7 +32,7 @@ import java.util.SortedSet;
 public class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
-	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.LEVEL_RENDERER;
 
 	@Inject(
 			method = "renderLevel",

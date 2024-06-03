@@ -18,6 +18,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix4f;
 
@@ -43,7 +45,7 @@ public class ExtraDetailsLevelRenderer {
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
 		for (BlockPos blockPos : compiledChunk.getRenderableBlocks()) {
 			BlockRenderer renderer = BlockRendererRegistry.get(this.level.getBlockState(blockPos).getBlock());
-			if (renderer == null) return;
+			if (renderer == null) continue;
 
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
@@ -78,7 +80,7 @@ public class ExtraDetailsLevelRenderer {
 		}
 	}
 
-	public void compileChunk(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
+	public void compileBlock(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
 		blockPos = blockPos.immutable();
 		BlockState blockState = blockGetter.getBlockState(blockPos);
 

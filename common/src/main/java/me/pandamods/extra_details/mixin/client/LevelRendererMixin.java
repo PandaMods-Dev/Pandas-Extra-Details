@@ -26,7 +26,7 @@ public abstract class LevelRendererMixin {
 
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
 
-	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.levelRenderer;
+	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.LEVEL_RENDERER;
 
 	@Inject(
 			method = "renderLevel",
@@ -60,8 +60,7 @@ public abstract class LevelRendererMixin {
 							@Local MultiBufferSource.BufferSource bufferSource) {
 		for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
 			edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ,
-					renderChunkInfo.chunk.getCompiledChunk(),
-					this.renderBuffers, bufferSource, this.destructionProgress);
+					renderChunkInfo.chunk.getCompiledChunk(), this.renderBuffers, bufferSource, this.destructionProgress);
 		}
 	}
 }
