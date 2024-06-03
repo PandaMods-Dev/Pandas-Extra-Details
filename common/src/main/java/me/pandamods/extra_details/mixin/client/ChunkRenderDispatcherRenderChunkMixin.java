@@ -60,7 +60,7 @@ public class ChunkRenderDispatcherRenderChunkMixin {
 	))
 	public RenderShape compileBlock(BlockState instance, @Local(ordinal = 2) BlockPos blockPos,
 									@Local RenderChunkRegion renderChunkRegion) {
-		BlockRenderer renderer = BlockRendererRegistry.get(renderChunkRegion.getBlockState(blockPos).getBlock());
+		BlockRenderer renderer = BlockRendererRegistry.get(renderChunkRegion.getBlockState(blockPos));
 		if (renderer != null) {
 			return renderer.getRenderShape();
 		}

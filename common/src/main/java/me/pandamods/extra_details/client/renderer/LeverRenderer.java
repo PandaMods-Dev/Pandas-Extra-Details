@@ -11,6 +11,7 @@ import me.pandamods.pandalib.client.animation.AnimatableInstance;
 import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
+import me.pandamods.pandalib.utils.MatrixUtils;
 import me.pandamods.pandalib.utils.PLSpriteCoordinateExpander;
 import me.pandamods.pandalib.client.render.PLRenderTypes;
 import me.pandamods.pandalib.resource.Mesh;
@@ -30,11 +31,12 @@ public class LeverRenderer implements BlockRenderer, AnimationController<LeverRe
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
+		LeverData data = level.extraDetails$getBlockData(blockPos, LeverData::new);
+
 		poseStack.pushPose();
-		poseStack.translate(.5f, 0, .5f);
+		MatrixUtils.translateBlock(data.getBlockstate(), poseStack);
 		poseStack.mulPose(Axis.XP.rotationDegrees(-90));
 
-		LeverData data = level.extraDetails$getBlockData(blockPos, LeverData::new);
 		animate(data, mesh, partialTick);
 
 		TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(new ResourceLocation("textures/atlas/blocks.png"));

@@ -44,7 +44,7 @@ public class ExtraDetailsLevelRenderer {
 										  RenderBuffers renderBuffers, MultiBufferSource bufferSource,
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
 		for (BlockPos blockPos : compiledChunk.getRenderableBlocks()) {
-			BlockRenderer renderer = BlockRendererRegistry.get(this.level.getBlockState(blockPos).getBlock());
+			BlockRenderer renderer = BlockRendererRegistry.get(this.level.getBlockState(blockPos));
 			if (renderer == null) continue;
 
 			poseStack.pushPose();
@@ -84,7 +84,7 @@ public class ExtraDetailsLevelRenderer {
 		blockPos = blockPos.immutable();
 		BlockState blockState = blockGetter.getBlockState(blockPos);
 
-		BlockRenderer renderer = BlockRendererRegistry.get(blockState.getBlock());
+		BlockRenderer renderer = BlockRendererRegistry.get(blockState);
 		if (renderer != null) {
 			chunk.getRenderableBlocks().add(blockPos);
 		}

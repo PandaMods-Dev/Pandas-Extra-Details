@@ -15,9 +15,6 @@ This mod aims to add small animations and details to blocks that originally didn
 ## **❗Important❗**
 Some large structures can cause performance issues, because of the large amount of block getting rendered.
 
-If you might know how i can prevent this issue or at least reduce it. 
-please either open a [pull request](https://github.com/PandaDap2006/Pandas-Extra-Details/pulls) with a fix or an [issue](https://github.com/PandaDap2006/Pandas-Extra-Details/issues) with your idea.
-
 ## Showcase
 ![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
 ![Trap Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_trap_door_animation.gif?raw=true)
@@ -39,7 +36,12 @@ please either open a [pull request](https://github.com/PandaDap2006/Pandas-Extra
 * [Q] Are there any plans to add more features to the mod in the future.
   * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
 * [Q] Does this mod support Resource packs.
-  * [A] Only Resource packs that only changes the textures or are made for the mod works.
+  * [A] Only Resource packs that only changes the textures or has support for the mod.
+
+
+## Technical Stuff:
+The mod uses the [Forgix](https://github.com/PacifistMC/Forgix) project to merge the mods into one jar.
+If you need separate files you can find them on Github
 
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and sign up, you can also use my code to get 15% off you first month at Kinetic Hosting.

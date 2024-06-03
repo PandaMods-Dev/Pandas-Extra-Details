@@ -2,7 +2,7 @@
 ### Complete Recode of the whole mod
 
 * **Support**
-  * Updated to support 0.5.8+ and corresponding forge counterparts (Rubidium and Embeddium)
+  * Updated sodium compatibility+ to support 0.5.8+ and corresponding forge counterparts (Rubidium and Embeddium)
   * Added support for Nvidium 0.2.6+ beta
 
 
@@ -10,3 +10,9 @@
   * Switched Cloth Config out with [PandaLib](https://www.curseforge.com/minecraft/mc-mods/pandalib)
   * Removed config menu temporarily, until the config menu api in pandalib is ready
   * Added a blacklist config option
+
+
+* **Technical Changes**:
+  * The project now uses the gradle plugin [Forgix](https://github.com/PacifistMC/Forgix)
+  * Updated Gradle to 8.6
+  * Updated to Architectury Loom 1.6

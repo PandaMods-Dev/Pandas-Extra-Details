@@ -57,7 +57,7 @@ public class ChunkBuilderMeshingTaskMixin {
 			)
 	)
 	public RenderShape compileBlock(BlockState instance, @Local WorldSlice slice, @Local(ordinal = 0) BlockPos.MutableBlockPos blockPos) {
-		BlockRenderer renderer = BlockRendererRegistry.get(EDSodiumPlatform.getBlockState(slice, blockPos).getBlock());
+		BlockRenderer renderer = BlockRendererRegistry.get(EDSodiumPlatform.getBlockState(slice, blockPos));
 		if (renderer != null) {
 			return renderer.getRenderShape();
 		}

@@ -27,6 +27,6 @@ public class ExtraDetails {
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, ExtraDetails.ASSIMP_RESOURCES,
 				new ResourceLocation(MOD_ID, "assimp_loader"));
 
-		BlockRendererRegistry.register(Blocks.LEVER, new LeverRenderer());
+		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER);
 	}
 }
