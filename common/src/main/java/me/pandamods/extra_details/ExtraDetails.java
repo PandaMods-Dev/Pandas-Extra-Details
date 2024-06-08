@@ -20,9 +20,6 @@ public class ExtraDetails {
 	public static final ExtraDetailsLevelRenderer LEVEL_RENDERER = new ExtraDetailsLevelRenderer();
 
 	public static void init() {
-	}
-
-	public static void client() {
 		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, ExtraDetails.ASSIMP_RESOURCES,
 				new ResourceLocation(MOD_ID, "assimp_loader"));

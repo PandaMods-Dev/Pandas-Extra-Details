@@ -19,9 +19,6 @@
     "main": [
 			"me.pandamods.extra_details.fabric.ExtraDetailsFabric"
     ],
-		"client": [
-			"me.pandamods.extra_details.fabric.ExtraDetailsFabricClient"
-		],
 		"modmenu": [
 			"me.pandamods.extra_details.fabric.ModMenuIntegration"
 		]

@@ -16,7 +16,6 @@ public class ExtraDetailsForge {
     public ExtraDetailsForge() {
         EventBuses.registerModEventBus(ExtraDetails.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
 		ExtraDetails.init();
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ExtraDetails::client);
 
 //		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
 //				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
