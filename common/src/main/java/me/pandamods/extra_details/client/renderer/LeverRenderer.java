@@ -49,7 +49,7 @@ public class LeverRenderer implements BlockRenderer, AnimationController<LeverRe
 
 	@Override
 	public State registerStates(LeverData leverData) {
-		State offState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/redstone/lever_off.fbx"), true);
+		State offState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/redstone/lever_off.fbx"));
 		State onState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/redstone/lever_on.fbx"));
 
 		offState.nextTransitionState(() -> leverData.getBlockstate().getValue(LeverBlock.POWERED), onState, .1f);

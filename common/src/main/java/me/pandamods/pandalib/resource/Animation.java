@@ -93,7 +93,7 @@ public class Animation {
 				if (key1.time() <= time && key2.time() >= time) {
 					float keyDuration = key2.time() - key1.time();
 					float interpolatedTime = (time - key1.time()) / keyDuration;
-					return key1.value().slerp(key2.value(), interpolatedTime, new Quaternionf());
+					return key1.value().nlerp(key2.value(), interpolatedTime, new Quaternionf());
 				}
 			}
 			return keys.get(keys.size() - 1).value();

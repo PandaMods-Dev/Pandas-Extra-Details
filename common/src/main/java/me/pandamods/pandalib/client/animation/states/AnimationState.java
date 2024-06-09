@@ -39,7 +39,7 @@ public class AnimationState extends State {
 		super.updateTime(instance, partialTick);
 
 		if (loop && this.isFinished()) {
-			this.start(this.getStartTick() + this.getDuration());
+			this.start(this.getStartTick() + (this.getDuration() * 20));
 			this.updateTime(instance, partialTick);
 		}
 	}
