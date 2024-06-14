@@ -152,7 +152,6 @@ public class Mesh {
 					float finalPosY = 0;
 					float finalPosZ = 0;
 
-					normalRotation.identity();
 					for (Weight weight : weights) {
 						Bone bone = getBone(weight.boneName);
 						if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
