@@ -1,19 +1,13 @@
 package me.pandamods.pandalib.resource;
 
-import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.pandamods.extra_details.ExtraDetails;
-import net.minecraft.CrashReport;
-import net.minecraft.ReportedException;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.assimp.*;
-import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -25,11 +19,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class AssimpResources implements PreparableReloadListener {
-	private static final Logger LOGGER = LogUtils.getLogger();
-	private static final List<ResourceLocation> missingResources = new ObjectArrayList<>();
-
-	public final Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
-	public final Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
+	private static Map<ResourceLocation, Mesh> MESHES = new Object2ObjectOpenHashMap<>();
+	private static Map<ResourceLocation, Animation> ANIMATIONS = new Object2ObjectOpenHashMap<>();
 
 	/**
 	 * Retrieves a Mesh object associated with the given resource location.
@@ -39,9 +30,8 @@ public class AssimpResources implements PreparableReloadListener {
 	 * Mesh object might be empty if the Mesh was never loaded.
 	 */
 	public static Mesh getMesh(ResourceLocation resourceLocation) {
-		AssimpResources resources = ExtraDetails.ASSIMP_RESOURCES;
-		Mesh mesh = resources.meshes.get(resourceLocation);
-		if (mesh == null) resources.meshes.put(resourceLocation, mesh = new Mesh());
+		Mesh mesh = MESHES.get(resourceLocation);
+		if (mesh == null) MESHES.put(resourceLocation, mesh = new Mesh());
 		return mesh;
 	}
 
@@ -53,9 +43,8 @@ public class AssimpResources implements PreparableReloadListener {
 	 * Animation object might be empty if the Animation was never loaded.
 	 */
 	public static Animation getAnimation(ResourceLocation resourceLocation) {
-		AssimpResources resources = ExtraDetails.ASSIMP_RESOURCES;
-		Animation animation = resources.animations.get(resourceLocation);
-		if (animation == null) resources.animations.put(resourceLocation, animation = new Animation());
+		Animation animation = ANIMATIONS.get(resourceLocation);
+		if (animation == null) ANIMATIONS.put(resourceLocation, animation = new Animation());
 		return animation;
 	}
 
@@ -71,10 +60,8 @@ public class AssimpResources implements PreparableReloadListener {
 		return CompletableFuture.allOf(loadAssimpScene(backgroundExecutor, resourceManager, scenes::add, meshes::put, animations::put))
 				.thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> {
-					this.meshes.clear();
-					this.animations.clear();
-					this.meshes.putAll(meshes);
-					this.animations.putAll(animations);
+					MESHES = meshes;
+					ANIMATIONS = animations;
 					scenes.forEach(Assimp::aiReleaseImport);
 				}, gameExecutor);
 	}

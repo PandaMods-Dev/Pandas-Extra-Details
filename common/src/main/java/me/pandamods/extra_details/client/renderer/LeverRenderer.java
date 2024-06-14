@@ -2,49 +2,48 @@ package me.pandamods.extra_details.client.renderer;
 
 import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Axis;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.api.blockdata.BlockData;
-import me.pandamods.extra_details.api.render.BlockRenderer;
+import me.pandamods.extra_details.api.render.MeshBlockRenderer;
 import me.pandamods.pandalib.client.animation.Animatable;
 import me.pandamods.pandalib.client.animation.AnimatableInstance;
 import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.utils.MatrixUtils;
-import me.pandamods.pandalib.utils.PLSpriteCoordinateExpander;
-import me.pandamods.pandalib.client.render.PLRenderTypes;
 import me.pandamods.pandalib.resource.Mesh;
 import me.pandamods.pandalib.resource.AssimpResources;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeverBlock;
 
-public class LeverRenderer implements BlockRenderer, AnimationController<LeverRenderer.LeverData> {
+public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>, AnimationController<LeverRenderer.LeverData> {
 	private final Mesh mesh = AssimpResources.getMesh(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/meshes/block/redstone/lever.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
-		LeverData data = level.extraDetails$getBlockData(blockPos, LeverData::new);
-
 		poseStack.pushPose();
-		MatrixUtils.translateBlock(data.getBlockstate(), poseStack);
-		poseStack.mulPose(Axis.XP.rotationDegrees(-90));
-
-		animate(data, mesh, partialTick);
-
-		TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(new ResourceLocation("textures/atlas/blocks.png"));
-		mesh.render(poseStack.last().pose(), poseStack.last().normal(), OverlayTexture.NO_OVERLAY, lightColor, s -> new PLSpriteCoordinateExpander(
-				bufferSource.getBuffer(PLRenderTypes.cutoutMesh()),
-				atlas.getSprite(new ResourceLocation("block/" + s))
-		));
+		MatrixUtils.translateBlock(level.getBlockState(blockPos), poseStack);
+		MeshBlockRenderer.super.render(blockPos, level, poseStack, bufferSource, partialTick, lightColor);
 		poseStack.popPose();
+	}
+
+	@Override
+	public Mesh getMesh(ClientLevel level, BlockPos blockPos) {
+		return mesh;
+	}
+
+	@Override
+	public AnimationController<LeverData> getAnimationController(ClientLevel level, BlockPos blockPos) {
+		return this;
+	}
+
+	@Override
+	public LeverData getData(ClientLevel level, BlockPos blockPos) {
+		return level.extraDetails$getBlockData(blockPos, LeverData::new);
 	}
 
 	@Override

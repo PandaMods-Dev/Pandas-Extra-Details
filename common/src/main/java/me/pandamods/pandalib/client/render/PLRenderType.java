@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
 
-public class PLRenderTypes extends RenderType {
+public class PLRenderType extends RenderType {
 	private static final ShaderStateShard MESH_SHADER =
 			new ShaderStateShard(PLInternalShaders::getRenderTypeMesh);
 
@@ -22,8 +22,8 @@ public class PLRenderTypes extends RenderType {
 		return CUTOUT_MESH;
 	}
 
-	public PLRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling,
-						 boolean sortOnUpload, Runnable setupState, Runnable clearState) {
+	public PLRenderType(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling,
+						boolean sortOnUpload, Runnable setupState, Runnable clearState) {
 		super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
 	}
 }

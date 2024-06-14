@@ -126,10 +126,13 @@ public class Mesh {
 			this.materialName = materialName;
 		}
 
-		private void render(VertexConsumer vertexConsumer, Matrix4f worldMatrix, Matrix3f normalMatrix, int overlayUV, int lightmapUV) {
+		private void render(VertexConsumer vertexConsumer, Matrix4f worldMatrix, Matrix3f worldNormalMatrix, int overlayUV, int lightmapUV) {
 			Vector3f transformedPosition = new Vector3f();
-			Quaternionf normalRotation = new Quaternionf();
-			Quaternionf transformedNormalRotation = new Quaternionf();
+
+			Matrix3f emptyMatrix = new Matrix3f();
+			Matrix3f normalOffsetMatrix = new Matrix3f();
+			Matrix3f normalMatrix = new Matrix3f();
+			Vector3f transformedNormal = new Vector3f();
 
 			for (Integer i : this.indices) {
 				float posX = this.vertices[i * 3];
@@ -143,42 +146,52 @@ public class Mesh {
 				float normY = this.normals[i * 3 + 1];
 				float normZ = this.normals[i * 3 + 2];
 
+				transformedNormal.set(normX, normY, normZ);
 				if (weights.length != 0) {
 					float finalPosX = 0;
 					float finalPosY = 0;
 					float finalPosZ = 0;
+
 					normalRotation.identity();
 					for (Weight weight : weights) {
 						Bone bone = getBone(weight.boneName);
 						if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
 						float weightValue = weight.value;
 
+						Matrix4f globalMatrix = bone.getGlobalMatrix(true);
+						Matrix4fc offsetMatrix = bone.getOffsetMatrix();
+
 						transformedPosition.set(posX, posY, posZ);
 						bone.getOffsetMatrix().transformPosition(transformedPosition);
-						bone.getGlobalMatrix(true).transformPosition(transformedPosition);
-
+						globalMatrix.transformPosition(transformedPosition);
 						transformedPosition.mul(weightValue);
+
 						finalPosX += transformedPosition.x;
 						finalPosY += transformedPosition.y;
 						finalPosZ += transformedPosition.z;
 
-						transformedNormalRotation.set(normalRotation);
-
-						transformedNormalRotation.mul(weightValue);
-						normalRotation.mul(transformedNormalRotation);
+						normalOffsetMatrix.set(offsetMatrix);
+						normalMatrix.set(globalMatrix);
+						normalMatrix.mul(new Matrix3f(offsetMatrix));
+						emptyMatrix.lerp(normalMatrix, weightValue, normalMatrix);
+						normalMatrix.transform(transformedNormal);
 					}
 					posX = finalPosX;
 					posY = finalPosY;
 					posZ = finalPosZ;
+
+					normX = transformedNormal.x;
+					normY = transformedNormal.y;
+					normZ = transformedNormal.z;
 				}
 
 				vertexConsumer
-						.vertex(worldMatrix, posX, posY, posZ)
+						.vertex(worldMatrix, posX, posZ, -posY)
 						.color(255, 255, 255, 255)
 						.uv(u, v)
 						.overlayCoords(overlayUV)
 						.uv2(lightmapUV)
-						.normal(normalMatrix, normX, normY, normZ)
+						.normal(worldNormalMatrix, normX, normZ, -normY)
 						.endVertex();
 			}
 		}
@@ -227,7 +240,7 @@ public class Mesh {
 			return getGlobalMatrix(false);
 		}
 
-		public Matrix4fc getGlobalMatrix(Boolean shouldCalculate) {
+		public Matrix4f getGlobalMatrix(Boolean shouldCalculate) {
 			if (shouldCalculate) updateGlobalMatrix();
 			return globalMatrix;
 		}
