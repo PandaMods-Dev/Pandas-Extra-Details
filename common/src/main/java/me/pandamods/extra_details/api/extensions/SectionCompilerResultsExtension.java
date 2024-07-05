@@ -5,8 +5,8 @@ import net.minecraft.core.BlockPos;
 import java.util.HashSet;
 import java.util.Set;
 
-public interface CompiledChunkExtension {
-    default Set<BlockPos> getRenderableBlocks() {
+public interface SectionCompilerResultsExtension {
+	default Set<BlockPos> getRenderableBlocks() {
 		return new HashSet<>();
 	}
 }

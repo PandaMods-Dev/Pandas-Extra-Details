@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.*;
-import org.joml.Math;
 import org.lwjgl.assimp.*;
 
 import java.util.*;
@@ -51,15 +50,10 @@ public class Mesh {
 		bones.put(name, bone);
 	}
 
-	public void render(PoseStack poseStack, int overlayUV, int lightmapUV, Function<String, VertexConsumer> vertexConsumerProvider) {
-		PoseStack.Pose last = poseStack.last();
-		render(last.pose(), last.normal(), overlayUV, lightmapUV, vertexConsumerProvider);
-	}
-
-	public void render(Matrix4f worldMatrix, Matrix3f normalMatrix, int overlayUV, int lightmapUV,
+	public void render(PoseStack poseStack, int overlayUV, int lightmapUV,
 					   Function<String, VertexConsumer> vertexConsumerProvider) {
 		for (Object object : this.objects) {
-			object.render(vertexConsumerProvider.apply(object.materialName), worldMatrix, normalMatrix, overlayUV, lightmapUV);
+			object.render(vertexConsumerProvider.apply(object.materialName), poseStack, overlayUV, lightmapUV);
 		}
 	}
 
@@ -126,7 +120,7 @@ public class Mesh {
 			this.materialName = materialName;
 		}
 
-		private void render(VertexConsumer vertexConsumer, Matrix4f worldMatrix, Matrix3f worldNormalMatrix, int overlayUV, int lightmapUV) {
+		private void render(VertexConsumer vertexConsumer, PoseStack poseStack, int overlayUV, int lightmapUV) {
 			Vector3f transformedPosition = new Vector3f();
 
 			Matrix3f emptyMatrix = new Matrix3f();
@@ -185,13 +179,12 @@ public class Mesh {
 				}
 
 				vertexConsumer
-						.vertex(worldMatrix, posX, posZ, -posY)
-						.color(255, 255, 255, 255)
-						.uv(u, v)
-						.overlayCoords(overlayUV)
-						.uv2(lightmapUV)
-						.normal(worldNormalMatrix, normX, normZ, -normY)
-						.endVertex();
+						.addVertex(poseStack.last().pose(), posX, posZ, -posY)
+						.setColor(255, 255, 255, 255)
+						.setUv(u, v)
+						.setOverlay(overlayUV)
+						.setLight(lightmapUV)
+						.setNormal(poseStack.last(), normX, normZ, -normY);
 			}
 		}
 	}

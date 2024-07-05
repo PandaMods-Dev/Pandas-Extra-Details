@@ -1,7 +1,6 @@
 package me.pandamods.extra_details.api.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import me.pandamods.extra_details.api.blockdata.BlockData;
 import me.pandamods.pandalib.client.animation.Animatable;
 import me.pandamods.pandalib.client.animation.states.AnimationController;
@@ -24,8 +23,9 @@ public interface MeshBlockRenderer<T extends BlockData & Animatable> extends Blo
 
 		getAnimationController(level, blockPos).animate(getData(level, blockPos), mesh, partialTick);
 
-		TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(new ResourceLocation("textures/atlas/blocks.png"));
-		mesh.render(poseStack.last().pose(), poseStack.last().normal(), OverlayTexture.NO_OVERLAY, lightmapUV, s -> new PLSpriteCoordinateExpander(
+		TextureAtlas atlas = Minecraft.getInstance().getModelManager()
+				.getAtlas(ResourceLocation.withDefaultNamespace("textures/atlas/blocks.png"));
+		mesh.render(poseStack, OverlayTexture.NO_OVERLAY, lightmapUV, s -> new PLSpriteCoordinateExpander(
 				bufferSource.getBuffer(PLRenderType.cutoutMesh()),
 				atlas.getSprite(getTexture(level, blockPos, s))
 		));
@@ -33,7 +33,7 @@ public interface MeshBlockRenderer<T extends BlockData & Animatable> extends Blo
 	}
 
 	default ResourceLocation getTexture(ClientLevel level, BlockPos blockPos, String textureName) {
-		return new ResourceLocation(textureName).withPrefix("block/");
+		return ResourceLocation.tryParse(textureName).withPrefix("block/");
 	}
 	Mesh getMesh(ClientLevel level, BlockPos blockPos);
 	AnimationController<T> getAnimationController(ClientLevel level, BlockPos blockPos);

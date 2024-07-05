@@ -1,96 +1,49 @@
-plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-}
-
 architectury {
-    platformSetupLoomIde()
-    fabric()
+	platformSetupLoomIde()
+	fabric()
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+	accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
+	common
+	shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentFabric.extendsFrom common
+}
+
+repositories {
+	maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
+
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.2")))
+
+	modApi("me.pandamods:pandalib-fabric:${pandalib_version}")
+	modApi("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
+
+	modCompileOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
+	modRuntimeOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
+
+	modCompileOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
+	modRuntimeOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
-    implementation platform("org.lwjgl:lwjgl-bom:${rootProject.lwjgl_version}")
-
-    implementation("org.lwjgl:lwjgl")
-    implementation("org.lwjgl:lwjgl-assimp")
-
-    runtimeOnly("org.lwjgl:lwjgl::${rootProject.lwjgl_natives}")
-    runtimeOnly("org.lwjgl:lwjgl-assimp::${rootProject.lwjgl_natives}")
-
-    modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
-
-    modApi("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
-
-    modCompileOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
-    modRuntimeOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
-
-    modCompileOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-    modRuntimeOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
 }
 
 shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+	configurations = [project.configurations.shadowCommon]
+	archiveClassifier = "dev-shadow"
 }
 
 remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
+	input.set shadowJar.archiveFile
+	injectAccessWidener = true
 }

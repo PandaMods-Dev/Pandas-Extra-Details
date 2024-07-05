@@ -2,13 +2,11 @@ package me.pandamods.pandalib.resource;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.*;
-import org.joml.Math;
 import org.lwjgl.assimp.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Animation {
 	private float duration;

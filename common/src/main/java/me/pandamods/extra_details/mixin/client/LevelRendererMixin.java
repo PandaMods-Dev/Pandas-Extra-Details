@@ -7,8 +7,10 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.server.level.BlockDestructionProgress;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
@@ -22,7 +24,7 @@ import java.util.SortedSet;
 public abstract class LevelRendererMixin {
 	@Shadow @Final private RenderBuffers renderBuffers;
 
-	@Shadow @Final private ObjectArrayList<LevelRenderer.RenderChunkInfo> renderChunksInFrustum;
+	@Shadow @Final private ObjectArrayList<SectionRenderDispatcher.RenderSection> visibleSections;
 
 	@Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;
 
@@ -35,10 +37,9 @@ public abstract class LevelRendererMixin {
 					target = "Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;prepare(Lnet/minecraft/world/level/Level;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/HitResult;)V"
 			)
 	)
-	public void prepareRenderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
-								   GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		edLevelRenderer.prepareRender((LevelRenderer) (Object) this, poseStack, partialTick, finishNanoTime, renderBlockOutline,
-				camera, gameRenderer, lightTexture, projectionMatrix);
+	public void prepareRenderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
+								   LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
+		edLevelRenderer.prepareRender((LevelRenderer) (Object) this);
 	}
 
 	@Inject(method = "setLevel", at = @At(value = "RETURN"))
@@ -54,13 +55,13 @@ public abstract class LevelRendererMixin {
 					shift = At.Shift.BEFORE
 			)
 	)
-	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
-							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci,
+	public void renderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
+							LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci,
 							@Local(ordinal = 0) double camX, @Local(ordinal = 1) double camY, @Local(ordinal = 2) double camZ,
-							@Local MultiBufferSource.BufferSource bufferSource) {
-		for (LevelRenderer.RenderChunkInfo renderChunkInfo : this.renderChunksInFrustum) {
+							@Local MultiBufferSource.BufferSource bufferSource, @Local PoseStack poseStack, @Local(ordinal = 0) float partialTick) {
+		for (SectionRenderDispatcher.RenderSection section : this.visibleSections) {
 			edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ,
-					renderChunkInfo.chunk.getCompiledChunk(), this.renderBuffers, bufferSource, this.destructionProgress);
+					section.getCompiled(), this.renderBuffers, bufferSource, this.destructionProgress);
 		}
 	}
 }

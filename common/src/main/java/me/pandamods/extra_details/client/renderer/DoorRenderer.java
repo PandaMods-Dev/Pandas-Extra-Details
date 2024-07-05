@@ -21,14 +21,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import org.joml.*;
-import org.joml.Math;
 
 public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, AnimationController<DoorRenderer.DoorData> {
-	private final Mesh topMesh = AssimpResources.getMesh(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/meshes/block/door/door_top.fbx"));
-	private final Mesh bottomMesh = AssimpResources.getMesh(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/meshes/block/door/door_bottom.fbx"));
+	private final Mesh topMesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/door/door_top.fbx"));
+	private final Mesh bottomMesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/door/door_bottom.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
@@ -66,8 +63,8 @@ public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, A
 
 	@Override
 	public State registerStates(DoorData doorData) {
-		State offState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/door/door_close.fbx"));
-		State onState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/door/door_open.fbx"));
+		State offState = new AnimationState(ExtraDetails.ID("assimp/animations/block/door/door_close.fbx"));
+		State onState = new AnimationState(ExtraDetails.ID("assimp/animations/block/door/door_open.fbx"));
 
 		offState.nextTransitionState(() -> doorData.getBlockstate().getValue(DoorBlock.OPEN), onState, .1f);
 		onState.nextTransitionState(() -> !doorData.getBlockstate().getValue(DoorBlock.OPEN), offState, .1f);

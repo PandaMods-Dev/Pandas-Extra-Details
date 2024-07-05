@@ -1,19 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "extra_details",
-  "version": "${version}",
-  "name": "Panda's Extra Detail's",
-  "description": "A mod that adds small details and animations to Minecraft",
-  "authors": [
-		"Panda Mods/The Panda Oliver"
-  ],
+	"id": "${id}",
+	"version": "${version}",
+	"name": "${name}",
+	"description": "${description}",
+	"authors": [
+		"The Panda Oliver"
+	],
+	"icon": "assets/extra_details/icon.png",
   "contact": {
-		"sources": "https://github.com/PandaDap2006/Pandas-Extra-Details",
 		"issues": "https://github.com/PandaDap2006/Pandas-Extra-Details/issues",
-		"homepage": "https://modrinth.com/mod/pandas-extra-details"
+		"sources": "https://github.com/PandaDap2006/Pandas-Extra-Details"
   },
-  "license": "MIT",
-  "icon": "icon.png",
+  "license": "GPL-3",
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -29,15 +28,23 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20.1",
 		"fabric-api": "*",
-		"architectury": ">=9.1.12"
+		"minecraft": "${compatible_fabricmc_versions}",
+		"java": ">=${java_version}",
+		"architectury": "*",
+		"pandalib": ">=0.3"
   },
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/wjPt4vEfXb"
-			}
+				"modmenu.discord": "https://discord.gg/wjPt4vEfXb",
+				"modmenu.kofi": "https://ko-fi.com/pandamods",
+				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/pandas-extra-details",
+				"modmenu.modrinth": "https://modrinth.com/mod/pandas-extra-details",
+				"modmenu.github_releases": "https://github.com/PandaDap2006/pandas-extra-details/releases"
+			},
+			"badges": ["library"],
+			"update_checker": true
 		}
 	}
 }

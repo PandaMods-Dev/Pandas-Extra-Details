@@ -16,12 +16,11 @@ import me.pandamods.pandalib.resource.AssimpResources;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeverBlock;
 
 public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>, AnimationController<LeverRenderer.LeverData> {
-	private final Mesh mesh = AssimpResources.getMesh(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/meshes/block/redstone/lever.fbx"));
+	private final Mesh mesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/redstone/lever.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
@@ -48,8 +47,8 @@ public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>
 
 	@Override
 	public State registerStates(LeverData leverData) {
-		State offState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/redstone/lever_off.fbx"));
-		State onState = new AnimationState(new ResourceLocation(ExtraDetails.MOD_ID, "assimp/animations/block/redstone/lever_on.fbx"));
+		State offState = new AnimationState(ExtraDetails.ID("assimp/animations/block/redstone/lever_off.fbx"));
+		State onState = new AnimationState(ExtraDetails.ID("assimp/animations/block/redstone/lever_on.fbx"));
 
 		offState.nextTransitionState(() -> leverData.getBlockstate().getValue(LeverBlock.POWERED), onState, .1f);
 		onState.nextTransitionState(() -> !leverData.getBlockstate().getValue(LeverBlock.POWERED), offState, .1f);

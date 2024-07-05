@@ -17,59 +17,44 @@ implements VertexConsumer {
     }
 
     @Override
-    public VertexConsumer vertex(double x, double y, double z) {
-        this.delegate.vertex(x, y, z);
+    public VertexConsumer addVertex(float x, float y, float z) {
+        this.delegate.addVertex(x, y, z);
 		return this;
     }
 
     @Override
-    public VertexConsumer color(int red, int green, int blue, int alpha) {
-        this.delegate.color(red, green, blue, alpha);
+    public VertexConsumer setColor(int red, int green, int blue, int alpha) {
+        this.delegate.setColor(red, green, blue, alpha);
 		return this;
     }
 
     @Override
-    public VertexConsumer uv(float u, float v) {
-		this.delegate.uv(this.sprite.getU(u * 16), this.sprite.getV(v * 16));
+    public VertexConsumer setUv(float u, float v) {
+		this.delegate.setUv(this.sprite.getU(u), this.sprite.getV(v));
 		return this;
     }
 
     @Override
-    public VertexConsumer overlayCoords(int u, int v) {
-        this.delegate.overlayCoords(u, v);
+    public VertexConsumer setUv1(int u, int v) {
+        this.delegate.setUv1(u, v);
 		return this;
     }
 
     @Override
-    public VertexConsumer uv2(int u, int v) {
-        this.delegate.uv2(u, v);
+    public VertexConsumer setUv2(int u, int v) {
+        this.delegate.setUv2(u, v);
 		return this;
     }
 
     @Override
-    public VertexConsumer normal(float x, float y, float z) {
-        this.delegate.normal(x, y, z);
+    public VertexConsumer setNormal(float x, float y, float z) {
+        this.delegate.setNormal(x, y, z);
 		return this;
     }
 
-    @Override
-    public void endVertex() {
-        this.delegate.endVertex();
-    }
-
-    @Override
-    public void defaultColor(int defaultR, int defaultG, int defaultB, int defaultA) {
-        this.delegate.defaultColor(defaultR, defaultG, defaultB, defaultA);
-    }
-
-    @Override
-    public void unsetDefaultColor() {
-        this.delegate.unsetDefaultColor();
-    }
-
-    @Override
-    public void vertex(float x, float y, float z, float red, float green, float blue, float alpha, float texU, float texV, int overlayUV, int lightmapUV, float normalX, float normalY, float normalZ) {
-        this.delegate.vertex(x, y, z, red, green, blue, alpha, this.sprite.getU(texU * 16), this.sprite.getV(texV * 16),
-				overlayUV, lightmapUV, normalX, normalY, normalZ);
-    }
+	@Override
+	public void addVertex(float x, float y, float z, int color, float u, float v, int packedOverlay, int packedLight, float normalX, float normalY, float normalZ) {
+		this.delegate.addVertex(x, y, z, color, this.sprite.getU(u), this.sprite.getV(v),
+				packedOverlay, packedLight, normalX, normalY, normalZ);
+	}
 }

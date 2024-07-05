@@ -1,12 +1,8 @@
 package me.pandamods.pandalib.client.animation.states;
 
-import com.mojang.math.MatrixUtil;
-import me.pandamods.pandalib.client.animation.AnimatableInstance;
-import me.pandamods.pandalib.resource.Animation;
 import me.pandamods.pandalib.resource.Mesh;
 import me.pandamods.pandalib.utils.MatrixUtils;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fc;
 
 public class TransitionState extends State {
 	private final State previousState;

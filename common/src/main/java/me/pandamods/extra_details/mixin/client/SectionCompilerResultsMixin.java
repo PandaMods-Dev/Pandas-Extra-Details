@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.client;
 
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
-import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
+import me.pandamods.extra_details.api.extensions.SectionCompilerResultsExtension;
+import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.core.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.HashSet;
 import java.util.Set;
 
-@Mixin(ChunkRenderDispatcher.RenderChunk.RebuildTask.CompileResults.class)
-public class CompileResultsMixin implements CompileResultsExtension {
+@Mixin(SectionCompiler.Results.class)
+public class SectionCompilerResultsMixin implements SectionCompilerResultsExtension {
 	@Unique
 	private Set<BlockPos> renderableBlocks = new HashSet<>();
 

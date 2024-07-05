@@ -5,8 +5,8 @@ import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
-import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
+import me.pandamods.extra_details.api.extensions.SectionCompilerResultsExtension;
+import me.pandamods.extra_details.api.extensions.CompiledSectionExtension;
 import me.pandamods.extra_details.api.render.BlockRenderer;
 import me.pandamods.extra_details.api.render.BlockRendererRegistry;
 import net.minecraft.client.Camera;
@@ -18,8 +18,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix4f;
 
@@ -30,8 +28,7 @@ public class ExtraDetailsLevelRenderer {
 	private ClientLevel level = null;
 	private LevelRenderer levelRenderer;
 
-	public void prepareRender(LevelRenderer levelRenderer, PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline,
-							  Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix) {
+	public void prepareRender(LevelRenderer levelRenderer) {
 		this.levelRenderer = levelRenderer;
 	}
 
@@ -40,7 +37,7 @@ public class ExtraDetailsLevelRenderer {
 	}
 
 	public void renderClientBlockEntities(PoseStack poseStack, float partialTick, double camX, double camY, double camZ,
-										  CompiledChunkExtension compiledChunk,
+										  CompiledSectionExtension compiledChunk,
 										  RenderBuffers renderBuffers, MultiBufferSource bufferSource,
 										  Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress) {
 		for (BlockPos blockPos : compiledChunk.getRenderableBlocks()) {
@@ -59,7 +56,7 @@ public class ExtraDetailsLevelRenderer {
 							.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
 
 					PoseStack.Pose pose = poseStack.last();
-					VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose.pose(), pose.normal(), 1);
+					VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose, 1);
 
 					bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
 							.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
@@ -80,7 +77,7 @@ public class ExtraDetailsLevelRenderer {
 		}
 	}
 
-	public void compileBlock(CompileResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
+	public void compileBlock(SectionCompilerResultsExtension chunk, BlockGetter blockGetter, BlockPos blockPos) {
 		blockPos = blockPos.immutable();
 		BlockState blockState = blockGetter.getBlockState(blockPos);
 

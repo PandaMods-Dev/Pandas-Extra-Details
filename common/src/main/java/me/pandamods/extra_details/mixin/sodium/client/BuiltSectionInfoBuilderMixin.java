@@ -1,7 +1,7 @@
 package me.pandamods.extra_details.mixin.sodium.client;
 
 import me.jellysquid.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
+import me.pandamods.extra_details.api.extensions.SectionCompilerResultsExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Pseudo
 @Environment(EnvType.CLIENT)
 @Mixin(value = BuiltSectionInfo.Builder.class, remap = false)
-public class BuiltSectionInfoBuilderMixin implements CompileResultsExtension {
+public class BuiltSectionInfoBuilderMixin implements SectionCompilerResultsExtension {
 	@Unique
 	private Set<BlockPos> renderableBlocks = new HashSet<>();
 
@@ -30,6 +30,6 @@ public class BuiltSectionInfoBuilderMixin implements CompileResultsExtension {
 	@Inject(method = "build", at = @At("RETURN"))
 	public void build(CallbackInfoReturnable<BuiltSectionInfo> cir) {
 		BuiltSectionInfo builtSectionInfo = cir.getReturnValue();
-		((CompileResultsExtension) builtSectionInfo).getRenderableBlocks().addAll(getRenderableBlocks());
+		((SectionCompilerResultsExtension) builtSectionInfo).getRenderableBlocks().addAll(getRenderableBlocks());
 	}
 }

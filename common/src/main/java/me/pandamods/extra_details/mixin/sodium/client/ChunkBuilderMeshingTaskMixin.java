@@ -10,7 +10,7 @@ import me.jellysquid.mods.sodium.client.util.task.CancellationToken;
 import me.jellysquid.mods.sodium.client.world.WorldSlice;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
-import me.pandamods.extra_details.api.extensions.CompileResultsExtension;
+import me.pandamods.extra_details.api.extensions.SectionCompilerResultsExtension;
 import me.pandamods.extra_details.api.render.BlockRenderer;
 import me.pandamods.extra_details.api.render.BlockRendererRegistry;
 import me.pandamods.extra_details.utils.EDSodiumPlatform;
@@ -46,7 +46,7 @@ public class ChunkBuilderMeshingTaskMixin {
 	)
 	public void execute(ChunkBuildContext buildContext, CancellationToken cancellationToken, CallbackInfoReturnable<ChunkBuildOutput> cir,
 					 @Local WorldSlice slice, @Local BuiltSectionInfo.Builder renderData, @Local(ordinal = 0) BlockPos.MutableBlockPos blockPos) {
-		edLevelRenderer.compileBlock((CompileResultsExtension) renderData, slice, blockPos);
+		edLevelRenderer.compileBlock((SectionCompilerResultsExtension) renderData, slice, blockPos);
 	}
 
 	@Redirect(

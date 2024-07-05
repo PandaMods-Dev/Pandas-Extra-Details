@@ -10,8 +10,9 @@ import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
 import me.jellysquid.mods.sodium.client.world.WorldRendererExtended;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.ExtraDetailsLevelRenderer;
-import me.pandamods.extra_details.api.extensions.CompiledChunkExtension;
+import me.pandamods.extra_details.api.extensions.CompiledSectionExtension;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.server.level.BlockDestructionProgress;
@@ -38,10 +39,9 @@ public class LevelRendererMixin {
 					target = "Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;prepare(Lnet/minecraft/world/level/Level;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/HitResult;)V"
 			)
 	)
-	public void prepareRenderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
-								   GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci) {
-		edLevelRenderer.prepareRender((LevelRenderer) (Object) this, poseStack, partialTick, finishNanoTime, renderBlockOutline,
-				camera, gameRenderer, lightTexture, projectionMatrix);
+	public void prepareRenderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
+								   LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
+		edLevelRenderer.prepareRender((LevelRenderer) (Object) this);
 	}
 
 	@Inject(method = "setLevel", at = @At(value = "RETURN"))
@@ -57,14 +57,14 @@ public class LevelRendererMixin {
 					shift = At.Shift.BEFORE
 			)
 	)
-	public void renderLevel(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera,
-							GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci,
+	public void renderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
+							LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci,
 							@Local(ordinal = 0) double camX, @Local(ordinal = 1) double camY, @Local(ordinal = 2) double camZ,
-							@Local MultiBufferSource.BufferSource bufferSource) {
+							@Local MultiBufferSource.BufferSource bufferSource, @Local PoseStack poseStack, @Local(ordinal = 0) float partialTick) {
 		SodiumWorldRenderer sodiumWorld = ((WorldRendererExtended) this).sodium$getWorldRenderer();
 		NvidiumWorldRenderer nvidiumWorld = ((INvidiumWorldRendererGetter) sodiumWorld).getRenderer();
 		for (RenderSection renderSection : nvidiumWorld.getSectionsWithEntities()) {
-			edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ, (CompiledChunkExtension) renderSection,
+			edLevelRenderer.renderClientBlockEntities(poseStack, partialTick, camX, camY, camZ, (CompiledSectionExtension) renderSection,
 					this.renderBuffers, bufferSource, this.destructionProgress);
 		}
 	}

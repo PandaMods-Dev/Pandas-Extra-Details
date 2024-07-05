@@ -6,7 +6,6 @@ import me.pandamods.pandalib.resource.AssimpResources;
 import me.pandamods.pandalib.resource.Mesh;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fc;
 
 public class AnimationState extends State {
 	private final Animation animation;

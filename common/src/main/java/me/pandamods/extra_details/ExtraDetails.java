@@ -21,10 +21,14 @@ public class ExtraDetails {
 
 	public static void init() {
 		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
-		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new AssimpResources(), new ResourceLocation(MOD_ID, "assimp_loader"));
+		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new AssimpResources(), ID("assimp_loader"));
 
 		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER);
 		BlockRendererRegistry.register(new DoorRenderer(), Blocks.OAK_DOOR, Blocks.DARK_OAK_DOOR, Blocks.ACACIA_DOOR, Blocks.BAMBOO_DOOR, Blocks.BIRCH_DOOR,
 				Blocks.CHERRY_DOOR, Blocks.CRIMSON_DOOR, Blocks.WARPED_DOOR, Blocks.JUNGLE_DOOR, Blocks.SPRUCE_DOOR, Blocks.MANGROVE_DOOR, Blocks.IRON_DOOR);
+	}
+
+	public static ResourceLocation ID(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

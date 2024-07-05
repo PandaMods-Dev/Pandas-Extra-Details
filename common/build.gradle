@@ -1,45 +1,20 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+	common supported_modloaders.split(",")
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/extra_details.accesswidener")
+	accessWidenerPath = file("src/main/resources/extra_details.accesswidener")
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
+	modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
 
-    implementation platform("org.lwjgl:lwjgl-bom:${rootProject.lwjgl_version}")
+	modApi "dev.architectury:architectury:${architectury_version}"
 
-    implementation("org.lwjgl:lwjgl")
-    implementation("org.lwjgl:lwjgl-assimp")
-
-    runtimeOnly("org.lwjgl:lwjgl::${rootProject.lwjgl_natives}")
-    runtimeOnly("org.lwjgl:lwjgl-assimp::${rootProject.lwjgl_natives}")
-
-    modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
+	modApi("me.pandamods:pandalib-common:${pandalib_version}")
 
     modImplementation("maven.modrinth:sodium:${rootProject.sodium_version}")
 //    modImplementation("maven.modrinth:embeddium:${rootProject.embeddium_version}")
 
     modImplementation("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-}
-
-publishing {
-    publications {
-        mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
 }

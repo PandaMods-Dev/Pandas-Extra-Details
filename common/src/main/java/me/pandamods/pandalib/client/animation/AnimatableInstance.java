@@ -1,7 +1,6 @@
 package me.pandamods.pandalib.client.animation;
 
 import me.pandamods.pandalib.client.animation.states.State;
-import org.joml.Math;
 
 public class AnimatableInstance {
 	private final Animatable animatable;
