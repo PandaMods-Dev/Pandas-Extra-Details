@@ -43,7 +43,6 @@
 				"modmenu.modrinth": "https://modrinth.com/mod/pandas-extra-details",
 				"modmenu.github_releases": "https://github.com/PandaDap2006/pandas-extra-details/releases"
 			},
-			"badges": ["library"],
 			"update_checker": true
 		}
 	}

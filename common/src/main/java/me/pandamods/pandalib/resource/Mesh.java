@@ -140,6 +140,7 @@ public class Mesh {
 				float normY = this.normals[i * 3 + 1];
 				float normZ = this.normals[i * 3 + 2];
 
+				// TODO Find a way to skin the mesh on the GPU instead of the CPU
 				transformedNormal.set(normX, normY, normZ);
 				if (weights.length != 0) {
 					float finalPosX = 0;
@@ -151,7 +152,7 @@ public class Mesh {
 						if (weight.index != i || !weight.boneName.equals(bone.name)) continue;
 						float weightValue = weight.value;
 
-						Matrix4f globalMatrix = bone.getGlobalMatrix(true);
+						Matrix4fc globalMatrix = bone.getGlobalMatrix(true);
 						Matrix4fc offsetMatrix = bone.getOffsetMatrix();
 
 						transformedPosition.set(posX, posY, posZ);
@@ -232,7 +233,7 @@ public class Mesh {
 			return getGlobalMatrix(false);
 		}
 
-		public Matrix4f getGlobalMatrix(Boolean shouldCalculate) {
+		public Matrix4fc getGlobalMatrix(Boolean shouldCalculate) {
 			if (shouldCalculate) updateGlobalMatrix();
 			return globalMatrix;
 		}
