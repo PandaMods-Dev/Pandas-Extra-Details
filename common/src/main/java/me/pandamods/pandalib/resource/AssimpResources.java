@@ -117,8 +117,7 @@ public class AssimpResources implements PreparableReloadListener {
 			buffer.put(bytes);
 			buffer.flip();
 			return Assimp.aiImportFileFromMemory(buffer,
-					Assimp.aiProcess_Triangulate | Assimp.aiProcess_JoinIdenticalVertices |
-							Assimp.aiProcess_PopulateArmatureData, "");
+					Assimp.aiProcess_Triangulate | Assimp.aiProcess_PopulateArmatureData, "");
 		}
 		catch (Exception e) {
 			throw new RuntimeException(new FileNotFoundException(resourceLocation.toString()));

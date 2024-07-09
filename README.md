@@ -12,8 +12,8 @@
 ## About
 This mod aims to add small animations and details to blocks that originally didn't have them.
 
-## **❗Important❗**
-Some large structures can cause performance issues, because of the large amount of block getting rendered.
+### **❗Important❗**
+Some large structures can cause performance issues, because of the large amount of blocks getting rendered.
 
 ## Showcase
 ![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
@@ -27,7 +27,7 @@ Some large structures can cause performance issues, because of the large amount 
 * [Nvidium](https://modrinth.com/mod/nvidium) 0.2.6+
 
 ## Incompatibilities
-* Optifine (I will not make support)
+* Optifine
 * Enhanced Block entities
 
 ## FAQ
@@ -37,11 +37,6 @@ Some large structures can cause performance issues, because of the large amount 
   * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
 * [Q] Does this mod support Resource packs.
   * [A] Only Resource packs that only changes the textures or has support for the mod.
-
-
-## Technical Stuff:
-The mod uses the [Forgix](https://github.com/PacifistMC/Forgix) project to merge the mods into one jar.
-If you need separate files you can find them on Github
 
 ---
 ## Support me
