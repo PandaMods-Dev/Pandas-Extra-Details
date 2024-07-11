@@ -1,7 +1,7 @@
 package me.pandamods.pandalib.client.animation.states;
 
 import me.pandamods.pandalib.resource.Mesh;
-import me.pandamods.pandalib.utils.MatrixUtils;
+import me.pandamods.pandalib.utils.MathUtils;
 import org.joml.Matrix4f;
 
 public class TransitionState extends State {
@@ -22,7 +22,7 @@ public class TransitionState extends State {
 		float alpha = this.getTime() / getDuration();
 		Matrix4f previousMatrix = previousState.getBoneMatrix(bone);
     	Matrix4f nextMatrix = nextState.getBoneMatrix(bone);
-    	return MatrixUtils.lerp(previousMatrix, nextMatrix, alpha);
+    	return MathUtils.lerp(previousMatrix, nextMatrix, alpha);
 	}
 
 	@Override

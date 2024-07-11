@@ -2,7 +2,6 @@ package me.pandamods.extra_details.client.renderer;
 
 import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import me.pandamods.extra_details.ExtraDetails;
 import me.pandamods.extra_details.api.blockdata.BlockData;
 import me.pandamods.extra_details.api.render.MeshBlockRenderer;
@@ -13,7 +12,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
 import me.pandamods.pandalib.resource.Mesh;
-import me.pandamods.pandalib.utils.MatrixUtils;
+import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
@@ -30,7 +29,7 @@ public class TrapDoorRenderer implements MeshBlockRenderer<TrapDoorRenderer.Trap
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
 		poseStack.pushPose();
-		MatrixUtils.translateBlock(level.getBlockState(blockPos), poseStack);
+		BlockUtils.translateBlock(level.getBlockState(blockPos), poseStack);
 		MeshBlockRenderer.super.render(blockPos, level, poseStack, bufferSource, partialTick, lightmapUV);
 		poseStack.popPose();
 	}

@@ -3,16 +3,24 @@ package me.pandamods.extra_details;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientReloadShadersEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import me.pandamods.extra_details.api.render.BlockRendererRegistry;
 import me.pandamods.extra_details.client.renderer.DoorRenderer;
 import me.pandamods.extra_details.client.renderer.FenceGateRenderer;
 import me.pandamods.extra_details.client.renderer.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.TrapDoorRenderer;
+import me.pandamods.extra_details.client.renderer.sign.TiltSignRenderer;
+import me.pandamods.extra_details.config.EDConfig;
+import me.pandamods.pandalib.PandaLib;
+import me.pandamods.pandalib.api.config.PandaLibConfig;
+import me.pandamods.pandalib.api.config.holders.ClientConfigHolder;
+import me.pandamods.pandalib.api.config.holders.ConfigHolder;
 import me.pandamods.pandalib.client.render.PLInternalShaders;
 import me.pandamods.pandalib.resource.AssimpResources;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
 
 public class ExtraDetails {
@@ -20,10 +28,13 @@ public class ExtraDetails {
 	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public static final ExtraDetailsLevelRenderer LEVEL_RENDERER = new ExtraDetailsLevelRenderer();
+	public static final ConfigHolder<EDConfig> CONFIG = PandaLibConfig.registerClient(EDConfig.class);
 
 	public static void init() {
 		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new AssimpResources(), ID("assimp_loader"));
+
+		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
 		// Todo make renders registration not be hardcoded, maybe make something like block state.
 		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER);

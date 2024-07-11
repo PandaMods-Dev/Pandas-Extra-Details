@@ -13,17 +13,14 @@ import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
 import me.pandamods.pandalib.resource.Mesh;
-import me.pandamods.pandalib.utils.MatrixUtils;
+import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.LeverData>, AnimationController<FenceGateRenderer.LeverData> {
 	private final Mesh mesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/fence_gate/fence_gate.fbx"));
@@ -31,7 +28,7 @@ public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.Le
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
 		poseStack.pushPose();
-		MatrixUtils.translateBlock(level.getBlockState(blockPos), poseStack);
+		BlockUtils.translateBlock(level.getBlockState(blockPos), poseStack);
 		if (level.getBlockState(blockPos).getValue(FenceGateBlock.IN_WALL))
 			poseStack.translate(0, -3f /16, 0);
 		poseStack.mulPose(Axis.YP.rotationDegrees(180));

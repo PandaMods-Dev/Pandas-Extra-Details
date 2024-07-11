@@ -13,7 +13,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
 import me.pandamods.pandalib.resource.Mesh;
-import me.pandamods.pandalib.utils.MatrixUtils;
+import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
@@ -34,7 +34,7 @@ public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, A
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
 		poseStack.pushPose();
-		MatrixUtils.translateBlock(level.getBlockState(blockPos), poseStack);
+		BlockUtils.translateBlock(level.getBlockState(blockPos), poseStack);
 		poseStack.mulPose(Axis.YP.rotationDegrees(180));
 		MeshBlockRenderer.super.render(blockPos, level, poseStack, bufferSource, partialTick, lightmapUV);
 		poseStack.popPose();

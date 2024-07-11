@@ -10,7 +10,7 @@ import me.pandamods.pandalib.client.animation.AnimatableInstance;
 import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
-import me.pandamods.pandalib.utils.MatrixUtils;
+import me.pandamods.pandalib.utils.BlockUtils;
 import me.pandamods.pandalib.resource.Mesh;
 import me.pandamods.pandalib.resource.AssimpResources;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -25,7 +25,7 @@ public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
 		poseStack.pushPose();
-		MatrixUtils.translateBlock(level.getBlockState(blockPos), poseStack);
+		BlockUtils.translateBlock(level.getBlockState(blockPos), poseStack);
 		MeshBlockRenderer.super.render(blockPos, level, poseStack, bufferSource, partialTick, lightColor);
 		poseStack.popPose();
 	}
