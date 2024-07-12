@@ -13,12 +13,8 @@ public interface AnimationController<T extends Animatable> {
 		if (state == null)
 			instance.setState(state = registerStates(t));
 
-		try {
-			if (state == null)
-				throw new NullPointerException("Animation state is NULL");
-		} catch (NullPointerException e) {
-			throw new RuntimeException(e);
-		}
+		if (state == null)
+			throw new NullPointerException("Animation state is NULL");
 
 		state.updateTime(instance, partialTick);
 		state.checkStateSwitch(instance);

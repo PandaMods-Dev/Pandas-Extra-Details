@@ -11,9 +11,7 @@ import me.pandamods.extra_details.client.renderer.LeverRenderer;
 import me.pandamods.extra_details.client.renderer.TrapDoorRenderer;
 import me.pandamods.extra_details.client.renderer.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.EDConfig;
-import me.pandamods.pandalib.PandaLib;
 import me.pandamods.pandalib.api.config.PandaLibConfig;
-import me.pandamods.pandalib.api.config.holders.ClientConfigHolder;
 import me.pandamods.pandalib.api.config.holders.ConfigHolder;
 import me.pandamods.pandalib.client.render.PLInternalShaders;
 import me.pandamods.pandalib.resource.AssimpResources;
@@ -36,7 +34,7 @@ public class ExtraDetails {
 
 		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
-		// Todo make renders registration not be hardcoded, maybe make something like block state.
+		// Todo make renders registration not be hardcoded, maybe something like how block models are registered and handled.
 		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER);
 
 		BlockRendererRegistry.register(new DoorRenderer(), Blocks.OAK_DOOR, Blocks.DARK_OAK_DOOR, Blocks.ACACIA_DOOR, Blocks.BAMBOO_DOOR, Blocks.BIRCH_DOOR,

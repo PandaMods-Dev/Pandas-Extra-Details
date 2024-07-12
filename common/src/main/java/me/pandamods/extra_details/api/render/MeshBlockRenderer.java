@@ -26,7 +26,7 @@ public interface MeshBlockRenderer<T extends BlockData & Animatable> extends Blo
 		TextureAtlas atlas = Minecraft.getInstance().getModelManager()
 				.getAtlas(ResourceLocation.withDefaultNamespace("textures/atlas/blocks.png"));
 		mesh.render(poseStack, OverlayTexture.NO_OVERLAY, lightmapUV, s -> new PLSpriteCoordinateExpander(
-				bufferSource.getBuffer(PLRenderType.cutoutMesh()),
+				bufferSource.getBuffer(PLRenderType.CUTOUT_MESH),
 				atlas.getSprite(getTexture(level, blockPos, s))
 		));
 		poseStack.popPose();

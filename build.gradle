@@ -44,24 +44,15 @@ allprojects {
 	version = "${mod_version}-${minecraft_version}"
 }
 
+var isMinecraftSubProject = project != project(":common")
+
 subprojects {
-	apply plugin: "com.github.johnrengelman.shadow"
 	apply plugin: "dev.architectury.loom"
 	apply plugin: "architectury-plugin"
 	apply plugin: "maven-publish"
 
 	base {
 		archivesName = "${archives_name}-${project.name}"
-	}
-
-	configurations {
-		includeJar
-		include.extendsFrom includeJar
-		implementation.extendsFrom includeJar
-
-		includeModJar
-		include.extendsFrom includeModJar
-		modImplementation.extendsFrom includeModJar
 	}
 
 	repositories {
@@ -91,14 +82,6 @@ subprojects {
 		}
 
 		annotationProcessor("systems.manifold:manifold-preprocessor:${manifold_version}")
-
-		implementation platform("org.lwjgl:lwjgl-bom:${lwjgl_version}")
-
-		implementation("org.lwjgl:lwjgl")
-		implementation("org.lwjgl:lwjgl-assimp")
-
-		runtimeOnly("org.lwjgl:lwjgl::${lwjgl_natives}")
-		runtimeOnly("org.lwjgl:lwjgl-assimp::${lwjgl_natives}")
 	}
 
 	processResources {

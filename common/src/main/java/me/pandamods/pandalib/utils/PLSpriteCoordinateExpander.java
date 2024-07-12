@@ -6,8 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 @Environment(value=EnvType.CLIENT)
-public class PLSpriteCoordinateExpander
-implements VertexConsumer {
+public class PLSpriteCoordinateExpander implements VertexConsumer {
     private final VertexConsumer delegate;
     private final TextureAtlasSprite sprite;
 

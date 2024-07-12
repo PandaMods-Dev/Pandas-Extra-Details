@@ -2,3 +2,6 @@ accessWidener   v2  named
 
 accessible class net/minecraft/client/renderer/chunk/SectionRenderDispatcher$RenderSection$RebuildTask
 accessible class net/minecraft/client/renderer/chunk/SectionRenderDispatcher$SectionTaskResult
+
+# Sign renderer
+accessible method net/minecraft/client/renderer/blockentity/SignRenderer renderSignText (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/SignText;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IIIZ)V

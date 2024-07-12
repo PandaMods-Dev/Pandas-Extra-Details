@@ -1,3 +1,7 @@
+plugins {
+	id "com.github.johnrengelman.shadow"
+}
+
 architectury {
 	platformSetupLoomIde()
 	fabric()
@@ -8,11 +12,18 @@ loom {
 }
 
 configurations {
-	common
+    common
 	shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentFabric.extendsFrom common
+
+	includeJar
+	implementation.extendsFrom includeJar
+
+	includeModJar
+	include.extendsFrom includeModJar
+	modImplementation.extendsFrom includeModJar
 }
 
 repositories {
@@ -20,27 +31,53 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modApi "dev.architectury:architectury-fabric:${architectury_version}"
 
 	modApi("me.pandamods:pandalib-fabric:${pandalib_version}")
-	modApi("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
+	modApi("com.terraformersmc:modmenu:${modmenu_version}")
 
-	modCompileOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
-	modRuntimeOnly("maven.modrinth:sodium:${rootProject.sodium_version}")
+	modCompileOnly("maven.modrinth:sodium:${sodium_version}")
+	modRuntimeOnly("maven.modrinth:sodium:${sodium_version}")
 
-	modCompileOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
-	modRuntimeOnly("maven.modrinth:nvidium:${rootProject.nvidium_version}")
+	modCompileOnly("maven.modrinth:nvidium:${nvidium_version}")
+	modRuntimeOnly("maven.modrinth:nvidium:${nvidium_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+	// Assimp Library
+	includeJar("org.lwjgl:lwjgl-assimp:${lwjgl_version}") {
+		exclude group: "org.lwjgl", module: "lwjgl"
+	}
+
+	// Assimp natives
+	includeJar("org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-windows") {
+		exclude group: "org.lwjgl", module: "lwjgl"
+	}
+
+	includeJar("org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-linux") {
+		exclude group: "org.lwjgl", module: "lwjgl"
+	}
+
+	includeJar("org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-macos") {
+		exclude group: "org.lwjgl", module: "lwjgl"
+	}
 }
 
 shadowJar {
-	configurations = [project.configurations.shadowCommon]
+	configurations = [project.configurations.shadowCommon, project.configurations.includeJar]
 	archiveClassifier = "dev-shadow"
+
+	var librariesLocation = "${archives_name}.libraries"
+
+	// Relocate assimp so it will not cause any conflicts with other mods also using it.
+	relocate "org.lwjgl.assimp", "${librariesLocation}.org.lwjgl.assimp"
+	relocate "windows.x64.org.lwjgl.assimp", "${librariesLocation}.windows.x64.org.lwjgl.assimp"
+	relocate "linux.x64.org.lwjgl.assimp", "${librariesLocation}.linux.x64.org.lwjgl.assimp"
+	relocate "macos.x64.org.lwjgl.assimp", "${librariesLocation}.macos.x64.org.lwjgl.assimp"
 }
 
 remapJar {
