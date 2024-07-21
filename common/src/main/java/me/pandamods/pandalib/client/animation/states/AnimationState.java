@@ -3,7 +3,7 @@ package me.pandamods.pandalib.client.animation.states;
 import me.pandamods.pandalib.client.animation.AnimatableInstance;
 import me.pandamods.pandalib.resource.Animation;
 import me.pandamods.pandalib.resource.AssimpResources;
-import me.pandamods.pandalib.resource.Mesh;
+import me.pandamods.pandalib.resource.Model;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
@@ -25,12 +25,12 @@ public class AnimationState extends State {
 	}
 
 	@Override
-	public Matrix4f getBoneMatrix(Mesh.Bone bone) {
+	public Matrix4f getBoneTransform(Model.Bone bone) {
 		Animation.Channel channel = this.animation.getChannel(bone.getName());
 		if (channel != null) {
 			return channel.getMatrix(this.getTime());
 		}
-		return new Matrix4f(bone.getOffsetMatrix());
+		return new Matrix4f(bone.getInitialTransform());
 	}
 
 	@Override

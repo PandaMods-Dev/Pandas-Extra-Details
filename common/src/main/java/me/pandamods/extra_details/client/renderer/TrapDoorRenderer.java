@@ -11,7 +11,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
-import me.pandamods.pandalib.resource.Mesh;
+import me.pandamods.pandalib.resource.Model;
 import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,8 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 
 public class TrapDoorRenderer implements MeshBlockRenderer<TrapDoorRenderer.TrapDoorData>, AnimationController<TrapDoorRenderer.TrapDoorData> {
-	private final Mesh topMesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/trapdoor/trap_door_top.fbx"));
-	private final Mesh bottomMesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/trapdoor/trap_door_bottom.fbx"));
+	private final Model topModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/trapdoor/trap_door_top.fbx"));
+	private final Model bottomModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/trapdoor/trap_door_bottom.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
@@ -42,10 +42,10 @@ public class TrapDoorRenderer implements MeshBlockRenderer<TrapDoorRenderer.Trap
 	}
 
 	@Override
-	public Mesh getMesh(ClientLevel level, BlockPos blockPos) {
+	public Model getMesh(ClientLevel level, BlockPos blockPos) {
 		BlockState blockState = level.getBlockState(blockPos);
 		boolean isTop = blockState.getValue(TrapDoorBlock.HALF).equals(Half.TOP);
-		return isTop ? topMesh : bottomMesh;
+		return isTop ? topModel : bottomModel;
 	}
 
 	@Override

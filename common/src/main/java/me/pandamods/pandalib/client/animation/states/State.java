@@ -2,7 +2,7 @@ package me.pandamods.pandalib.client.animation.states;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.pandamods.pandalib.client.animation.AnimatableInstance;
-import me.pandamods.pandalib.resource.Mesh;
+import me.pandamods.pandalib.resource.Model;
 import org.joml.Matrix4f;
 import oshi.util.tuples.Pair;
 
@@ -27,7 +27,7 @@ public abstract class State {
 		}
 	}
 
-	public abstract Matrix4f getBoneMatrix(Mesh.Bone bone);
+	public abstract Matrix4f getBoneTransform(Model.Bone bone);
 
 	public void updateTime(AnimatableInstance instance, float partialTick) {
 		this.time = (instance.getTick(partialTick) - this.startTick) / 20;

@@ -1,30 +1,31 @@
 package me.pandamods.pandalib.resource;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.*;
 import org.lwjgl.assimp.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Animation {
+	private List<Channel> channels = new ArrayList<>();
+
 	private float duration;
-	private final List<Channel> channels = new ObjectArrayList<>();
 
 	public Animation() {}
 
-	public Animation(AIAnimation animation) {
-		set(animation);
+	public Animation(AIAnimation animation, Model model) {
+		set(animation, model);
 	}
 
-	public Animation set(AIAnimation animation) {
-		channels.clear();
+	public Animation set(AIAnimation animation, Model model) {
+		List<Channel> channels = new ArrayList<>();
 		for (int i = 0; i < animation.mNumChannels(); i++) {
 			AINodeAnim node = AINodeAnim.create(animation.mChannels().get(i));
 			List<Key<Vector3fc>> positionKeys = new ArrayList<>();
 			List<Key<Quaternionfc>> rotationKeys = new ArrayList<>();
 			List<Key<Vector3fc>> scalingKeys = new ArrayList<>();
+
+			Model.Bone bone = model.findBone(node.mNodeName().dataString());
 
 			for (AIVectorKey key : node.mPositionKeys()) {
 				AIVector3D vector = key.mValue();
@@ -41,13 +42,14 @@ public class Animation {
 			for (AIVectorKey key : node.mScalingKeys()) {
 				AIVector3D vector = key.mValue();
 				scalingKeys.add(new Key<>((float) (key.mTime() / animation.mTicksPerSecond()),
-						new Vector3f(vector.x(), vector.y(), vector.z())));
+						new Vector3f(vector.x(), vector.y(), vector.z()).mul(bone.getParent() == null ? 0.01f : 1f)));
 			}
 
 			channels.add(new Channel(node.mNodeName().dataString(), positionKeys, rotationKeys, scalingKeys));
 		}
 
 		this.duration = (float) (animation.mDuration() / animation.mTicksPerSecond());
+		this.channels = channels;
 		return this;
 	}
 
@@ -55,7 +57,7 @@ public class Animation {
 		return duration;
 	}
 
-	public Collection<Channel> getChannels() {
+	public List<Channel> getChannels() {
 		return channels;
 	}
 

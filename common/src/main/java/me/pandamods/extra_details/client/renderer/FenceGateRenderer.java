@@ -12,7 +12,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
-import me.pandamods.pandalib.resource.Mesh;
+import me.pandamods.pandalib.resource.Model;
 import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.LeverData>, AnimationController<FenceGateRenderer.LeverData> {
-	private final Mesh mesh = AssimpResources.getMesh(ExtraDetails.ID("assimp/meshes/block/fence_gate/fence_gate.fbx"));
+	private final Model model = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/fence_gate/fence_gate.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
@@ -45,8 +45,8 @@ public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.Le
 	}
 
 	@Override
-	public Mesh getMesh(ClientLevel level, BlockPos blockPos) {
-		return mesh;
+	public Model getMesh(ClientLevel level, BlockPos blockPos) {
+		return model;
 	}
 
 	@Override

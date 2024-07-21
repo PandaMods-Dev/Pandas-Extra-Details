@@ -19,20 +19,20 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class AssimpResources implements PreparableReloadListener {
-	private static Map<ResourceLocation, Mesh> MESHES = new Object2ObjectOpenHashMap<>();
+	private static Map<ResourceLocation, Model> MODELS = new Object2ObjectOpenHashMap<>();
 	private static Map<ResourceLocation, Animation> ANIMATIONS = new Object2ObjectOpenHashMap<>();
 
 	/**
-	 * Retrieves a Mesh object associated with the given resource location.
+	 * Retrieves a Model object associated with the given resource location.
 	 *
-	 * @param resourceLocation The resource location of the mesh.
-	 * @return The Mesh object associated with the resource location.
+	 * @param resourceLocation The resource location of the mode.
+	 * @return The Model object associated with the resource location.
 	 * Mesh object might be empty if the Mesh was never loaded.
 	 */
-	public static Mesh getMesh(ResourceLocation resourceLocation) {
-		Mesh mesh = MESHES.get(resourceLocation);
-		if (mesh == null) MESHES.put(resourceLocation, mesh = new Mesh());
-		return mesh;
+	public static Model getModel(ResourceLocation resourceLocation) {
+		Model model = MODELS.get(resourceLocation);
+		if (model == null) MODELS.put(resourceLocation, model = new Model());
+		return model;
 	}
 
 	/**
@@ -54,13 +54,13 @@ public class AssimpResources implements PreparableReloadListener {
 												   Executor backgroundExecutor, Executor gameExecutor) {
 		List<AIScene> scenes = new ObjectArrayList<>();
 
-		Map<ResourceLocation, Mesh> meshes = new Object2ObjectOpenHashMap<>();
+		Map<ResourceLocation, Model> models = new Object2ObjectOpenHashMap<>();
 		Map<ResourceLocation, Animation> animations = new Object2ObjectOpenHashMap<>();
 
-		return CompletableFuture.allOf(loadAssimpScene(backgroundExecutor, resourceManager, scenes::add, meshes::put, animations::put))
+		return CompletableFuture.allOf(loadAssimpScene(backgroundExecutor, resourceManager, scenes::add, models::put, animations::put))
 				.thenCompose(preparationBarrier::wait)
 				.thenAcceptAsync(unused -> {
-					MESHES = meshes;
+					MODELS = models;
 					ANIMATIONS = animations;
 					scenes.forEach(Assimp::aiReleaseImport);
 				}, gameExecutor);
@@ -68,7 +68,7 @@ public class AssimpResources implements PreparableReloadListener {
 
 	private CompletableFuture<Void> loadAssimpScene(Executor executor, ResourceManager resourceManager,
 													Consumer<AIScene> addScene,
-													BiConsumer<ResourceLocation, Mesh> putMesh,
+													BiConsumer<ResourceLocation, Model> putModel,
 													BiConsumer<ResourceLocation, Animation> putAnimation
 	) {
 		return CompletableFuture.supplyAsync(() -> resourceManager.listResources("assimp", resource -> true), executor)
@@ -88,23 +88,15 @@ public class AssimpResources implements PreparableReloadListener {
 						ResourceLocation resourceLocation = entry.getKey();
 						AIScene scene = entry.getValue().join();
 
-						List<AIMesh> meshes = new ObjectArrayList<>();
-						List<AIMaterial> materials = new ObjectArrayList<>();
-
-						for (int i = 0; i < scene.mNumMeshes(); i++)
-							meshes.add(AIMesh.create(scene.mMeshes().get(i)));
-
-						for (int i = 0; i < scene.mNumMaterials(); i++)
-							materials.add(AIMaterial.create(scene.mMaterials().get(i)));
-
-						putMesh.accept(resourceLocation, AssimpResources.getMesh(resourceLocation).set(meshes, materials));
+						Model model = AssimpResources.getModel(resourceLocation).set(scene);
+						putModel.accept(resourceLocation, model);
 
 						for (int i = 0; i < scene.mNumAnimations(); i++) {
 							AIAnimation animation = AIAnimation.create(scene.mAnimations().get(i));
 							ResourceLocation animationLocation = resourceLocation;
 							if (scene.mNumAnimations() > 1) animationLocation.withSuffix("/" + animation.mName().dataString());
 
-							putAnimation.accept(animationLocation, AssimpResources.getAnimation(animationLocation).set(animation));
+							putAnimation.accept(animationLocation, AssimpResources.getAnimation(animationLocation).set(animation, model));
 						}
 					}
 				}, executor);
