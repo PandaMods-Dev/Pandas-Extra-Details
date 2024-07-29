@@ -12,7 +12,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
-import me.pandamods.pandalib.resource.Model;
+import me.pandamods.pandalib.resource.model.Model;
 import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,11 +25,8 @@ import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, AnimationController<DoorRenderer.DoorData> {
-	private final Model topLeftModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_top_left.fbx"));
-	private final Model bottomLeftModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_bottom_left.fbx"));
-
-	private final Model topRightModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_top_right.fbx"));
-	private final Model bottomRightModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_bottom_right.fbx"));
+	private final Model leftModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_left.fbx"));
+	private final Model rightModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_right.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
@@ -52,8 +49,15 @@ public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, A
 	public Model getMesh(ClientLevel level, BlockPos blockPos) {
 		BlockState blockState = level.getBlockState(blockPos);
 		boolean isTop = blockState.getValue(DoorBlock.HALF).equals(DoubleBlockHalf.UPPER);
+
+		leftModel.getRootNode().findNode("mesh_top").setVisible(isTop);
+		rightModel.getRootNode().findNode("mesh_top").setVisible(isTop);
+
+		leftModel.getRootNode().findNode("mesh_bottom").setVisible(!isTop);
+		rightModel.getRootNode().findNode("mesh_bottom").setVisible(!isTop);
+
 		boolean isRight = blockState.getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);
-		return isTop ? isRight ? topRightModel : topLeftModel : isRight ? bottomRightModel : bottomLeftModel;
+		return isRight ? rightModel : leftModel;
 	}
 
 	@Override

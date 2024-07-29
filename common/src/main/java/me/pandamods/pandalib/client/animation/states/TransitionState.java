@@ -1,6 +1,6 @@
 package me.pandamods.pandalib.client.animation.states;
 
-import me.pandamods.pandalib.resource.Model;
+import me.pandamods.pandalib.resource.model.Node;
 import me.pandamods.pandalib.utils.MathUtils;
 import org.joml.Matrix4f;
 
@@ -18,11 +18,11 @@ public class TransitionState extends State {
 	}
 
 	@Override
-	public Matrix4f getBoneTransform(Model.Bone bone) {
+	public Matrix4f getBoneTransform(Node node) {
 		float alpha = this.getTime() / getDuration();
-		Matrix4f previousMatrix = previousState.getBoneTransform(bone);
-    	Matrix4f nextMatrix = nextState.getBoneTransform(bone);
-    	return MathUtils.lerp(previousMatrix, nextMatrix, alpha);
+		Matrix4f previousMatrix = previousState.getBoneTransform(node);
+    	Matrix4f nextMatrix = nextState.getBoneTransform(node);
+    	return MathUtils.lerpMatrix(previousMatrix, nextMatrix, alpha);
 	}
 
 	@Override

@@ -6,30 +6,32 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class MathUtils {
-	public static Matrix4f lerp(Matrix4f main, Matrix4f other, float alpha) {
-		Vector3f mainTranslation = new Vector3f();
-		Quaternionf mainRotation = new Quaternionf();
-		Vector3f mainScale = new Vector3f();
+	public static Matrix4f lerpMatrix(Matrix4f matrix, Matrix4f other, float alpha) {
+		return lerpMatrix(matrix, other, alpha, new Matrix4f());
+	}
+
+	public static Matrix4f lerpMatrix(Matrix4f matrix, Matrix4f other, float alpha, Matrix4f dist) {
+		Vector3f translation = new Vector3f();
+		Quaternionf rotation = new Quaternionf();
+		Vector3f scale = new Vector3f();
+
 		Vector3f otherTranslation = new Vector3f();
 		Quaternionf otherRotation = new Quaternionf();
 		Vector3f otherScale = new Vector3f();
 
-		main.getTranslation(mainTranslation);
-		main.getUnnormalizedRotation(mainRotation);
-		main.getScale(mainScale);
+		matrix.getTranslation(translation);
+		matrix.getUnnormalizedRotation(rotation);
+		matrix.getScale(scale);
+
 		other.getTranslation(otherTranslation);
 		other.getUnnormalizedRotation(otherRotation);
 		other.getScale(otherScale);
 
-		Vector3f lerpedTranslation = new Vector3f();
-		Quaternionf lerpedRotation = new Quaternionf();
-		Vector3f lerpedScale = new Vector3f();
+		translation.lerp(otherTranslation, alpha);
+		rotation.slerp(otherRotation, alpha);
+		scale.lerp(otherScale, alpha);
 
-		mainTranslation.lerp(otherTranslation, alpha, lerpedTranslation);
-		mainRotation.slerp(otherRotation, alpha, lerpedRotation);
-		mainScale.lerp(otherScale, alpha, lerpedScale);
-
-		return main.identity().translationRotateScale(lerpedTranslation, lerpedRotation, lerpedScale);
+		return dist.translationRotateScale(translation, rotation, scale);
 	}
 
 	public static Vector3f rotateVector(Vector3f target, Vector3f rotation) {
@@ -53,5 +55,4 @@ public class MathUtils {
 		stack.translate(-pivot.x, -pivot.y, -pivot.z);
 		return stack;
 	}
-
 }

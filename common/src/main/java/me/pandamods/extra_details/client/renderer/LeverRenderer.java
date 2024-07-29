@@ -10,7 +10,8 @@ import me.pandamods.pandalib.client.animation.AnimatableInstance;
 import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
-import me.pandamods.pandalib.resource.Model;
+import me.pandamods.pandalib.client.render.ModelRenderer;
+import me.pandamods.pandalib.resource.model.Model;
 import me.pandamods.pandalib.utils.BlockUtils;
 import me.pandamods.pandalib.resource.AssimpResources;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -18,9 +19,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeverBlock;
+import org.joml.Math;
 
 public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>, AnimationController<LeverRenderer.LeverData> {
-	private final Model model = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/redstone/lever.fbx"));
+	private final Model model = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/lever/lever.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
@@ -47,8 +49,8 @@ public class LeverRenderer implements MeshBlockRenderer<LeverRenderer.LeverData>
 
 	@Override
 	public State registerStates(LeverData leverData) {
-		State offState = new AnimationState(ExtraDetails.ID("assimp/animations/block/redstone/lever_off.fbx"));
-		State onState = new AnimationState(ExtraDetails.ID("assimp/animations/block/redstone/lever_on.fbx"));
+		State offState = new AnimationState(ExtraDetails.ID("assimp/animations/block/lever/lever_off.fbx"));
+		State onState = new AnimationState(ExtraDetails.ID("assimp/animations/block/lever/lever_on.fbx"));
 
 		offState.nextTransitionState(() -> leverData.getBlockstate().getValue(LeverBlock.POWERED), onState, .1f);
 		onState.nextTransitionState(() -> !leverData.getBlockstate().getValue(LeverBlock.POWERED), offState, .1f);

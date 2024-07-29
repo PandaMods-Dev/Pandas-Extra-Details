@@ -12,7 +12,7 @@ import me.pandamods.pandalib.client.animation.states.AnimationController;
 import me.pandamods.pandalib.client.animation.states.AnimationState;
 import me.pandamods.pandalib.client.animation.states.State;
 import me.pandamods.pandalib.resource.AssimpResources;
-import me.pandamods.pandalib.resource.Model;
+import me.pandamods.pandalib.resource.model.Model;
 import me.pandamods.pandalib.utils.BlockUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;

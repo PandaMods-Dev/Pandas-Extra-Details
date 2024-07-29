@@ -2,6 +2,10 @@ package me.pandamods.pandalib.resource;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import me.pandamods.pandalib.resource.animation.Animation;
+import me.pandamods.pandalib.resource.loader.AnimationLoader;
+import me.pandamods.pandalib.resource.loader.ModelLoader;
+import me.pandamods.pandalib.resource.model.Model;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -82,21 +86,21 @@ public class AssimpResources implements PreparableReloadListener {
 						if (scene != null) sceneTasks.put(resourceLocation, CompletableFuture.supplyAsync(() -> scene, executor));
 					}
 					return sceneTasks;
-				}, executor)
-				.thenAcceptAsync(resource -> {
+				}, executor).thenAcceptAsync(resource -> {
 					for (Map.Entry<ResourceLocation, CompletableFuture<AIScene>> entry : resource.entrySet()) {
 						ResourceLocation resourceLocation = entry.getKey();
 						AIScene scene = entry.getValue().join();
 
-						Model model = AssimpResources.getModel(resourceLocation).set(scene);
+						Model model = ModelLoader.loadScene(AssimpResources.getModel(resourceLocation), scene);
 						putModel.accept(resourceLocation, model);
 
 						for (int i = 0; i < scene.mNumAnimations(); i++) {
-							AIAnimation animation = AIAnimation.create(scene.mAnimations().get(i));
+							AIAnimation aiAnimation = AIAnimation.create(scene.mAnimations().get(i));
 							ResourceLocation animationLocation = resourceLocation;
-							if (scene.mNumAnimations() > 1) animationLocation.withSuffix("/" + animation.mName().dataString());
+							if (scene.mNumAnimations() > 1) animationLocation = animationLocation.withSuffix("/" + aiAnimation.mName().dataString());
 
-							putAnimation.accept(animationLocation, AssimpResources.getAnimation(animationLocation).set(animation, model));
+							Animation animation = AnimationLoader.loadAnimation(AssimpResources.getAnimation(animationLocation), aiAnimation);
+							putAnimation.accept(animationLocation, animation);
 						}
 					}
 				}, executor);
@@ -109,7 +113,7 @@ public class AssimpResources implements PreparableReloadListener {
 			buffer.put(bytes);
 			buffer.flip();
 			return Assimp.aiImportFileFromMemory(buffer,
-					Assimp.aiProcess_Triangulate | Assimp.aiProcess_PopulateArmatureData, "");
+					Assimp.aiProcess_Triangulate | Assimp.aiProcess_PopulateArmatureData | Assimp.aiProcess_LimitBoneWeights, "");
 		}
 		catch (Exception e) {
 			throw new RuntimeException(new FileNotFoundException(resourceLocation.toString()));

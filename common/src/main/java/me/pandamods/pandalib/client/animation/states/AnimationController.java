@@ -2,7 +2,10 @@ package me.pandamods.pandalib.client.animation.states;
 
 import me.pandamods.pandalib.client.animation.Animatable;
 import me.pandamods.pandalib.client.animation.AnimatableInstance;
-import me.pandamods.pandalib.resource.Model;
+import me.pandamods.pandalib.resource.model.Model;
+import me.pandamods.pandalib.resource.model.Node;
+import me.pandamods.pandalib.utils.PrintUtils;
+import org.joml.Vector3f;
 
 public interface AnimationController<T extends Animatable> {
 	State registerStates(T t);
@@ -18,12 +21,13 @@ public interface AnimationController<T extends Animatable> {
 
 		state.updateTime(instance, partialTick);
 		state.checkStateSwitch(instance);
-		for (Model.Bone bone : model.getBones()) {
-			processBoneTransform(bone, instance);
+		for (Node node : model.getNodes()) {
+			processBoneTransform(node, instance);
 		}
 	}
 
-	default void processBoneTransform(Model.Bone bone, AnimatableInstance instance) {
-		bone.getLocalTransform().set(instance.getState().getBoneTransform(bone));
+	default void processBoneTransform(Node node, AnimatableInstance instance) {
+//		node.setLocalTransform(instance.getState().getBoneTransform(node));
+		node.getRelativeTransform().set(instance.getState().getBoneTransform(node));
 	}
 }
