@@ -31,7 +31,7 @@ public class ModelLoader {
 		// Process Meshes
 		for (int i = 0; i < scene.mNumMeshes(); i++) {
 			AIMesh aiMesh = AIMesh.create(scene.mMeshes().get(i));
-			Mesh mesh = processMesh(aiMesh, materials, rootNode, nodes);
+			Mesh mesh = processMesh(aiMesh, materials, nodes);
 			meshes.add(mesh);
 		}
 
@@ -55,7 +55,7 @@ public class ModelLoader {
 	}
 
 	// Mesh Processing Section
-	public static Mesh processMesh(AIMesh aiMesh, List<String> materials, Node rootNode, List<Node> nodes) {
+	public static Mesh processMesh(AIMesh aiMesh, List<String> materials, List<Node> nodes) {
 		int[] indices = processIndices(aiMesh);
 		float[] vertices = processVertices(aiMesh);
 		float[] uvs = processUVCoords(aiMesh);
@@ -63,7 +63,7 @@ public class ModelLoader {
 		int[] boneIndices = new int[vertices.length / 3 * 4];
 		float[] boneWeights = new float[vertices.length / 3 * 4];
 
-		processBones(aiMesh, rootNode, nodes, boneIndices, boneWeights);
+		processBones(aiMesh, nodes, boneIndices, boneWeights);
 
 		return new Mesh(indices, vertices, uvs, normals, boneIndices, boneWeights, materials.get(aiMesh.mMaterialIndex()));
 	}
@@ -116,13 +116,13 @@ public class ModelLoader {
 		return data;
 	}
 
-	private static void processBones(AIMesh aiMesh, Node rootNode, List<Node> nodes, int[] boneIndices, float[] boneWeights) {
+	private static void processBones(AIMesh aiMesh, List<Node> nodes, int[] boneIndices, float[] boneWeights) {
 		Arrays.fill(boneIndices, -1);
 		Arrays.fill(boneWeights, 0.0f);
 
 		for (int i = 0; i < aiMesh.mNumBones(); i++) {
 			AIBone aiBone = AIBone.create(aiMesh.mBones().get(i));
-			Node boneNode = rootNode.findNode(aiBone.mName().dataString());
+			Node boneNode = findNode(aiBone.mNode(), nodes);
 
 			for (int j = 0; j < aiBone.mNumWeights(); j++) {
 				AIVertexWeight aiVertexWeight = aiBone.mWeights().get(j);
@@ -138,5 +138,14 @@ public class ModelLoader {
 				}
 			}
 		}
+	}
+
+	private static Node findNode(AINode aiNode, List<Node> nodes) {
+		for (Node node : nodes) {
+			if (AssimpUtils.AINodeEqualsNode(aiNode, node)) {
+				return node;
+			}
+		}
+		return null;
 	}
 }

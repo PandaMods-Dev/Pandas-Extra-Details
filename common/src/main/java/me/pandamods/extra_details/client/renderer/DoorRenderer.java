@@ -74,9 +74,9 @@ public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, A
 	public State registerStates(DoorData doorData) {
 		boolean isRight = doorData.getBlockstate().getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);
 		State offState = new AnimationState(ExtraDetails.ID(isRight ?
-				"assimp/animations/block/door/door_close_right.fbx" : "assimp/animations/block/door/door_close_left.fbx"));
+				"assimp/animations/block/door/door_right_close.fbx" : "assimp/animations/block/door/door_left_close.fbx"));
 		State onState = new AnimationState(ExtraDetails.ID(isRight ?
-				"assimp/animations/block/door/door_open_right.fbx" : "assimp/animations/block/door/door_open_left.fbx"));
+				"assimp/animations/block/door/door_right_open.fbx" : "assimp/animations/block/door/door_left_open.fbx"));
 
 		offState.nextTransitionState(() -> doorData.getBlockstate().getValue(DoorBlock.OPEN), onState, .1f);
 		onState.nextTransitionState(() -> !doorData.getBlockstate().getValue(DoorBlock.OPEN), offState, .1f);

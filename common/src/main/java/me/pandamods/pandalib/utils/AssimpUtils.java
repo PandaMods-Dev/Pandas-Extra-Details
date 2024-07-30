@@ -1,12 +1,13 @@
 package me.pandamods.pandalib.utils;
 
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import me.pandamods.pandalib.resource.model.Node;
+import org.joml.*;
 import org.lwjgl.assimp.*;
 
+import java.util.Objects;
+
 public class AssimpUtils {
+	// Conversion methods
 	@SuppressWarnings("unused")
 	public static Matrix4f toMatrix4f(AIMatrix4x4 aiMatrix) {
 		return new Matrix4f(
@@ -32,7 +33,37 @@ public class AssimpUtils {
 	}
 
 	@SuppressWarnings("unused")
+	public static Vector2f toVector2f(AIVector2D vector) {
+		return new Vector2f(vector.x(), vector.y());
+	}
+
+	@SuppressWarnings("unused")
 	public static Quaternionf toQuaternionf(AIQuaternion quaternion) {
 		return new Quaternionf(quaternion.x(), quaternion.y(), quaternion.z(), quaternion.w());
+	}
+
+	// Equals methods
+	@SuppressWarnings("unused")
+	public static boolean AINodeEqualsAINode(AINode node1, AINode node2) {
+		boolean namesEqual = Objects.equals(node1.mName().dataString(), node2.mName().dataString());
+		boolean parentsEqual = (node1.mParent() != null) == (node2.mParent() != null);
+		if (node1.mParent() != null && node2.mParent() != null) {
+			parentsEqual = Objects.equals(node1.mParent().mName().dataString(), node2.mParent().mName().dataString());
+		}
+		boolean childrenEqual = node1.mNumChildren() == node2.mNumChildren();
+		boolean meshesEqual = node1.mNumMeshes() == node2.mNumMeshes();
+		return namesEqual && parentsEqual && childrenEqual && meshesEqual;
+	}
+
+	@SuppressWarnings("unused")
+	public static boolean AINodeEqualsNode(AINode aiNode, Node node) {
+		boolean namesEqual = Objects.equals(aiNode.mName().dataString(), node.getName());
+		boolean parentsEqual = (aiNode.mParent() != null) == (node.getParent() != null);
+		if (aiNode.mParent() != null && node.getParent() != null) {
+			parentsEqual = Objects.equals(aiNode.mParent().mName().dataString(), node.getParent().getName());
+		}
+		boolean childrenEqual = aiNode.mNumChildren() == node.getChildren().size();
+		boolean meshesEqual = aiNode.mNumMeshes() == node.getMeshIndexes().size();
+		return namesEqual && parentsEqual && childrenEqual && meshesEqual;
 	}
 }

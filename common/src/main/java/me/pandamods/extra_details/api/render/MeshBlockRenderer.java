@@ -31,8 +31,6 @@ public interface MeshBlockRenderer<T extends BlockData & Animatable> extends Blo
 		ModelRenderer.render(model, poseStack, OverlayTexture.NO_OVERLAY, lightmapUV, s -> new PLSpriteCoordinateExpander(
 						vertexConsumer, atlas.getSprite(getTexture(level, blockPos, s))
 		));
-		//Todo Debugging
-		ModelRenderer.renderModelDebug(model, poseStack, bufferSource);
 		poseStack.popPose();
 	}
 

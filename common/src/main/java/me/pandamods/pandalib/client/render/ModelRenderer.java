@@ -59,9 +59,8 @@ public class ModelRenderer {
 
 				for (int j = 0; j < 4; j++) {
 					int boneIndex = mesh.getBoneIndices()[i * 4 + j];
-					if (boneIndex == -1) continue;
 					float boneWeight = mesh.getBoneWeights()[i * 4 + j];
-					if (boneWeight == 0) continue;
+					if (boneIndex == -1 || boneWeight == 0) continue;
 					hasWeights = true;
 
 					Node boneNode = model.getNodes().get(boneIndex);
