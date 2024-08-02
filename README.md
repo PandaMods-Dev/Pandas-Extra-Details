@@ -13,9 +13,11 @@
 This mod aims to add small animations and details to blocks that originally didn't have them.
 
 ### **❗Important❗**
-Some large structures can cause performance issues, because of the large amount of blocks getting rendered.
+Some large structures can cause performance issues because of the large number of blocks getting rendered.
 
 ## Showcase
+These showcases might be outdated, but they still show the main features of the mod.
+
 ![Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_door_animation.gif?raw=true)
 ![Trap Door Animation](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_trap_door_animation.gif?raw=true)
 ![Standing sign tilt](https://github.com/PandaDap2006/Pandas-Extra-Details/blob/master/assets_for_readme/showcase_standing_sign.png?raw=true)
@@ -32,16 +34,20 @@ Some large structures can cause performance issues, because of the large amount 
 
 ## FAQ
 * [Q] Is this mod Client side.
-  * [A] Yes this mod is a 100% client side and should only be installed on the client.
-* [Q] Are there any plans to add more features to the mod in the future.
-  * [A] Yes im always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
-* [Q] Does this mod support Resource packs.
-  * [A] Only Resource packs that only changes the textures or has support for the mod.
+  * [A] Yes, this mod is a 100% client side and should only be installed on the client.
+* [Q] Are there any plans to add more features to the mod in the future?
+  * [A] Yes, I'm always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
+* [Q] Does this mod support Resource packs?
+  * [A] Only Resource packs that only change the textures or have support for the mod.
 
 ---
 ## Support me
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S0WO38H)
 
-You can also support me by clicking the link below and signing up, every purchased server will help support me and the development of my mods.  
+You can also support me by clicking the link below and signing up;
+every purchased server will help support me and the development of my mods.  
 ![Partner Banner](https://github.com/PandaDap2006/PandaDap2006/blob/main/assets_for_readme/kinetic_hosting_banner_v2.png?raw=true)
 **[Sign up](https://t.ly/B1Kui)**
+
+## License
+The project is licensed under the GNU GPLv3

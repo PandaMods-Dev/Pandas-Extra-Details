@@ -1,18 +1,21 @@
 # Changelog Version 0.4
-## Complete Recode of the whole mod
 
-### Support
+## General
+* Complete recode of the mod
+* Updated to Minecraft 1.21
+* Remade all Models and animations to better fit with the new System
+
+## Support
 * Updated sodium compatibility to support 0.5.8+ and forge alternatives (Rubidium and Embeddium)
 * Added support for Nvidium 0.2.6+ beta
 
-
-### Config
+## Config
 * Switched Cloth Config out with [PandaLib](https://www.curseforge.com/minecraft/mc-mods/pandalib)
-* Removed config menu temporarily, until the config menu api in pandalib is ready
+* Removed the config menu temporarily, until the PandaLib config menu api is ready
 
-### Technical Changes
+## Technical Changes
 * Updated Gradle to 8.8
 * Updated to Architectury Loom 1.7
 
-### Bug Fixes
-* Bamboo Fence gate texture being messed up.
+## Bug Fixes
+* Fixed Bamboo Fence gate texture being messed up.
