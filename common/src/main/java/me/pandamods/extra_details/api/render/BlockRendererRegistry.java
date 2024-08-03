@@ -45,13 +45,27 @@ public class BlockRendererRegistry {
 		register(blockRenderer, blockState -> blockState.is(block));
 	}
 
+	public static void register(BlockRenderer blockRenderer, Block block, Function<BlockState, Boolean> condition) {
+		register(blockRenderer, blockState -> blockState.is(block) && condition.apply(blockState));
+	}
+
 	public static void register(BlockRenderer blockRenderer, Block... blocks) {
 		for (Block block : blocks) {
 			register(blockRenderer, blockState -> blockState.is(block));
 		}
 	}
 
+	public static void register(BlockRenderer blockRenderer, Function<BlockState, Boolean> condition, Block... blocks) {
+		for (Block block : blocks) {
+			register(blockRenderer, blockState -> blockState.is(block) && condition.apply(blockState));
+		}
+	}
+
 	public static void register(BlockRenderer blockRenderer, TagKey<Block> blockTag) {
 		register(blockRenderer, blockState -> blockState.is(blockTag));
+	}
+
+	public static void register(BlockRenderer blockRenderer, TagKey<Block> blockTag, Function<BlockState, Boolean> condition) {
+		register(blockRenderer, blockState -> blockState.is(blockTag) && condition.apply(blockState));
 	}
 }

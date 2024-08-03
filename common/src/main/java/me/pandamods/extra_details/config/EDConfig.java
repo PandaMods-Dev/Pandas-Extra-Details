@@ -13,7 +13,8 @@
 package me.pandamods.extra_details.config;
 
 import me.pandamods.extra_details.ExtraDetails;
-import me.pandamods.extra_details.config.blocks.SignSettings;
+import me.pandamods.extra_details.config.blocks.BlockConfig;
+import me.pandamods.extra_details.config.blocks.SignConfig;
 import me.pandamods.pandalib.api.config.Config;
 import me.pandamods.pandalib.api.config.ConfigData;
 
@@ -22,6 +23,10 @@ public class EDConfig implements ConfigData {
 	public BlockSettings blockSettings = new BlockSettings();
 
 	public static class BlockSettings {
-		public SignSettings sign = new SignSettings();
+		public SignConfig sign = new SignConfig();
+		public BlockConfig door = new BlockConfig();
+		public BlockConfig trapdoor = new BlockConfig();
+		public BlockConfig fenceGate = new BlockConfig();
+		public BlockConfig lever = new BlockConfig();
 	}
 }

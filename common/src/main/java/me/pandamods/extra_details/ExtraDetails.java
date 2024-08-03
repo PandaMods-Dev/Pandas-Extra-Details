@@ -29,6 +29,7 @@ import me.pandamods.pandalib.client.render.PLInternalShaders;
 import me.pandamods.pandalib.resource.AssimpResources;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
@@ -44,21 +45,24 @@ public class ExtraDetails {
 		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
 		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new AssimpResources(), ID("assimp_loader"));
 
-		BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
+		if (CONFIG.get().blockSettings.sign.enabled)
+			BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
 		// Todo make renders registration not be hardcoded, maybe something like how block models are registered and handled.
-		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER);
+		BlockRendererRegistry.register(new LeverRenderer(), Blocks.LEVER, blockState -> CONFIG.get().blockSettings.lever.enabled);
 
-		BlockRendererRegistry.register(new DoorRenderer(), Blocks.OAK_DOOR, Blocks.DARK_OAK_DOOR, Blocks.ACACIA_DOOR, Blocks.BAMBOO_DOOR, Blocks.BIRCH_DOOR,
-				Blocks.CHERRY_DOOR, Blocks.CRIMSON_DOOR, Blocks.WARPED_DOOR, Blocks.JUNGLE_DOOR, Blocks.SPRUCE_DOOR, Blocks.MANGROVE_DOOR, Blocks.IRON_DOOR);
+		BlockRendererRegistry.register(new DoorRenderer(), blockState -> CONFIG.get().blockSettings.door.enabled,
+				Blocks.OAK_DOOR, Blocks.DARK_OAK_DOOR, Blocks.ACACIA_DOOR, Blocks.BAMBOO_DOOR, Blocks.BIRCH_DOOR, Blocks.CHERRY_DOOR, Blocks.CRIMSON_DOOR,
+				Blocks.WARPED_DOOR, Blocks.JUNGLE_DOOR, Blocks.SPRUCE_DOOR, Blocks.MANGROVE_DOOR, Blocks.IRON_DOOR);
 
-		BlockRendererRegistry.register(new TrapDoorRenderer(), Blocks.OAK_TRAPDOOR, Blocks.DARK_OAK_TRAPDOOR, Blocks.ACACIA_TRAPDOOR, Blocks.BAMBOO_TRAPDOOR,
-				Blocks.BIRCH_TRAPDOOR, Blocks.CHERRY_TRAPDOOR, Blocks.CRIMSON_TRAPDOOR, Blocks.WARPED_TRAPDOOR, Blocks.JUNGLE_TRAPDOOR, Blocks.SPRUCE_TRAPDOOR,
-				Blocks.MANGROVE_TRAPDOOR, Blocks.IRON_TRAPDOOR);
+		BlockRendererRegistry.register(new TrapDoorRenderer(), blockState -> CONFIG.get().blockSettings.trapdoor.enabled,
+				Blocks.OAK_TRAPDOOR, Blocks.DARK_OAK_TRAPDOOR, Blocks.ACACIA_TRAPDOOR, Blocks.BAMBOO_TRAPDOOR, Blocks.BIRCH_TRAPDOOR, Blocks.CHERRY_TRAPDOOR,
+				Blocks.CRIMSON_TRAPDOOR, Blocks.WARPED_TRAPDOOR, Blocks.JUNGLE_TRAPDOOR, Blocks.SPRUCE_TRAPDOOR, Blocks.MANGROVE_TRAPDOOR, Blocks.IRON_TRAPDOOR);
 
-		BlockRendererRegistry.register(new FenceGateRenderer(), Blocks.OAK_FENCE_GATE, Blocks.DARK_OAK_FENCE_GATE, Blocks.ACACIA_FENCE_GATE,
-				Blocks.BAMBOO_FENCE_GATE, Blocks.BIRCH_FENCE_GATE, Blocks.CHERRY_FENCE_GATE, Blocks.CRIMSON_FENCE_GATE, Blocks.WARPED_FENCE_GATE,
-				Blocks.JUNGLE_FENCE_GATE, Blocks.SPRUCE_FENCE_GATE, Blocks.MANGROVE_FENCE_GATE);
+		BlockRendererRegistry.register(new FenceGateRenderer(), blockState -> CONFIG.get().blockSettings.fenceGate.enabled,
+				Blocks.OAK_FENCE_GATE, Blocks.DARK_OAK_FENCE_GATE, Blocks.ACACIA_FENCE_GATE, Blocks.BAMBOO_FENCE_GATE, Blocks.BIRCH_FENCE_GATE,
+				Blocks.CHERRY_FENCE_GATE, Blocks.CRIMSON_FENCE_GATE, Blocks.WARPED_FENCE_GATE, Blocks.JUNGLE_FENCE_GATE, Blocks.SPRUCE_FENCE_GATE,
+				Blocks.MANGROVE_FENCE_GATE);
 	}
 
 	public static ResourceLocation ID(String path) {
