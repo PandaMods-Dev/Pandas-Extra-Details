@@ -25,8 +25,8 @@ import me.pandamods.extra_details.client.renderer.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.EDConfig;
 import me.pandamods.pandalib.api.config.PandaLibConfig;
 import me.pandamods.pandalib.api.config.holders.ConfigHolder;
-import me.pandamods.pandalib.client.render.PLInternalShaders;
-import me.pandamods.pandalib.resource.AssimpResources;
+import me.pandamods.pandalib.api.model.client.render.PLInternalShaders;
+import me.pandamods.pandalib.api.model.resource.AssimpResources;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
@@ -42,9 +42,6 @@ public class ExtraDetails {
 	public static final ConfigHolder<EDConfig> CONFIG = PandaLibConfig.registerClient(EDConfig.class);
 
 	public static void init() {
-		ClientReloadShadersEvent.EVENT.register(PLInternalShaders::register);
-		ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new AssimpResources(), ID("assimp_loader"));
-
 		if (CONFIG.get().blockSettings.sign.enabled)
 			BlockEntityRendererRegistry.register(BlockEntityType.SIGN, TiltSignRenderer::new);
 
