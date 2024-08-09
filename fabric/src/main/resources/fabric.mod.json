@@ -1,39 +1,35 @@
 {
-  "schemaVersion": 1,
-	"id": "${id}",
-	"version": "${version}",
-	"name": "${name}",
-	"description": "${description}",
+	"schemaVersion": 1,
+	"id": "${modId}",
+	"version": "${modVersion}",
+	"name": "${modName}",
+	"description": "${modDescription}",
 	"authors": [
-		"The Panda Oliver"
+		"${modAuthor}"
 	],
-	"icon": "assets/extra_details/icon.png",
-  "contact": {
+	"contact": {
 		"issues": "https://github.com/PandaDap2006/Pandas-Extra-Details/issues",
 		"sources": "https://github.com/PandaDap2006/Pandas-Extra-Details"
-  },
-  "license": "GPL-3",
-  "environment": "client",
-  "entrypoints": {
-    "main": [
+	},
+	"license": "GPL-3",
+	"icon": "assets/${modId}/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
 			"me.pandamods.extra_details.fabric.ExtraDetailsFabric"
-    ],
-		"modmenu": [
-			"me.pandamods.extra_details.fabric.ModMenuIntegration"
 		]
-  },
-  "mixins": [
-		"extra_details.mixins.json",
-    "extra_details-common.mixins.json"
-  ],
-  "depends": {
-    "fabric": "*",
+	},
+	"mixins": [
+		"${modId}.mixins.json",
+		"${modId}-common.mixins.json"
+	],
+	"depends": {
+		"fabric": "*",
 		"fabric-api": "*",
-		"minecraft": "${compatible_fabricmc_versions}",
-		"java": ">=${java_version}",
+		"minecraft": "${fabricCompatibleVersions}",
 		"architectury": "*",
-		"pandalib": ">=0.3"
-  },
+		"pandalib": ">=0.4"
+	},
 	"custom": {
 		"modmenu": {
 			"links": {
