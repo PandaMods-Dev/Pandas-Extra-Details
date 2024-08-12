@@ -10,16 +10,14 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.pandamods.extra_details.compat;
+package me.pandamods.extra_details.neoforge;
 
-import dev.architectury.platform.Platform;
+import me.pandamods.extra_details.ExtraDetails;
+import net.neoforged.fml.common.Mod;
 
-public class ExtraDetailsCompat {
-	public static boolean isSodiumLoaded() {
-		return Platform.isModLoaded("sodium") || Platform.isModLoaded("rubidium") || Platform.isModLoaded("embeddium");
-	}
-
-	public static boolean isNvidiumLoaded() {
-		return Platform.isModLoaded("nvidium");
-	}
+@Mod(ExtraDetails.MOD_ID)
+public class ExtraDetailsNeoForge {
+    public ExtraDetailsNeoForge() {
+		ExtraDetails.init();
+    }
 }

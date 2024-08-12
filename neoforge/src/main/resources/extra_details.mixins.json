@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "me.pandamods.extra_details.neoforge.mixin",
+	"minVersion": "0.8",
+	"client": [
+	],
+	"mixins": [
+	],
+	"plugin": "me.pandamods.extra_details.neoforge.ExtraDetailsMixinPlugin",
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

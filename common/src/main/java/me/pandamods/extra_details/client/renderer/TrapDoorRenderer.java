@@ -35,7 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 
 public class TrapDoorRenderer implements MeshBlockRenderer<TrapDoorRenderer.TrapDoorData>, AnimationController<TrapDoorRenderer.TrapDoorData> {
-	private final Model model = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/trapdoor/trap_door.fbx"));
+	private final Model model = AssimpResources.getModel(ExtraDetails.LOCATION("assimp/meshes/block/trapdoor/trap_door.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
@@ -73,9 +73,9 @@ public class TrapDoorRenderer implements MeshBlockRenderer<TrapDoorRenderer.Trap
 	@Override
 	public State registerStates(TrapDoorData trapDoorData) {
 		boolean isTop = trapDoorData.getBlockstate().getValue(TrapDoorBlock.HALF).equals(Half.TOP);
-		State offState = new AnimationState(ExtraDetails.ID(isTop ?
+		State offState = new AnimationState(ExtraDetails.LOCATION(isTop ?
 				"assimp/animations/block/trapdoor/trap_door_top_close.fbx" : "assimp/animations/block/trapdoor/trap_door_bottom_close.fbx"));
-		State onState = new AnimationState(ExtraDetails.ID(isTop ?
+		State onState = new AnimationState(ExtraDetails.LOCATION(isTop ?
 				"assimp/animations/block/trapdoor/trap_door_top_open.fbx" : "assimp/animations/block/trapdoor/trap_door_bottom_open.fbx"));
 
 		offState.nextTransitionState(() -> trapDoorData.getBlockstate().getValue(TrapDoorBlock.OPEN), onState, .1f);

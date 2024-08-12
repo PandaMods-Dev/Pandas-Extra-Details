@@ -3,20 +3,6 @@
 	"package": "me.pandamods.extra_details.mixin",
 	"minVersion": "0.8",
 	"client": [
-		"LevelChunkMixin",
-		"LevelMixin",
-		"client.CompiledSectionMixin",
-		"client.RenderSectionRebuildTaskMixin",
-		"client.LevelRendererMixin",
-		"client.SectionCompilerMixin",
-		"client.SectionCompilerResultsMixin",
-		"nvidium.client.LevelRendererMixin",
-		"sodium.client.BuiltSectionInfoBuilderMixin",
-		"sodium.client.BuiltSectionInfoMixin",
-		"sodium.client.ChunkBuilderMeshingTaskMixin",
-		"sodium.client.LevelRendererMixin",
-		"sodium.client.RenderSectionMixin",
-		"sodium.client.SodiumWorldRendererAccessor"
 	],
 	"mixins": [
 	],

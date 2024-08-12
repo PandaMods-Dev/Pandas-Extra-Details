@@ -37,8 +37,8 @@ import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, AnimationController<DoorRenderer.DoorData> {
-	private final Model leftModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_left.fbx"));
-	private final Model rightModel = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/door/door_right.fbx"));
+	private final Model leftModel = AssimpResources.getModel(ExtraDetails.LOCATION("assimp/meshes/block/door/door_left.fbx"));
+	private final Model rightModel = AssimpResources.getModel(ExtraDetails.LOCATION("assimp/meshes/block/door/door_right.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightmapUV) {
@@ -85,9 +85,9 @@ public class DoorRenderer implements MeshBlockRenderer<DoorRenderer.DoorData>, A
 	@Override
 	public State registerStates(DoorData doorData) {
 		boolean isRight = doorData.getBlockstate().getValue(DoorBlock.HINGE).equals(DoorHingeSide.RIGHT);
-		State offState = new AnimationState(ExtraDetails.ID(isRight ?
+		State offState = new AnimationState(ExtraDetails.LOCATION(isRight ?
 				"assimp/animations/block/door/door_right_close.fbx" : "assimp/animations/block/door/door_left_close.fbx"));
-		State onState = new AnimationState(ExtraDetails.ID(isRight ?
+		State onState = new AnimationState(ExtraDetails.LOCATION(isRight ?
 				"assimp/animations/block/door/door_right_open.fbx" : "assimp/animations/block/door/door_left_open.fbx"));
 
 		offState.nextTransitionState(() -> doorData.getBlockstate().getValue(DoorBlock.OPEN), onState, .1f);

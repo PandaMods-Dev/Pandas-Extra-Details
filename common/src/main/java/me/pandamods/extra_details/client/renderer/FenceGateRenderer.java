@@ -35,7 +35,7 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.LeverData>, AnimationController<FenceGateRenderer.LeverData> {
-	private final Model model = AssimpResources.getModel(ExtraDetails.ID("assimp/meshes/block/fence_gate/fence_gate.fbx"));
+	private final Model model = AssimpResources.getModel(ExtraDetails.LOCATION("assimp/meshes/block/fence_gate/fence_gate.fbx"));
 
 	@Override
 	public void render(BlockPos blockPos, ClientLevel level, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int lightColor) {
@@ -73,8 +73,8 @@ public class FenceGateRenderer implements MeshBlockRenderer<FenceGateRenderer.Le
 
 	@Override
 	public State registerStates(LeverData leverData) {
-		State offState = new AnimationState(ExtraDetails.ID("assimp/animations/block/fence_gate/fence_gate_close.fbx"));
-		State onState = new AnimationState(ExtraDetails.ID("assimp/animations/block/fence_gate/fence_gate_open.fbx"));
+		State offState = new AnimationState(ExtraDetails.LOCATION("assimp/animations/block/fence_gate/fence_gate_close.fbx"));
+		State onState = new AnimationState(ExtraDetails.LOCATION("assimp/animations/block/fence_gate/fence_gate_open.fbx"));
 
 		offState.nextTransitionState(() -> leverData.getBlockstate().getValue(FenceGateBlock.OPEN), onState, .1f);
 		onState.nextTransitionState(() -> !leverData.getBlockstate().getValue(FenceGateBlock.OPEN), offState, .1f);

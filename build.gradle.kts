@@ -1,6 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import net.fabricmc.loom.task.RemapJarTask
+import org.gradle.api.tasks.Delete
 
 plugins {
 	java
@@ -78,10 +79,10 @@ allprojects {
 }
 
 subprojects {
-	val isMinecraftSubProject = findProject("common") != null && project("common") != project
-	val isFabric = findProject("fabric") != null && project("fabric") == project
-	val isForge = findProject("forge") != null && project("forge") == project
-	val isNeoForge = findProject("neoforge") != null && project("neoforge") == project
+	val isMinecraftSubProject = findProject(":common") != project
+	val isFabric = findProject(":fabric") == project
+	val isForge = findProject(":forge") == project
+	val isNeoForge = findProject(":neoforge") == project
 
 	apply(plugin = "architectury-plugin")
 	apply(plugin = "dev.architectury.loom")
@@ -136,7 +137,7 @@ subprojects {
 			parchment("org.parchmentmc.data:parchment-${parchmentMinecraftVersion}:${parchmentVersion}@zip")
 		})
 
-		"modApi"("me.pandamods:pandalib-${project.name}:${pandalibVersion}")
+		"modImplementation"("me.pandamods:pandalib-${project.name}:${pandalibVersion}")
 
 		if (isMinecraftSubProject) {
 			"modApi"("dev.architectury:architectury-${project.name}:${architecturyVersion}")

@@ -16,7 +16,7 @@ loom {
 }
 
 configurations {
-	getByName("developmentFabric").extendsFrom(configurations["common"])
+	getByName("developmentFabric").extendsFrom(configurations["common"], configurations["jarShadow"])
 }
 
 repositories {
@@ -44,11 +44,5 @@ tasks {
 
 	remapJar {
 		injectAccessWidener.set(true)
-	}
-
-	sourcesJar {
-		val commonSources = project(":common").tasks.sourcesJar
-		dependsOn(commonSources)
-		from(commonSources.get().archiveFile.map { zipTree(it) })
 	}
 }

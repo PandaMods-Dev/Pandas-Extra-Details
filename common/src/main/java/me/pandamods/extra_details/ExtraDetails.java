@@ -13,8 +13,6 @@
 package me.pandamods.extra_details;
 
 import com.mojang.logging.LogUtils;
-import dev.architectury.event.events.client.ClientReloadShadersEvent;
-import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import me.pandamods.extra_details.api.render.BlockRendererRegistry;
 import me.pandamods.extra_details.client.renderer.DoorRenderer;
@@ -25,11 +23,7 @@ import me.pandamods.extra_details.client.renderer.sign.TiltSignRenderer;
 import me.pandamods.extra_details.config.EDConfig;
 import me.pandamods.pandalib.api.config.PandaLibConfig;
 import me.pandamods.pandalib.api.config.holders.ConfigHolder;
-import me.pandamods.pandalib.api.model.client.render.PLInternalShaders;
-import me.pandamods.pandalib.api.model.resource.AssimpResources;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
@@ -62,7 +56,7 @@ public class ExtraDetails {
 				Blocks.MANGROVE_FENCE_GATE);
 	}
 
-	public static ResourceLocation ID(String path) {
+	public static ResourceLocation LOCATION(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

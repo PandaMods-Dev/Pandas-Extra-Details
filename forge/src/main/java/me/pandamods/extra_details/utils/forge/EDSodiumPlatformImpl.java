@@ -1,4 +1,4 @@
-package me.pandamods.extra_details.utils.forge;
+package me.pandamods.extra_details.fabric.utils.forge;
 
 import me.jellysquid.mods.sodium.client.world.WorldSlice;
 import net.minecraft.core.BlockPos;
