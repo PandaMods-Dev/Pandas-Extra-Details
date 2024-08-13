@@ -10,7 +10,7 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.pandamods.extra_details;
+package me.pandamods.extra_details.fabric;
 
 import dev.architectury.platform.Platform;
 import me.pandamods.pandalib.utils.ClassUtils;
@@ -44,40 +44,7 @@ public class ExtraDetailsMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public List<String> getMixins() {
 		List<String> mixins = new ArrayList<>();
-
-		boolean isSodiumLoaded = ClassUtils.doesClassExist("me.jellysquid.mods.sodium.client.SodiumClientMod");
-		boolean isNvidiumLoaded = ClassUtils.doesClassExist("me.cortex.nvidium.Nvidium");
-
-		boolean isMinecraftForge = Platform.isMinecraftForge();
-		boolean isNeoForge = Platform.isNeoForge();
-		boolean isForgeLike = isMinecraftForge || isNeoForge;
-
-		// Mixins for vanilla rendering
-		mixins.add("LevelChunkMixin");
-		mixins.add("LevelMixin");
-		mixins.add("client.CompiledSectionMixin");
-		mixins.add("client.RenderSectionRebuildTaskMixin");
-		mixins.add("client.SectionCompilerResultsMixin");
-
-		if (!isSodiumLoaded) {
-			// Mixins for vanilla rendering if Sodium is not loaded
-			mixins.add("client.LevelRendererMixin");
-		} else {
-			// Mixins for Sodium rendering
-			mixins.add("sodium.client.BuiltSectionInfoBuilderMixin");
-			mixins.add("sodium.client.SodiumWorldRendererAccessor");
-			mixins.add("sodium.client.BuiltSectionInfoMixin");
-			mixins.add("sodium.client.ChunkBuilderMeshingTaskMixin");
-			mixins.add("sodium.client.RenderSectionMixin");
-			if (isNvidiumLoaded) {
-				// Mixin for Nvidium rendering
-				mixins.add("nvidium.client.LevelRendererMixin");
-			} else {
-				// Mixin for Sodium rendering if Nvidium is not loaded
-				mixins.add("sodium.client.LevelRendererMixin");
-			}
-		}
-
+		mixins.add("client.SectionCompilerMixin");
 		return mixins;
 	}
 

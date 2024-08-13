@@ -1,12 +1,12 @@
 {
   "required": true,
-	"package": "me.pandamods.extra_details.mixin",
+	"package": "me.pandamods.extra_details.fabric.mixin",
   "minVersion": "0.8",
   "client": [
   ],
   "mixins": [
   ],
-	"plugin": "me.pandamods.extra_details.ExtraDetailsMixinPlugin",
+	"plugin": "me.pandamods.extra_details.fabric.ExtraDetailsMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }
