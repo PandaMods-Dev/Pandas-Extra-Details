@@ -5,6 +5,7 @@ val fabricApiVersion: String by project
 val modmenuVersion: String by project
 val sodiumVersion: String by project
 val nvidiumVersion: String by project
+val irisVersion: String by project
 
 architectury {
 	platformSetupLoomIde()
@@ -16,7 +17,7 @@ loom {
 }
 
 configurations {
-	getByName("developmentFabric").extendsFrom(configurations["common"], configurations["jarShadow"])
+	getByName("developmentFabric").extendsFrom(configurations["common"])
 }
 
 repositories {
@@ -32,17 +33,17 @@ dependencies {
 	modCompileOnly("maven.modrinth:sodium:${sodiumVersion}")
 	modRuntimeOnly("maven.modrinth:sodium:${sodiumVersion}")
 
-	modCompileOnly("maven.modrinth:nvidium:${nvidiumVersion}")
-	modRuntimeOnly("maven.modrinth:nvidium:${nvidiumVersion}")
+//	modCompileOnly("maven.modrinth:iris:${irisVersion}")
+//	modRuntimeOnly("maven.modrinth:iris:${irisVersion}")
+
+//	modCompileOnly("maven.modrinth:nvidium:${nvidiumVersion}")
+//	modRuntimeOnly("maven.modrinth:nvidium:${nvidiumVersion}")
 
 	"common"(project(":common", "namedElements")) { isTransitive = false }
-	"shadowCommon"(project(":common", "transformProductionFabric")) { isTransitive = false }
+	"shadowBundle"(project(":common", "transformProductionFabric"))
 }
 
-tasks {
-	base.archivesName.set(base.archivesName.get() + "-fabric")
 
-	remapJar {
-		injectAccessWidener.set(true)
-	}
+tasks.remapJar {
+	injectAccessWidener.set(true)
 }

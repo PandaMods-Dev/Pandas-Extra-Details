@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
-@Mixin(value = SodiumWorldRenderer.class, remap = false)
+@Mixin(SodiumWorldRenderer.class)
 public interface SodiumWorldRendererAccessor {
 	@Accessor
 	RenderSectionManager getRenderSectionManager();

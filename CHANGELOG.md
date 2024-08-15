@@ -1,9 +1,9 @@
-# Changelog Version 0.4
+# Changelog Version 0.4 Beta
 
 ## General
 * Complete recode of the mod
 * Updated to Minecraft 1.21
-* Remade all Models and animations to better fit with the new System
+* Remade all Models and Animations to better fit with the new System
 
 ## Support
 * Updated sodium compatibility to support 0.5.8+ and forge alternatives (Rubidium and Embeddium)
@@ -16,6 +16,7 @@
 ## Technical Changes
 * Updated Gradle to 8.8
 * Updated to Architectury Loom 1.7
+* Switched the build script to Kotlin
 
 ## Bug Fixes
 * Fixed Bamboo Fence gate texture being messed up.

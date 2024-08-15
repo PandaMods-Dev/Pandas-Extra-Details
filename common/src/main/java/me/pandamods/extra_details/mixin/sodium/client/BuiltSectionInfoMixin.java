@@ -25,7 +25,7 @@ import java.util.*;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
-@Mixin(value = BuiltSectionInfo.class, remap = false)
+@Mixin(BuiltSectionInfo.class)
 public class BuiltSectionInfoMixin implements SectionCompilerResultsExtension {
 	@Unique
 	private Set<BlockPos> renderableBlocks = new HashSet<>();

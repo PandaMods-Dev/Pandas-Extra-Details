@@ -36,7 +36,7 @@ These showcases might be outdated, but they still show the main features of the 
 * [Q] Is this mod Client side.
   * [A] Yes, this mod is a 100% client side and should only be installed on the client.
 * [Q] Are there any plans to add more features to the mod in the future?
-  * [A] Yes, I'm always looking for more cool details to add to the game, if you have any of your own ideas, please leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
+  * [A] Yes, I'm always looking for more cool details to add to the game, if you have any of your own ideas, leave them on my discord server [here](https://discord.gg/wjPt4vEfXb)
 * [Q] Does this mod support Resource packs?
   * [A] Only Resource packs that only change the textures or have support for the mod.
 

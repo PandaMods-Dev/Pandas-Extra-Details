@@ -1,7 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import net.fabricmc.loom.task.RemapJarTask
-import org.gradle.api.tasks.Delete
 
 plugins {
 	java
@@ -16,6 +15,9 @@ plugins {
 	id("me.modmuss50.mod-publish-plugin") version "0.6.3"
 }
 
+/**
+ * Borrowed from Distant Horizons
+ */
 fun writeBuildGradlePredefine(AvailableVersion: List<String>, versionIndex: Int) {
 	val sb = StringBuilder()
 
@@ -73,7 +75,7 @@ architectury.minecraft = minecraftVersion
 allprojects {
 	apply(plugin = "java")
 
-	base.archivesName = projectArchivesName
+	tasks { base.archivesName = projectArchivesName }
 	version = "${modVersion}-${minecraftVersion}"
 	group = projectGroup
 }
@@ -90,17 +92,29 @@ subprojects {
 	apply(plugin = "maven-publish")
 	apply(plugin = "com.github.johnrengelman.shadow")
 
+	tasks { base.archivesName = "${projectArchivesName}-${project.name}" }
+
 	val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
 	loom.silentMojangMappingsLicense()
 
 	configurations {
-		create("common")
-		create("shadowCommon")
+		create("common") {
+			isCanBeResolved = true
+			isCanBeConsumed = false
+		}
 		compileClasspath.get().extendsFrom(configurations["common"])
 		runtimeClasspath.get().extendsFrom(configurations["common"])
 
+		// Files in this configuration will be bundled into your mod using the Shadow plugin.
+		// Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+		create("shadowBundle") {
+			isCanBeResolved = true
+			isCanBeConsumed = false
+		}
+
 		create("jarShadow")
 		implementation.get().extendsFrom(configurations["jarShadow"])
+		getByName("shadowBundle").extendsFrom(configurations["jarShadow"])
 
 		create("modShadow")
 		getByName("modImplementation").extendsFrom(configurations["modShadow"])
@@ -157,7 +171,7 @@ subprojects {
 
 	if (isMinecraftSubProject) {
 		tasks.withType<ShadowJar>().configureEach {
-			configurations = listOf(project.configurations.getByName("shadowCommon"), project.configurations.getByName("jarShadow"))
+			configurations = listOf(project.configurations.getByName("shadowBundle"))
 			archiveClassifier.set("dev-shadow")
 
 			exclude("architectury.common.json")
@@ -166,46 +180,47 @@ subprojects {
 		tasks.withType<RemapJarTask>().configureEach {
 			val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
 			inputFile.set(shadowJar.archiveFile)
-			dependsOn(shadowJar)
 		}
 	}
 
-	tasks {
-		processResources {
-			val properties = mapOf(
-				"minecraftVersion" to minecraftVersion,
+	tasks.withType<JavaCompile>().configureEach {
+		options.encoding = "UTF-8"
+		options.release.set(JavaLanguageVersion.of(projectJavaVersion).asInt())
+		options.compilerArgs.add("-Xplugin:Manifold")
+	}
 
-				"modId" to modId,
-				"modVersion" to modVersion,
-				"modName" to modName,
-				"modDescription" to modDescription,
-				"modAuthor" to modAuthor,
+	tasks.processResources {
+		val properties = mapOf(
+			"minecraftVersion" to minecraftVersion,
 
-				"fabricCompatibleVersions" to fabricCompatibleVersions,
-				"forgeCompatibleVersions" to forgeCompatibleVersions,
-				"neoForgeCompatibleVersions" to neoForgeCompatibleVersions
-			)
+			"modId" to modId,
+			"modVersion" to modVersion,
+			"modName" to modName,
+			"modDescription" to modDescription,
+			"modAuthor" to modAuthor,
 
-			inputs.properties(properties)
-			filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml", "pack.mcmeta", "fabric.mod.json")) {
-				expand(properties)
-			}
+			"fabricCompatibleVersions" to fabricCompatibleVersions,
+			"forgeCompatibleVersions" to forgeCompatibleVersions,
+			"neoForgeCompatibleVersions" to neoForgeCompatibleVersions
+		)
+
+		inputs.properties(properties)
+		filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml", "pack.mcmeta", "fabric.mod.json")) {
+			expand(properties)
 		}
+	}
 
-		jar {
-			manifest {
-				attributes(mapOf(
-					"Specification-Title" to modName,
-					"Specification-Vendor" to modAuthor,
-					"Specification-Version" to modVersion,
-					"Implementation-Title" to name,
-					"Implementation-Vendor" to modAuthor,
-					"Implementation-Version" to archiveVersion
-				))
-			}
+	tasks.jar {
+		manifest {
+			attributes(mapOf(
+				"Specification-Title" to modName,
+				"Specification-Vendor" to modAuthor,
+				"Specification-Version" to modVersion,
+				"Implementation-Title" to name,
+				"Implementation-Vendor" to modAuthor,
+				"Implementation-Version" to archiveVersion
+			))
 		}
-
-		jar.get().archiveClassifier.set("dev")
 	}
 
 	java {

@@ -8,12 +8,13 @@ architectury {
 }
 
 configurations {
-	getByName("developmentNeoForge").extendsFrom(configurations["common"], configurations["jarShadow"])
+	getByName("developmentNeoForge").extendsFrom(configurations["common"])
 }
 
 loom {
 	accessWidenerPath.set(project(":common").loom.accessWidenerPath)
 }
+
 
 dependencies {
 	neoForge("net.neoforged:neoforge:${neoForgeVersion}")
@@ -21,18 +22,14 @@ dependencies {
 //	modImplementation("maven.modrinth:embeddium:${embeddiumVersion}-neoforge")
 
 	"common"(project(":common", "namedElements")) { isTransitive = false }
-	"shadowCommon"(project(":common", "transformProductionNeoForge")) { isTransitive = false }
+	"shadowBundle"(project(":common", "transformProductionNeoForge"))
 }
 
-tasks {
-	base.archivesName.set(base.archivesName.get() + "-neoforge")
+tasks.shadowJar {
+	exclude("fabric.mod.json")
+}
 
-	shadowJar {
-		exclude("fabric.mod.json")
-	}
-
-	remapJar {
-		injectAccessWidener = true
-		atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-	}
+tasks.remapJar {
+	injectAccessWidener = true
+	atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }

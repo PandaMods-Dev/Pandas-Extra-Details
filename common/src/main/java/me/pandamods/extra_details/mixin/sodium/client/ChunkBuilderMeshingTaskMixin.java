@@ -42,9 +42,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
-@Mixin(value = ChunkBuilderMeshingTask.class, remap = false)
+@Mixin(value = ChunkBuilderMeshingTask.class)
 public class ChunkBuilderMeshingTaskMixin {
-	@Shadow @Final private RenderSection render;
 	private final ExtraDetailsLevelRenderer edLevelRenderer = ExtraDetails.LEVEL_RENDERER;
 
 	@Inject(

@@ -29,7 +29,7 @@ import java.util.Set;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
-@Mixin(value = BuiltSectionInfo.Builder.class, remap = false)
+@Mixin(BuiltSectionInfo.Builder.class)
 public class BuiltSectionInfoBuilderMixin implements SectionCompilerResultsExtension {
 	@Unique
 	private Set<BlockPos> renderableBlocks = new HashSet<>();
@@ -39,7 +39,7 @@ public class BuiltSectionInfoBuilderMixin implements SectionCompilerResultsExten
 		return renderableBlocks;
 	}
 
-	@Inject(method = "build", at = @At("RETURN"))
+	@Inject(method = "build", at = @At("RETURN"), remap = false)
 	public void build(CallbackInfoReturnable<BuiltSectionInfo> cir) {
 		BuiltSectionInfo builtSectionInfo = cir.getReturnValue();
 		((SectionCompilerResultsExtension) builtSectionInfo).getRenderableBlocks().addAll(getRenderableBlocks());

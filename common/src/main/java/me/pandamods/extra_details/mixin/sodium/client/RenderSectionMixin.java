@@ -32,7 +32,7 @@ import java.util.Set;
 
 @Pseudo
 @Environment(EnvType.CLIENT)
-@Mixin(value = RenderSection.class, remap = false)
+@Mixin(RenderSection.class)
 public abstract class RenderSectionMixin implements CompiledSectionExtension {
 	@Shadow private int flags;
 
@@ -44,14 +44,14 @@ public abstract class RenderSectionMixin implements CompiledSectionExtension {
 		return renderableBlocks;
 	}
 
-	@Inject(method = "setRenderState", at = @At("RETURN"))
+	@Inject(method = "setRenderState", at = @At("RETURN"), remap = false)
 	public void setRenderState(BuiltSectionInfo info, CallbackInfo ci) {
 		this.renderableBlocks = ((SectionCompilerResultsExtension) info).getRenderableBlocks();
 		if (!this.getRenderableBlocks().isEmpty())
 			this.flags |= 2;
 	}
 
-	@Inject(method = "clearRenderState", at = @At("RETURN"))
+	@Inject(method = "clearRenderState", at = @At("RETURN"), remap = false)
 	public void clearRenderState(CallbackInfo ci) {
 		this.getRenderableBlocks().clear();
 	}
