@@ -12,19 +12,18 @@
 
 package me.pandamods.extra_details.api.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.extra_details.api.blockdata.BlockData;
 import me.pandamods.pandalib.api.model.client.animation.Animatable;
 import me.pandamods.pandalib.api.model.client.animation.states.AnimationController;
-import me.pandamods.pandalib.api.model.client.render.PLRenderType;
 import me.pandamods.pandalib.api.model.client.render.ModelRenderer;
+import me.pandamods.pandalib.api.model.client.render.PLRenderType;
 import me.pandamods.pandalib.api.model.resource.model.Model;
 import me.pandamods.pandalib.utils.PLSpriteCoordinateExpander;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -42,7 +41,7 @@ public interface MeshBlockRenderer<T extends BlockData & Animatable> extends Blo
 				.getAtlas(ResourceLocation.withDefaultNamespace("textures/atlas/blocks.png"));
 		VertexConsumer vertexConsumer = bufferSource.getBuffer(PLRenderType.CUTOUT_MESH_ENTITY.apply(atlas.location()));
 		ModelRenderer.render(model, poseStack, OverlayTexture.NO_OVERLAY, lightmapUV, s -> new PLSpriteCoordinateExpander(
-						vertexConsumer, atlas.getSprite(getTexture(level, blockPos, s))
+				vertexConsumer, atlas.getSprite(getTexture(level, blockPos, s))
 		));
 		poseStack.popPose();
 	}

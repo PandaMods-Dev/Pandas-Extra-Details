@@ -59,22 +59,22 @@ public class ExtraDetailsLevelRenderer {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX() - camX, blockPos.getY() - camY, blockPos.getZ() - camZ);
 
-			SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
-			if (breakingInfo != null && !breakingInfo.isEmpty()) {
-				int stage = breakingInfo.last().getProgress();
-
-				if (stage >= 0) {
-					VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
-							.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
-
-					PoseStack.Pose pose = poseStack.last();
-					VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose, 1);
-
-					bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
-							.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
-							renderBuffers.bufferSource().getBuffer(renderType);
-				}
-			}
+//			SortedSet<BlockDestructionProgress> breakingInfo = destructionProgress.get(blockPos.asLong());
+//			if (breakingInfo != null && !breakingInfo.isEmpty()) {
+//				int stage = breakingInfo.last().getProgress();
+//
+//				if (stage >= 0) {
+//					VertexConsumer bufferBuilder = renderBuffers.crumblingBufferSource()
+//							.getBuffer(ModelBakery.DESTROY_TYPES.get(stage));
+//
+//					PoseStack.Pose pose = poseStack.last();
+//					VertexConsumer crumblingConsumer = new SheetedDecalTextureGenerator(bufferBuilder, pose, 1);
+//
+//					bufferSource = (renderType) -> renderType.affectsCrumbling() ? VertexMultiConsumer
+//							.create(crumblingConsumer, renderBuffers.bufferSource().getBuffer(renderType)) :
+//							renderBuffers.bufferSource().getBuffer(renderType);
+//				}
+//			}
 
 			renderer.render(blockPos, this.level, poseStack, bufferSource, partialTick, getLightColor(level, blockPos));
 			poseStack.popPose();
