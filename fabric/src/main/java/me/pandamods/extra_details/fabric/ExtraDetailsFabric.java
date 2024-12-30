@@ -18,6 +18,6 @@ import net.fabricmc.api.ModInitializer;
 public class ExtraDetailsFabric implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		ExtraDetails.init();
+		new ExtraDetails();
 	}
 }

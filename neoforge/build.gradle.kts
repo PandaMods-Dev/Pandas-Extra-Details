@@ -1,35 +1,41 @@
-// gradle.properties
-val neoForgeVersion: String by project
-val embeddiumVersion: String by project
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import net.fabricmc.loom.task.RemapJarTask
 
 architectury {
 	platformSetupLoomIde()
 	neoForge()
 }
 
-configurations {
-	getByName("developmentNeoForge").extendsFrom(configurations["common"])
-}
-
 loom {
 	accessWidenerPath.set(project(":common").loom.accessWidenerPath)
 }
 
-
-dependencies {
-	neoForge("net.neoforged:neoforge:${neoForgeVersion}")
-
-//	modImplementation("maven.modrinth:embeddium:${embeddiumVersion}-neoforge")
-
-	"common"(project(":common", "namedElements")) { isTransitive = false }
-	"shadowBundle"(project(":common", "transformProductionNeoForge"))
+configurations {
+	getByName("developmentNeoForge").extendsFrom(configurations["common"])
 }
 
-tasks.shadowJar {
-	exclude("fabric.mod.json")
+dependencies {
+	neoForge("net.neoforged:neoforge:${properties["neoforge_version"]}")
+
+	modImplementation("me.pandamods:pandalib-neoforge:${properties["deps_pandalib_version"]}")
+	modApi("dev.architectury:architectury-neoforge:${properties["deps_architectury_version"]}")
+
+//	modCompileOnly("maven.modrinth:sodium:${properties["deps_sodium_version"]}-neoforge")
+//	modRuntimeOnly("maven.modrinth:sodium:${properties["deps_sodium_version"]}-neoforge")
+
+//	modCompileOnly("maven.modrinth:iris:${properties["deps_iris_version"]}-neoforge")
+//	modRuntimeOnly("maven.modrinth:iris:${properties["deps_iris_version"]}-neoforge")
+
+	common(project(":common", "namedElements")) { isTransitive = false }
+	shadowBundle(project(":common", "transformProductionNeoForge"))
 }
 
 tasks.remapJar {
 	injectAccessWidener = true
 	atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+}
+
+tasks.withType<RemapJarTask> {
+	val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+	inputFile.set(shadowJar.archiveFile)
 }

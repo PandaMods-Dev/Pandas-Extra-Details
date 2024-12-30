@@ -44,10 +44,13 @@ These showcases might be outdated, but they still show the main features of the 
 ## Support me
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S0WO38H)
 
-You can also support me by clicking the link below and signing up;
-every purchased server will help support me and the development of my mods.  
+## Advertisement
+Thanks to **Jetbrains** for supporting this project with their open source program.\
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" width=300px>](https://jb.gg/OpenSourceSupport)
+
+Thanks to **Kinetic Hosting** for supporting this project
 ![Partner Banner](https://github.com/PandaDap2006/PandaDap2006/blob/main/assets_for_readme/kinetic_hosting_banner_v2.png?raw=true)
-**[Sign up](https://t.ly/B1Kui)**
+**[Click here and use code "PANDA" to get 15% of your first month](https://t.ly/B1Kui)**
 
 ## License
 The project is licensed under the GNU GPLv3

@@ -1,12 +1,17 @@
 {
 	"required": true,
 	"package": "me.pandamods.extra_details.mixin",
+	"compatibilityLevel": "JAVA_21",
 	"minVersion": "0.8",
 	"client": [
+		"CompiledSectionMixin",
+		"LevelRendererMixin",
+		"SectionCompilerMixin",
+		"SectionCompilerResultsMixin",
+		"SectionRenderDispatcherRebuildTaskMixin"
 	],
 	"mixins": [
 	],
-	"plugin": "me.pandamods.extra_details.ExtraDetailsMixinPlugin",
 	"injectors": {
 		"defaultRequire": 1
 	}

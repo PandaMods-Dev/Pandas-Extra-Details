@@ -13,11 +13,12 @@
 package me.pandamods.extra_details.neoforge;
 
 import me.pandamods.extra_details.ExtraDetails;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 @Mod(ExtraDetails.MOD_ID)
 public class ExtraDetailsNeoForge {
-    public ExtraDetailsNeoForge() {
-		ExtraDetails.init();
+    public ExtraDetailsNeoForge(IEventBus modBus) {
+		new ExtraDetails();
     }
 }

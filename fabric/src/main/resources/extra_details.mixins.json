@@ -1,13 +1,14 @@
 {
-  "required": true,
+	"required": true,
 	"package": "me.pandamods.extra_details.fabric.mixin",
-  "minVersion": "0.8",
-  "client": [
-  ],
-  "mixins": [
-  ],
-	"plugin": "me.pandamods.extra_details.fabric.ExtraDetailsMixinPlugin",
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"compatibilityLevel": "JAVA_21",
+	"minVersion": "0.8",
+	"client": [
+		"LevelRendererMixin"
+	],
+	"mixins": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }
